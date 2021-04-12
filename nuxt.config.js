@@ -27,6 +27,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/sw.client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -34,6 +35,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -41,6 +43,36 @@ export default {
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
+  build: {},
+
+  pwa: {
+    manifest: {
+      start_ur: "/",
+      theme_color: "#FF5734",
+      display: "fullscreen",
+      orientation: "portrait"
+    },
+    workbox: {
+      importScripts: [
+        'custom-sw.js'
+      ],
+      runtimeCaching: [
+        {
+          // urlPattern: 'https://my-cdn.com/posts/.*',
+          urlPattern: 'https://jsonplaceholder.typicode.com/.*',
+          strategyOptions: {
+            cacheName: 'our-cache',
+          },
+          strategyPlugins: [{
+            use: 'Expiration',
+            config: {
+              maxEntries: 10,
+              maxAgeSeconds: 3000
+            }
+          }]
+        }
+      ]
+    }
   }
+
 }
