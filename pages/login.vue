@@ -49,17 +49,6 @@ export default {
 			.catch(
 				error => console.log('error', error)
 			);
-			// if (response.status === 200) {
-			// 	routes.push({
-			// 		path: "/",
-			// 		component: _09f5b4e0,
-			// 		name: "index"
-			// 	})
-				// this.$router.push('/')
-				// await nuxt.renderRoute('/')
-				// location.reload()
-				// return redirect('http://localhost:3000/')
-			// }
 		}
 	}
 }
@@ -81,10 +70,6 @@ export default {
 	padding: 5%;
 	border-radius: 10px;
 	background-color: #fff;
-}
-
-#submit-btn {
-	
 }
 
 </style>
