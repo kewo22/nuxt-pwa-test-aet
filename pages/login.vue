@@ -42,6 +42,8 @@ export default {
 			fetch("https://reqres.in/api/login", requestOptions)
 			.then(response => response.text())
 			.then(
+				result => console.log(result)
+			).then(
 				this.$router.push('/')
 			)
 			.catch(
