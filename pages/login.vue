@@ -20,38 +20,43 @@ export default {
 	},
 	methods:{
 		login: async function() {
+			let checkUsername = false;
+			if (this.username === "" || this.password === "" || this.username.includes('@') || /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.username) === false || this.password.length < 8) {
+				window.alert("Plese valid enter username and password");
+			}else {
+				let obj = {
+					"email":this.username, // eve.holt@reqres.in
+					"password":this.password //cityslicka
+				};
 
-			let obj = {
-				"email":this.username, // eve.holt@reqres.in
-				"password":this.password //cityslicka
-			};
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+				myHeaders.append("Cookie", "__cfduid=ddfe91fe29ce404c0606b4094e0e912bd1618244858");
 
-			var myHeaders = new Headers();
-			myHeaders.append("Content-Type", "application/json");
-			myHeaders.append("Cookie", "__cfduid=ddfe91fe29ce404c0606b4094e0e912bd1618244858");
+				var raw = JSON.stringify(obj);
 
-			var raw = JSON.stringify(obj);
+				var requestOptions = {
+				method: 'POST',
+				headers: myHeaders,
+				body: raw,
+				redirect: 'follow'
+				};
+				let self = this;
+				fetch("https://reqres.in/api/login", requestOptions)
+				.then(function(response) {
+					// console.log(response.status); // returns 200
+					if(response.status === 200){
+						self.$router.push('/')
+					} else {
+						window.alert("Invalid login");
+					}
+					}
+				)
+				.catch(
+					error => console.log('error', error)
+				);
 
-			var requestOptions = {
-			method: 'POST',
-			headers: myHeaders,
-			body: raw,
-			redirect: 'follow'
-			};
-			let self = this;
-			fetch("https://reqres.in/api/login", requestOptions)
-			.then(function(response) {
-				// console.log(response.status); // returns 200
-				if(response.status === 200){
-					self.$router.push('/')
-				} else {
-					window.alert("Invalid login");
-				}
-				}
-			)
-			.catch(
-				error => console.log('error', error)
-			);
+			}
 		}
 	}
 }
