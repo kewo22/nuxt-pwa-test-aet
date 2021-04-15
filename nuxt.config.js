@@ -54,7 +54,7 @@ export default {
     },
     workbox: {
       importScripts: [
-        'custom-sw.js'
+        'workers/custom.sw.js'
       ],
       runtimeCaching: [
         {
@@ -64,7 +64,7 @@ export default {
             cacheName: 'test-cache-v2',
           },
           strategyPlugins: [{
-            use: 'Expiration',
+            use: 'BackgroundSync',
             config: {
               maxEntries: 10,
               maxAgeSeconds: 3000
