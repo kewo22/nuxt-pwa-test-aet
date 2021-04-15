@@ -21,7 +21,7 @@ export default {
 	methods:{
 		login: async function() {
 			let checkUsername = false;
-			if (this.username === "" || this.password === "" || this.password.length < 8) {
+			if (this.username === "" || this.password === "" || this.password !== "cityslicka") {
 				window.alert("Plese valid enter username and password");
 			}else {
 				let obj = {
