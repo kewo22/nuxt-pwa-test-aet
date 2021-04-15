@@ -26,3 +26,21 @@ Run the following to start the local server with Service worker
 ```bash
 $ npm run dev:sw
 ```
+Run the following to start the local dev server with auto reloading the changes
+
+```bash
+$ npm run dev:sw:watch
+```
+
+*Note: 
+Please create new custom service worker files ending with `.sw.js` in the `static/worker` directory.
+and make sure to update the `workbox.importScripts` array on the [`nuxt.config.js`](#nuxt.config.js) file with the created worker file name.
+
+# Reference
+
+- PWA and Storage
+    - [How to Create a Progressive Web App with Vue.js](https://javascript.plainenglish.io/how-to-create-a-progressive-web-app-with-vue-js-7086cbf87a43)
+    - [Offline Web Apps: Using Local Storage and Service Workers.](https://medium.com/@onejohi/offline-web-apps-using-local-storage-and-service-workers-5d40467117b9)
+    - [Nuxt PWA: workbox](https://pwa.nuxtjs.org/workbox)
+    - [Workbox Strategies](https://developers.google.com/web/tools/workbox/modules/workbox-strategies)
+        - [Background sync](https://developers.google.com/web/tools/workbox/modules/workbox-background-sync)

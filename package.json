@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "dev:sw": "npm run generate && npx serve -s dist",
+    "dev:sw": "npm run generate && serve -s dist",
+    "dev:sw:watch": "nodemon -w static/workers/*.sw.js --exec \"npm run dev:sw\"",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -14,6 +15,8 @@
     "nuxt": "^2.15.3"
   },
   "devDependencies": {
-    "@nuxtjs/pwa": "^3.3.5"
+    "@nuxtjs/pwa": "^3.3.5",
+    "nodemon": "^2.0.7",
+    "serve": "^11.3.2"
   }
 }
