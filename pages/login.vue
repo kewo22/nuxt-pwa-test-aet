@@ -47,6 +47,7 @@ export default {
 					// console.log(response.status); // returns 200
 					if(response.status === 200){
 						self.$router.push('/')
+						
 					} else {
 						window.alert("Invalid login");
 					}
