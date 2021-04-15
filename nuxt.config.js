@@ -61,7 +61,7 @@ export default {
           // urlPattern: 'https://my-cdn.com/posts/.*',
           urlPattern: 'https://jsonplaceholder.typicode.com/.*',
           strategyOptions: {
-            cacheName: 'our-cache',
+            cacheName: 'test-cache-v2',
           },
           strategyPlugins: [{
             use: 'Expiration',
