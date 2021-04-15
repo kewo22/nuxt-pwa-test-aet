@@ -38,13 +38,16 @@ export default {
 			body: raw,
 			redirect: 'follow'
 			};
-
+			let self = this;
 			fetch("https://reqres.in/api/login", requestOptions)
-			.then(response => response.text())
-			.then(
-				result => console.log(result)
-			).then(
-				this.$router.push('/')
+			.then(function(response) {
+				// console.log(response.status); // returns 200
+				if(response.status === 200){
+					self.$router.push('/')
+				} else {
+					window.alert("Invalid login");
+				}
+				}
 			)
 			.catch(
 				error => console.log('error', error)
