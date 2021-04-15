@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "dev:sw": "npm run generate && npx serve -s dist",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
