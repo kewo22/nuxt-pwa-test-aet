@@ -21,7 +21,7 @@ export default {
 	methods:{
 		login: async function() {
 			let checkUsername = false;
-			if (this.username === "" || this.password === "" || this.username.includes('@') || /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.username) === false || this.password.length < 8) {
+			if (this.username === "" || this.password === "" || this.password.length < 8) {
 				window.alert("Plese valid enter username and password");
 			}else {
 				let obj = {
