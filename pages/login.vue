@@ -44,15 +44,15 @@ export default {
 				let self = this;
 				fetch("https://reqres.in/api/login", requestOptions)
 				.then(function(response) {
-					// console.log(response.status); // returns 200
 					if(response.status === 200){
-						self.$router.push('/')
-						
+						response.blob().then(
+						response => response.text()
+						).then(result => localStorage.setItem("user_token",result))
+						self.$router.push('/');
 					} else {
 						window.alert("Invalid login");
 					}
-					}
-				)
+				})
 				.catch(
 					error => console.log('error', error)
 				);
