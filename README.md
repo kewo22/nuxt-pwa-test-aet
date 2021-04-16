@@ -16,9 +16,13 @@ $ npm run start
 # generate static project
 $ npm run generate
 
-# mock data running in port - 3004 - http://localhost:3004/orders
+# mock data running in port - 3004 - 
 $ npm i json-server
 $ json-server --watch db.json --port 3004
+* Example
+  * http://localhost:3004/location
+  * http://localhost:3004/marketplace
+  * http://localhost:3004/orders
 
 ```
 
