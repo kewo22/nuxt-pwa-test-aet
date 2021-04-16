@@ -6,8 +6,17 @@
           {{ hello }}
         </h1>
         <div>
-          Local Storage Used Capacity
-          {{ capacity.localStorage }}
+          Fetched Posts Count
+          {{ posts.length }}
+        </div>
+        <hr />
+        <div>
+          Local Storage Posts Count
+          {{ localStoragePosts.length }}
+        </div>
+        <div>
+          Indexed DB Posts Count
+          {{ indexedDBPosts.length }}
         </div>
         <button v-if="!isFullScreen" @click="goFullScreen()">
           Go fullscreen
@@ -28,7 +37,9 @@
         </button>
         <br />
         <ul v-if="posts.length">
-          <li v-for="post in posts" v-bind:key="post.id">{{ post.body }}</li>
+          <li v-for="post in posts" v-bind:key="`${post.id}${Date.now()}`">
+            {{ post.body }}
+          </li>
         </ul>
       </div>
     </div>
@@ -65,9 +76,16 @@ export default {
     };
   },
   computed: {
+    // lsStoredPosts() {
+    //   return;
+    // },
+    // idbStoredPosts() {},
     capacity() {
+      this.loadStoredData();
       return {
         localStorage: this.localStoragePosts.length,
+        indexedDB: this.indexedDBPosts.length,
+        fetchPosts: this.posts.length,
       };
     },
   },
@@ -105,7 +123,7 @@ export default {
       fetch("https://jsonplaceholder.typicode.com/posts")
         .then((e) => e.json())
         .then((data) => {
-          this.posts = data;
+          this.posts = [...this.posts, ...data];
         });
     },
     saveToLocalStorage() {
@@ -113,21 +131,27 @@ export default {
     },
     appendDataToLocalStorage() {
       const prevPosts = JSON.parse(localStorage.getItem("posts-data"));
-      // debugger;
       console.log(`LOCAL STORAGE: Prev Posts: ${prevPosts.length}`, prevPosts);
-      const newPosts = prevPosts.concat(this.posts);
+      const newPosts = [...prevPosts, ...this.posts];
       localStorage.setItem("posts-data", JSON.stringify(newPosts));
+      this.localStoragePosts = newPosts;
       console.log(`LOCAL STORAGE: New Post List: ${newPosts.length}`, newPosts);
     },
-    saveToIndexedDB() {
-      this.$idb.set("posts-data", this.posts);
+    async saveToIndexedDB() {
+      await this.$idb.set("posts-data", this.posts);
+      this.indexedDBPosts = this.posts;
     },
-    appendDataToIndexedDB() {
-      const prevPosts = this.$idb.get("posts-data");
-      // this.$idb.set("posts-data", );
+    async appendDataToIndexedDB() {
+      const prevPosts = await this.$idb.get("posts-data");
+      console.log(`IDB: Prev Posts: ${prevPosts.length}`, prevPosts);
+      const newPosts = [...prevPosts, ...this.posts];
+      await this.$idb.set("posts-data", newPosts);
+      this.indexedDBPosts = newPosts;
+      console.log(`IDB: New Post List: ${newPosts.length}`, newPosts);
     },
-    loadStoredData() {
+    async loadStoredData() {
       this.localStoragePosts = JSON.parse(localStorage.getItem("posts-data"));
+      this.indexedDBPosts = await this.$idb.get("posts-data");
     },
   },
   mounted() {
