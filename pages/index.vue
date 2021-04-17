@@ -36,11 +36,7 @@
           Append Data to IndexedDB
         </button>
         <br />
-        <ul v-if="posts.length">
-          <li v-for="post in posts" v-bind:key="`${post.id}${Date.now()}`">
-            {{ post.body }}
-          </li>
-        </ul>
+        <PostList :posts="posts" />
       </div>
     </div>
   </div>
