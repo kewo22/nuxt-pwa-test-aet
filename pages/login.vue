@@ -10,7 +10,7 @@
           <v-row>
             <v-text-field
               v-model="username"
-              :rules="userNameRules"
+              :rules="[rules.usernameRequired, rules.emailValid]"
               label="username"
               required
               class="login-input"
@@ -22,7 +22,7 @@
               :type="'password'"
               name="Password"
               label="password"
-              :rules="passwordRules"
+              :rules="[rules.passwordRequired]"
               class="login-input"
             ></v-text-field>
           </v-row>
@@ -44,12 +44,14 @@
       valid: false,
       username: '',
       password: '',
-      userNameRules: [
-        v => !!v || 'Username is required',
-      ],
-      passwordRules: [
-        v => !!v || 'Password is required',
-      ],
+      rules: {
+        usernameRequired: value => !!value || 'Username is required',
+        passwordRequired: value => !!value || 'Password is required',
+        emailValid: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Invalid e-mail.'
+        },
+      },
     }),
     methods:{
       login: function() {
