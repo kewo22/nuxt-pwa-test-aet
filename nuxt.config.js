@@ -54,6 +54,7 @@ export default {
     },
     workbox: {
       importScripts: [
+        'idb-sw.client.js',
         'workers/custom.sw.js'
       ],
       runtimeCaching: [
