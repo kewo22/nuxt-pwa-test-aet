@@ -20,9 +20,9 @@ $ npm run generate
 $ npm i json-server
 $ json-server --watch db.json --port 3004
 * Example
-  * http://localhost:3004/location/{id}
-  * http://localhost:3004/locations/{id}
-  * http://localhost:3004/orders/{id}
+  * http://localhost:3004/location/{id} - location API
+  * http://localhost:3004/locations/{id} - marketplace API
+  * http://localhost:3004/orders/{id} - orders API
   * id = 1 0r 2
 
 ```
