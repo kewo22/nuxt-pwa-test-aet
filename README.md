@@ -44,3 +44,4 @@ and make sure to update the `workbox.importScripts` array on the [`nuxt.config.j
     - [Nuxt PWA: workbox](https://pwa.nuxtjs.org/workbox)
     - [Workbox Strategies](https://developers.google.com/web/tools/workbox/modules/workbox-strategies)
         - [Background sync](https://developers.google.com/web/tools/workbox/modules/workbox-background-sync)
+    - [How to Add Client-Side Storage with Vue Part 2](https://medium.com/@mntlmaxi/make-your-vue-app-last-with-indexeddb-66f02708830e)
