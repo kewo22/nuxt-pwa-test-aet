@@ -43,21 +43,6 @@
 </template>
 
 <script>
-(async () => {
-  const workbox = await window.$workbox;
-  if (workbox) {
-    console.log(`workbox loaded`);
-    workbox.addEventListener("installed", (event) => {
-      console.log(`workbox SW loaded`);
-      // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
-      if (event.isUpdate) {
-        console.log(`workbox SW:EVT:Updated`);
-        // whatever logic you want to use to notify the user that they need to refresh the page.
-      }
-    });
-  }
-})();
-
 export default {
   data() {
     return {
@@ -66,24 +51,7 @@ export default {
       localStoragePosts: [],
       indexedDBPosts: [],
       isFullScreen: false,
-      // capacity: {
-      //   localStorage: 0,
-      // },
     };
-  },
-  computed: {
-    // lsStoredPosts() {
-    //   return;
-    // },
-    // idbStoredPosts() {},
-    capacity() {
-      this.loadStoredData();
-      return {
-        localStorage: this.localStoragePosts.length,
-        indexedDB: this.indexedDBPosts.length,
-        fetchPosts: this.posts.length,
-      };
-    },
   },
   methods: {
     goFullScreen() {
@@ -126,7 +94,7 @@ export default {
       localStorage.setItem("posts-data", JSON.stringify(this.posts));
     },
     appendDataToLocalStorage() {
-      const prevPosts = JSON.parse(localStorage.getItem("posts-data"));
+      const prevPosts = this.localStoragePosts;
       console.log(`LOCAL STORAGE: Prev Posts: ${prevPosts.length}`, prevPosts);
       const newPosts = [...prevPosts, ...this.posts];
       localStorage.setItem("posts-data", JSON.stringify(newPosts));
@@ -138,7 +106,7 @@ export default {
       this.indexedDBPosts = this.posts;
     },
     async appendDataToIndexedDB() {
-      const prevPosts = await this.$idb.get("posts-data");
+      const prevPosts = this.indexedDBPosts;
       console.log(`IDB: Prev Posts: ${prevPosts.length}`, prevPosts);
       const newPosts = [...prevPosts, ...this.posts];
       await this.$idb.set("posts-data", newPosts);
@@ -146,12 +114,12 @@ export default {
       console.log(`IDB: New Post List: ${newPosts.length}`, newPosts);
     },
     async loadStoredData() {
-      this.localStoragePosts = JSON.parse(localStorage.getItem("posts-data"));
-      this.indexedDBPosts = await this.$idb.get("posts-data");
+      this.localStoragePosts =
+        JSON.parse(localStorage.getItem("posts-data")) || [];
+      this.indexedDBPosts = (await this.$idb.get("posts-data")) || [];
     },
   },
   mounted() {
-    // this.fetchData();
     this.loadStoredData();
   },
 };
