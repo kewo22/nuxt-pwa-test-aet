@@ -16,15 +16,14 @@
 export default {
   data() {
     return {
-      localStorageData: [{ id: 1, body: "hello" }],
-      indexedDbData: [{ id: 2, body: "hello 1" }],
+      localStorageData: [],
+      indexedDbData: [],
     };
   },
   async mounted() {
     const workbox = await window.$workbox;
     if (workbox) {
       const dbData = await workbox.messageSW({ type: "GET_POSTS_IDB" });
-      console.log("SW:DB DATA", dbData);
       this.indexedDbData = dbData;
     }
   },
