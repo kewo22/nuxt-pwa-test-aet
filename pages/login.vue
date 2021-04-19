@@ -4,8 +4,8 @@
       elevation="2"
       class="login-container"
     >
-      <LogoLine10 class="logo" /> <!-- TODO : Need to replace with line 10 logo -->
-      <v-form v-model="valid" class="login-form-container">
+      <LogoLine10 class="logo" />
+      <v-form ref="loginForm" lazy-validation v-model="valid" class="login-form-container">
         <v-container>
           <v-row>
             <v-text-field
@@ -13,6 +13,7 @@
               :rules="userNameRules"
               label="username"
               required
+              class="login-input"
             ></v-text-field>
           </v-row>
           <v-row>
@@ -22,6 +23,7 @@
               name="Password"
               label="password"
               :rules="passwordRules"
+              class="login-input"
             ></v-text-field>
           </v-row>
           <v-btn
@@ -50,7 +52,9 @@
       ],
     }),
     methods:{
-      login: async function() {
+      login: function() {
+        const isValid = this.$refs.loginForm.validate();
+        if (isValid) {
         let checkUsername = false;
         if (this.username === "" || this.password === "" || this.password !== "cityslicka") {
           window.alert("Plese valid enter username and password");
@@ -89,6 +93,7 @@
           );
 
         }
+        }
       }
     }
   }
@@ -106,25 +111,32 @@
     background: #23282c;
   }
   .logo {
-    height: 60px;
+    width: 130px;
     position: absolute;
     right: 20px;
   }
   .login-container {
     padding: 20px;
-    min-width: 550px;
+    max-width: 960px;
     border-radius: 10px;
   }
   .login-form-container {
-    padding: 100px 100px 40px 100px;
+    padding: 75px 140px 50px 140px;
+  }
+  .login-input .v-label {
+    font-size: 13px;
+  }
+  .login-input input{
+    font-size: 22px;
   }
   .login-button {
+    font-size: 13px;
     background: #23282c !important;
     color: #ffffff !important;
-    border-radius: 10px;
-    margin-top: 20px;
+    border-radius: 20px;
+    margin-top: 35px;
     text-transform: capitalize;
-    padding: 5px 20px !important;
+    padding: 10px 45px !important;
   }
 </style>
 
