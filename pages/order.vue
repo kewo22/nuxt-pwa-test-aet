@@ -26,6 +26,40 @@
                 >
               </v-flex>
             </v-layout>
+            <!-- <v-layout style="background-color:#282e35;width:50%" align="center">
+                few
+            </v-layout> -->
+            <v-container>
+              <v-row>
+                <v-col align="center">
+                  <div style="width:50%;background-color:#282e35">
+                    <v-layout>
+                      <v-flex xs4 sm4 md4>
+                        <v-btn
+                          style="width:100%;background-color:#282e35; color:#babdbf; text-transform:none"
+                        >
+                          New
+                        </v-btn>
+                      <!--  <img id="noticeBubble" src="/green.png" />-->
+                      </v-flex>
+                      <v-flex xs4 sm4 md4>
+                        <v-btn
+                          style="width:100%;background-color:#282e35; color:#babdbf; text-transform:none"
+                          >In Progress</v-btn
+                        >
+                      </v-flex>
+
+                      <v-flex xs4 sm4 md4>
+                        <v-btn
+                          style="width:100%;background-color:#282e35; color:#babdbf; text-transform:none"
+                          >Finished</v-btn
+                        >
+                      </v-flex>
+                    </v-layout>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-container>
             <!-- <v-layout style="margin:5%; width:50%">
               <v-flex xs12 sm12 md12 style="background-color:#282e35;">
                 <v-layout style="padding:1%">
@@ -55,7 +89,7 @@
             <v-container fill-height fluid>
               <v-row align="center" justify="center">
                 <v-col align="center" justify="center">
-                  <img src="/noOrder.png" /><br>
+                  <img src="/noOrder.png" /><br />
                   <h2 style="margin-top: 4%">NO ORDER SELECTED</h2>
                   <h4 style="color:#c3c5c8; margin-top: 1%">
                     Select an order from the queue on the left
@@ -90,3 +124,12 @@ export default {
   }
 };
 </script>
+<style scoped>
+#noticeBubble {
+  display: block;
+  left: 1.5%;
+  position: absolute;
+  top: -41.5%;
+  z-index: 1;
+}
+</style>
