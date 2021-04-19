@@ -2,11 +2,11 @@
   <div class="data-viz">
     <h2 class="title">SW Data Visualizer</h2>
     <div class="flex-1">
-      <h3>Local Storage Data</h3>
+      <h3>Local Storage Data (Posts count: {{ localStorageData.length }})</h3>
       <post-list :posts="localStorageData" />
     </div>
     <div class="flex-1">
-      <h3>Indexed DB Data</h3>
+      <h3>Indexed DB Data (Posts count: {{ indexedDbData.length }})</h3>
       <post-list :posts="indexedDbData" />
     </div>
   </div>
