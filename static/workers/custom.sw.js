@@ -14,7 +14,7 @@ addEventListener('message', (event) => {
         case messageTypes.GET_POSTS_IDB:
             getDataFromDB()
                 .then(data => {
-                    event.ports[0].postMessage(data);
+                    event.ports[0].postMessage(data || []);
                 });
             return;
         case "GET_VERSION":
