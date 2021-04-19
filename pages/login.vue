@@ -26,6 +26,7 @@
           </v-row>
           <v-btn
             class="login-button"
+            @click="login"
           >
             Login
           </v-btn>
@@ -48,6 +49,48 @@
         v => !!v || 'Password is required',
       ],
     }),
+    methods:{
+      login: async function() {
+        let checkUsername = false;
+        if (this.username === "" || this.password === "" || this.password !== "cityslicka") {
+          window.alert("Plese valid enter username and password");
+        }else {
+          let obj = {
+            "email":this.username, // eve.holt@reqres.in
+            "password":this.password //cityslicka
+          };
+
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          myHeaders.append("Cookie", "__cfduid=ddfe91fe29ce404c0606b4094e0e912bd1618244858");
+
+          var raw = JSON.stringify(obj);
+
+          var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+          };
+          let self = this;
+          fetch("https://reqres.in/api/login", requestOptions)
+          .then(function(response) {
+            if(response.status === 200){
+              response.blob().then(
+              response => response.text()
+              ).then(result => localStorage.setItem("user_token",result))
+              self.$router.push('/');
+            } else {
+              window.alert("Invalid login");
+            }
+          })
+          .catch(
+            error => console.log('error', error)
+          );
+
+        }
+      }
+    }
   }
 </script>
 
@@ -84,3 +127,4 @@
     padding: 5px 20px !important;
   }
 </style>
+

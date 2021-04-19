@@ -1,3 +1,6 @@
+import path from 'path'
+import fs from 'fs'
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -35,13 +38,32 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/pwa'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  manifest: {
+    name: 'Nuxt.js PWA survival store',
+    short_name: 'Nuxt.js PWA',
+    lang: 'en',
+    display: 'standalone',
+  },
+
+  server: {
+    port: 3001, // default: 3000
+    // host: '0.0.0.0', // default: localhost,
+    // timing: false,
+    // https: {
+    //   key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+    //   cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
+    // }
   }
 }
