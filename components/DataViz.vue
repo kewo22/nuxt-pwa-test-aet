@@ -1,17 +1,13 @@
 <template>
   <div class="data-viz">
-    <h2 class="title">Data Visualizer</h2>
+    <h2 class="title">SW Data Visualizer</h2>
     <div class="flex-1">
       <h3>Local Storage Data</h3>
-      <ul>
-        <li v-for="(post, idx) in localStorageData" :key="idx">{{ post }}</li>
-      </ul>
+      <post-list :posts="localStorageData" />
     </div>
     <div class="flex-1">
       <h3>Indexed DB Data</h3>
-      <ul>
-        <li v-for="(post, idx) in indexedDbData" :key="idx">{{ post }}</li>
-      </ul>
+      <post-list :posts="indexedDbData" />
     </div>
   </div>
 </template>
@@ -20,8 +16,8 @@
 export default {
   data() {
     return {
-      localStorageData: ["hello"],
-      indexedDbData: ["hello 1"],
+      localStorageData: [{ id: 1, body: "hello" }],
+      indexedDbData: [{ id: 2, body: "hello 1" }],
     };
   },
 };
