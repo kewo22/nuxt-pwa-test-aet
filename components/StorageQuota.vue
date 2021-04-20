@@ -1,5 +1,5 @@
 <template>
-  <span>({{ quota.size }}{{ quota.unit }})</span>
+  <span>({{ quota.size }})</span>
 </template>
 
 <script>
@@ -10,8 +10,7 @@ const ONE_MEG = 1000000;
 const calculateStorageQuota = (dataSet) => {
   const byteSize = sizeof(dataSet);
   const size = formatToMB(byteSize);
-  let unit = "";
-  return { size, unit };
+  return { size };
 };
 
 /* Format the number into something nice if possible */
