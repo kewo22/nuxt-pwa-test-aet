@@ -8,6 +8,7 @@
         <div>
           Fetched Posts Count
           {{ posts.length }}
+          <storage-quota :data="posts" />
         </div>
         <hr />
         <div>
