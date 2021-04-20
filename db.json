@@ -9,6 +9,28 @@
         }
     ],
     "marketplaces": [{
+            "id": 0,
+            "marketplaces": [{
+                    "id": 1,
+                    "name": "Uber Eats",
+                    "full_logo": "https://mms.businesswire.com/media/20200316005228/en/779858/22/Uber_Eats_Logo.jpg",
+                    "small_logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZdONnLvouI9QV3gUF_1PMMspeYBS5IlXDHg&usqp=CAU"
+                },
+                {
+                    "id": 2,
+                    "name": "Deliveroo",
+                    "full_logo": "https://medios.ehvoila.es/logo-deliveroo.png",
+                    "small_logo": "https://listimg.pinclipart.com/picdir/s/154-1544020_deliveroo-logo-deliveroo-logo-svg-clipart.png"
+                },
+                {
+                    "id": 3,
+                    "name": "Just Eat",
+                    "full_logo": "https://corporatetakeaway-cdn.azureedge.net/media/1673/just-eat-logo.png?width=190&height=190",
+                    "small_logo": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                }
+            ]
+        },
+        {
             "id": 1,
             "marketplaces": [{
                     "id": 1,
@@ -27,33 +49,39 @@
         {
             "id": 2,
             "marketplaces": [{
-                "id": 1,
-                "name": "Uber Eats",
-                "full_logo": "https://mms.businesswire.com/media/20200316005228/en/779858/22/Uber_Eats_Logo.jpg",
-                "small_logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZdONnLvouI9QV3gUF_1PMMspeYBS5IlXDHg&usqp=CAU"
-            }]
+                    "id": 1,
+                    "name": "Uber Eats",
+                    "full_logo": "https://mms.businesswire.com/media/20200316005228/en/779858/22/Uber_Eats_Logo.jpg",
+                    "small_logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZdONnLvouI9QV3gUF_1PMMspeYBS5IlXDHg&usqp=CAU"
+                },
+                {
+                    "id": 3,
+                    "name": "Just Eat",
+                    "full_logo": "https://corporatetakeaway-cdn.azureedge.net/media/1673/just-eat-logo.png?width=190&height=190",
+                    "small_logo": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                }
+            ]
         }
-
     ],
     "orders": [{
             "id": 1,
             "current_page": 1,
             "total_pages": 10,
             "orders": [{
-                    "order_id": 114782,
-                    "dp_id": 1,
-                    "ordered_time": "2020-10-31T01:48:52Z",
-                    "order_delivery_time": "2020-10-31T01:48:52Z",
+                    "order_id": 114788,
+                    "dp_id": 2,
+                    "ordered_time": "2020-10-31T01:20:52Z",
+                    "order_delivery_time": "2020-10-31T01:30:52Z",
                     "order_type": "Delivery",
-                    "order_status": "NEW",
-                    "total_amount": 11.98,
+                    "order_status": "FINISHED",
+                    "total_amount": 16.98,
                     "currency": "$",
-                    "predicted_prep_time": "43mins",
+                    "predicted_prep_time": "45mins",
                     "ordered_items": [{
                         "item_id": 12,
                         "item_name": "Triple Decker House Burger",
                         "item_qty": 1,
-                        "amount": 10.98,
+                        "amount": 16.98,
                         "currency": "$",
                         "item_modifiers": [
                             "Ketchup",
@@ -63,29 +91,27 @@
                     }]
                 },
                 {
-                    "order_id": 114783,
+                    "order_id": 114789,
                     "dp_id": 1,
-                    "ordered_time": "2020-10-31T01:48:52Z",
-                    "order_delivery_time": "2020-10-31T01:48:52Z",
+                    "ordered_time": "2020-10-31T01:25:52Z",
+                    "order_delivery_time": "2020-10-31T01:40:52Z",
                     "order_type": "Delivery",
-                    "order_status": "NEW",
-                    "total_amount": 12.98,
+                    "order_status": "FINISHED",
+                    "total_amount": 6.98,
                     "currency": "$",
-                    "predicted_prep_time": "43mins",
+                    "predicted_prep_time": "52mins",
                     "ordered_items": [{
-                            "item_id": 12,
-                            "item_name": "Triple Decker House Burger",
+                            "item_id": 10,
+                            "item_name": "Triple Cook Chips",
                             "item_qty": 1,
-                            "amount": 10.98,
+                            "amount": 5.98,
                             "currency": "$",
                             "item_modifiers": [
-                                "Ketchup",
-                                "lettuce",
-                                "Mustard"
+                                "Cheese"
                             ]
                         },
                         {
-                            "item_id": 12,
+                            "item_id": 14,
                             "item_name": "Zero Coke 300ml",
                             "item_qty": 1,
                             "amount": 1.00,
@@ -95,15 +121,38 @@
                     ]
                 },
                 {
-                    "order_id": 114784,
-                    "dp_id": 2,
+                    "order_id": 114790,
+                    "dp_id": 1,
                     "ordered_time": "2020-10-31T01:48:52Z",
-                    "order_delivery_time": "2020-10-31T01:48:52Z",
+                    "order_delivery_time": "2020-10-31T02:10:52Z",
                     "order_type": "Delivery",
-                    "order_status": "NEW",
-                    "total_amount": 16.70,
+                    "order_status": "IN PROGRESS",
+                    "total_amount": 16.98,
                     "currency": "$",
-                    "predicted_prep_time": "43mins",
+                    "predicted_prep_time": "45mins",
+                    "ordered_items": [{
+                        "item_id": 12,
+                        "item_name": "Triple Decker House Burger",
+                        "item_qty": 1,
+                        "amount": 16.98,
+                        "currency": "$",
+                        "item_modifiers": [
+                            "Ketchup",
+                            "lettuce",
+                            "Mustard"
+                        ]
+                    }]
+                },
+                {
+                    "order_id": 114791,
+                    "dp_id": 2,
+                    "ordered_time": "2020-10-31T02:05:52Z",
+                    "order_delivery_time": "2020-10-31T02:20:52Z",
+                    "order_type": "Delivery",
+                    "order_status": "IN PROGRESS",
+                    "total_amount": 17.98,
+                    "currency": "$",
+                    "predicted_prep_time": "50mins",
                     "ordered_items": [{
                             "item_id": 12,
                             "item_name": "Triple Decker House Burger",
@@ -117,17 +166,79 @@
                             ]
                         },
                         {
-                            "item_id": 12,
+                            "item_id": 14,
+                            "item_name": "Zero Coke 300ml",
+                            "item_qty": 1,
+                            "amount": 1.00,
+                            "currency": "$",
+                            "item_modifiers": []
+                        }
+                    ]
+                },
+                {
+                    "order_id": 114792,
+                    "dp_id": 3,
+                    "ordered_time": "2020-10-31T01:48:52Z",
+                    "order_delivery_time": "2020-10-31T01:48:52Z",
+                    "order_type": "Delivery",
+                    "order_status": "NEW",
+                    "total_amount": 6.98,
+                    "currency": "$",
+                    "predicted_prep_time": "52mins",
+                    "ordered_items": [{
+                            "item_id": 10,
                             "item_name": "Triple Cook Chips",
                             "item_qty": 1,
-                            "amount": 10.98,
+                            "amount": 5.98,
                             "currency": "$",
                             "item_modifiers": [
                                 "Cheese"
                             ]
                         },
                         {
+                            "item_id": 14,
+                            "item_name": "Zero Coke 300ml",
+                            "item_qty": 1,
+                            "amount": 1.00,
+                            "currency": "$",
+                            "item_modifiers": []
+                        }
+                    ]
+                },
+                {
+                    "order_id": 114792,
+                    "dp_id": 3,
+                    "ordered_time": "2020-10-31T01:48:52Z",
+                    "order_delivery_time": "2020-10-31T01:48:52Z",
+                    "order_type": "Delivery",
+                    "order_status": "NEW",
+                    "total_amount": 23.96,
+                    "currency": "$",
+                    "predicted_prep_time": "52mins",
+                    "ordered_items": [{
                             "item_id": 12,
+                            "item_name": "Triple Decker House Burger",
+                            "item_qty": 1,
+                            "amount": 16.98,
+                            "currency": "$",
+                            "item_modifiers": [
+                                "Ketchup",
+                                "lettuce",
+                                "Mustard"
+                            ]
+                        },
+                        {
+                            "item_id": 10,
+                            "item_name": "Triple Cook Chips",
+                            "item_qty": 1,
+                            "amount": 5.98,
+                            "currency": "$",
+                            "item_modifiers": [
+                                "Cheese"
+                            ]
+                        },
+                        {
+                            "item_id": 14,
                             "item_name": "Zero Coke 300ml",
                             "item_qty": 1,
                             "amount": 1.00,
@@ -142,21 +253,67 @@
             "id": 2,
             "current_page": 1,
             "total_pages": 10,
-            "recent": [{
-                    "order_id": 114782,
+            "orders": [{
+                    "order_id": 114788,
+                    "dp_id": 2,
+                    "ordered_time": "2020-10-31T01:32:52Z",
+                    "order_delivery_time": "2020-10-31T01:45:52Z",
+                    "order_type": "Delivery",
+                    "order_status": "FINISHED",
+                    "total_amount": 16.98,
+                    "currency": "$",
+                    "predicted_prep_time": "45mins",
+                    "ordered_items": [{
+                        "item_id": 12,
+                        "item_name": "Triple Decker House Burger",
+                        "item_qty": 1,
+                        "amount": 16.98,
+                        "currency": "$",
+                        "item_modifiers": [
+                            "Ketchup",
+                            "lettuce",
+                            "Mustard"
+                        ]
+                    }]
+                },
+                {
+                    "order_id": 114790,
                     "dp_id": 1,
                     "ordered_time": "2020-10-31T01:48:52Z",
-                    "order_delivery_time": "2020-10-31T01:48:52Z",
+                    "order_delivery_time": "2020-10-31T02:10:52Z",
                     "order_type": "Delivery",
-                    "order_status": "NEW",
-                    "total_amount": 11.98,
+                    "order_status": "FINISHED",
+                    "total_amount": 16.98,
+                    "currency": "$",
+                    "predicted_prep_time": "55mins",
+                    "ordered_items": [{
+                        "item_id": 12,
+                        "item_name": "Triple Decker House Burger",
+                        "item_qty": 1,
+                        "amount": 16.98,
+                        "currency": "$",
+                        "item_modifiers": [
+                            "Ketchup",
+                            "lettuce",
+                            "Mustard"
+                        ]
+                    }]
+                },
+                {
+                    "order_id": 114782,
+                    "dp_id": 2,
+                    "ordered_time": "2020-10-31T03:40:52Z",
+                    "order_delivery_time": "2020-10-31T03:55:52Z",
+                    "order_type": "Delivery",
+                    "order_status": "IN PROGRESS",
+                    "total_amount": 16.98,
                     "currency": "$",
                     "predicted_prep_time": "43mins",
                     "ordered_items": [{
                         "item_id": 12,
                         "item_name": "Triple Decker House Burger",
                         "item_qty": 1,
-                        "amount": 10.98,
+                        "amount": 16.98,
                         "currency": "$",
                         "item_modifiers": [
                             "Ketchup",
@@ -168,45 +325,13 @@
                 {
                     "order_id": 114783,
                     "dp_id": 1,
-                    "ordered_time": "2020-10-31T01:48:52Z",
-                    "order_delivery_time": "2020-10-31T01:48:52Z",
+                    "ordered_time": "2020-10-31T03:50:52Z",
+                    "order_delivery_time": "2020-10-31T04:04:52Z",
                     "order_type": "Delivery",
-                    "order_status": "NEW",
-                    "total_amount": 12.98,
+                    "order_status": "IN PROGRESS",
+                    "total_amount": 17.98,
                     "currency": "$",
-                    "predicted_prep_time": "43mins",
-                    "ordered_items": [{
-                            "item_id": 12,
-                            "item_name": "Triple Decker House Burger",
-                            "item_qty": 1,
-                            "amount": 10.98,
-                            "currency": "$",
-                            "item_modifiers": [
-                                "Ketchup",
-                                "lettuce",
-                                "Mustard"
-                            ]
-                        },
-                        {
-                            "item_id": 12,
-                            "item_name": "Zero Coke 300ml",
-                            "item_qty": 1,
-                            "amount": 1.00,
-                            "currency": "$",
-                            "item_modifiers": []
-                        }
-                    ]
-                },
-                {
-                    "order_id": 114784,
-                    "dp_id": 2,
-                    "ordered_time": "2020-10-31T01:48:52Z",
-                    "order_delivery_time": "2020-10-31T01:48:52Z",
-                    "order_type": "Delivery",
-                    "order_status": "NEW",
-                    "total_amount": 16.70,
-                    "currency": "$",
-                    "predicted_prep_time": "43mins",
+                    "predicted_prep_time": "52mins",
                     "ordered_items": [{
                             "item_id": 12,
                             "item_name": "Triple Decker House Burger",
@@ -220,17 +345,7 @@
                             ]
                         },
                         {
-                            "item_id": 12,
-                            "item_name": "Triple Cook Chips",
-                            "item_qty": 1,
-                            "amount": 10.98,
-                            "currency": "$",
-                            "item_modifiers": [
-                                "Cheese"
-                            ]
-                        },
-                        {
-                            "item_id": 12,
+                            "item_id": 14,
                             "item_name": "Zero Coke 300ml",
                             "item_qty": 1,
                             "amount": 1.00,
@@ -238,6 +353,103 @@
                             "item_modifiers": []
                         }
                     ]
+                },
+                {
+                    "order_id": 114784,
+                    "dp_id": 1,
+                    "ordered_time": "2020-10-31T03:55:52Z",
+                    "order_delivery_time": "2020-10-31T04:08:52Z",
+                    "order_type": "Delivery",
+                    "order_status": "NEW",
+                    "total_amount": 23.96,
+                    "currency": "$",
+                    "predicted_prep_time": "55mins",
+                    "ordered_items": [{
+                            "item_id": 12,
+                            "item_name": "Triple Decker House Burger",
+                            "item_qty": 1,
+                            "amount": 16.98,
+                            "currency": "$",
+                            "item_modifiers": [
+                                "Ketchup",
+                                "lettuce",
+                                "Mustard"
+                            ]
+                        },
+                        {
+                            "item_id": 10,
+                            "item_name": "Triple Cook Chips",
+                            "item_qty": 1,
+                            "amount": 5.98,
+                            "currency": "$",
+                            "item_modifiers": [
+                                "Cheese"
+                            ]
+                        },
+                        {
+                            "item_id": 14,
+                            "item_name": "Zero Coke 300ml",
+                            "item_qty": 1,
+                            "amount": 1.00,
+                            "currency": "$",
+                            "item_modifiers": []
+                        }
+                    ]
+                },
+                {
+                    "order_id": 114785,
+                    "dp_id": 2,
+                    "ordered_time": "2020-10-31T04:00:52Z",
+                    "order_delivery_time": "2020-10-31T04:15:52Z",
+                    "order_type": "Delivery",
+                    "order_status": "NEW",
+                    "total_amount": 22.96,
+                    "currency": "$",
+                    "predicted_prep_time": "56mins",
+                    "ordered_items": [{
+                            "item_id": 12,
+                            "item_name": "Triple Decker House Burger",
+                            "item_qty": 1,
+                            "amount": 16.98,
+                            "currency": "$",
+                            "item_modifiers": [
+                                "Ketchup",
+                                "lettuce",
+                                "Mustard"
+                            ]
+                        },
+                        {
+                            "item_id": 10,
+                            "item_name": "Triple Cook Chips",
+                            "item_qty": 1,
+                            "amount": 5.98,
+                            "currency": "$",
+                            "item_modifiers": [
+                                "Cheese"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "order_id": 114785,
+                    "dp_id": 3,
+                    "ordered_time": "2020-10-31T04:10:52Z",
+                    "order_delivery_time": "2020-10-31T04:20:52Z",
+                    "order_type": "Delivery",
+                    "order_status": "NEW",
+                    "total_amount": 5.98,
+                    "currency": "$",
+                    "predicted_prep_time": "58mins",
+                    "ordered_items": [{
+                        "item_id": 10,
+                        "item_name": "Triple Cook Chips",
+                        "item_qty": 1,
+                        "amount": 5.98,
+                        "currency": "$",
+                        "item_modifiers": [
+                            "Cheese"
+                        ]
+                    }]
                 }
             ]
         }
