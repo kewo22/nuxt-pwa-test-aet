@@ -14,10 +14,12 @@
         <div>
           Local Storage Posts Count
           {{ localStoragePosts.length }}
+          <storage-quota :data="localStoragePosts" />
         </div>
         <div>
           Indexed DB Posts Count
           {{ indexedDBPosts.length }}
+          <storage-quota :data="indexedDBPosts" />
         </div>
         <button v-if="!isFullScreen" @click="goFullScreen()">
           Go fullscreen
