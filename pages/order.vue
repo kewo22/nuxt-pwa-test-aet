@@ -195,12 +195,14 @@ export default {
     selectedOrder: null,
     items: [
       {
-        id: 0,
+        id: "0",
         name: "Jennifier Harrison",
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
         count: "2 items",
+        status: "In Progress…",
+        type: "Delivery"
       },
       {
         id: 1,
