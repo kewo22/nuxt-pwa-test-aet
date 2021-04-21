@@ -176,17 +176,8 @@
             </v-container>
           </v-flex>
           <v-flex xs6 sm6 md6 style="background-color: #f6f8fa">
-            <v-container fill-height fluid>
-              <v-row align="center" justify="center">
-                <v-col align="center" justify="center">
-                  <img src="/noOrder.png" /><br />
-                  <h2 style="margin-top: 4%">NO ORDER SELECTED</h2>
-                  <h4 style="color: #c3c5c8; margin-top: 1%">
-                    Select an order from the queue on the left
-                  </h4>
-                </v-col>
-              </v-row>
-            </v-container>
+            <OrderDetails v-if="selectedOrder" :order="selectedOrder" />
+            <NoOrder v-else />
           </v-flex>
         </v-layout>
       </v-flex>
@@ -195,9 +186,13 @@
 </template>
 
 <script>
+import OrderDetails from "~/components/orders/OrderDetails.vue";
+import NoOrder from "~/components/orders/NoOrder.vue";
 export default {
+  components: { OrderDetails, NoOrder },
   data: () => ({
     benched: 0,
+    selectedOrder: null,
     items: [
       {
         id: 0,
@@ -265,6 +260,10 @@ export default {
       },
     ],
   }),
+  mounted() {
+    // TODO: following is to simulate the selected order
+    // this.selectedOrder = this.items[0];
+  },
   computed: {
     width() {
       switch (this.$vuetify.breakpoint.name) {
