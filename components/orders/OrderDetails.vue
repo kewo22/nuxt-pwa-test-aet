@@ -1,6 +1,6 @@
 <template>
   <v-container class="order-detail-root">
-    <v-row class="pad-bottom">
+    <v-row class="pb-5">
       <v-col md="7">
         <v-img max-width="200" max-height="65" :src="order.src" />
       </v-col>
@@ -14,7 +14,7 @@
       </v-col>
       <p class="order-status in-progress">{{ order.status }}</p>
     </v-row>
-    <v-row class="pad-bottom">
+    <v-row class="pb-15">
       <order-stat-label label="Order Number:" :value="order.orderId" />
       <order-stat-label label="Type:" :value="order.type" />
       <order-stat-label label="Items:" :value="order.count" />
@@ -41,9 +41,6 @@ export default {
 .order-detail-root {
   height: 100%;
   padding: 50px 80px;
-}
-.pad-bottom {
-  padding-bottom: 20px;
 }
 .order-status {
   font-size: 30px;
