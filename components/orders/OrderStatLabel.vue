@@ -1,15 +1,7 @@
 <template>
   <v-col class="order-stat right-border">
-    <v-row>
-      <v-col>
-        <p class="stat-label">{{ label }}</p>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <p class="stat-value">{{ value }}</p>
-      </v-col>
-    </v-row>
+    <p class="stat-label">{{ label }}</p>
+    <p class="stat-value">{{ value }}</p>
   </v-col>
 </template>
 
