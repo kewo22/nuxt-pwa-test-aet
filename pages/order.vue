@@ -97,7 +97,7 @@
                               :key="item.id"
                               style="height: 100px"
                             >
-                              <v-list-item-action style="width: 100%">
+                              <v-list-item-action @click="selectedOrder = item" style="width: 100%">
                                 <v-btn
                                   style="
                                     width: 100%;
@@ -202,7 +202,8 @@ export default {
         orderId: "#114782",
         count: "2 items",
         status: "In Progress…",
-        type: "Delivery"
+        type: "Delivery",
+        items: []
       },
       {
         id: 1,
@@ -262,10 +263,6 @@ export default {
       },
     ],
   }),
-  mounted() {
-    // TODO: following is to simulate the selected order
-    this.selectedOrder = this.items[0];
-  },
   computed: {
     width() {
       switch (this.$vuetify.breakpoint.name) {

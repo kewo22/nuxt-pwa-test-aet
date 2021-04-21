@@ -34,9 +34,6 @@ import OrderItemList from "./OrderItemList";
 export default {
   components: { OrderStatLabel, OrderItemList },
   props: ["order"],
-  mounted() {
-    console.log("mounted", this.$props.order);
-  },
 };
 </script>
 

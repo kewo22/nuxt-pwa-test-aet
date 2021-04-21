@@ -27,9 +27,6 @@
 
 <script>
 export default {
-  props: ["items"],
-  mounted() {
-    console.log(this.$props.items);
-  },
+  props: ["items"]
 };
 </script>
