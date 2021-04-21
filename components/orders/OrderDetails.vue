@@ -8,16 +8,24 @@
         <v-btn elevation="2" rounded dark>Print Order</v-btn>
       </v-col>
       <v-col md="1">
-        <v-btn rounded fab small="66" dark>
+        <v-btn rounded fab small dark>
           <v-icon color="blue">mdi-dots-vertical</v-icon>
         </v-btn>
       </v-col>
     </v-row>
     <v-row>
-      <v-col>Order Status</v-col>
+      <v-col>
+        <p>{{ order.status }}</p>
+      </v-col>
     </v-row>
     <v-row>
-      <v-col>Order Stats</v-col>
+      <order-stat-label label="Order Number:" :value="order.orderId" />
+      <order-stat-label label="Type:" :value="order.type" />
+      <order-stat-label label="Items:" :value="order.count" />
+      <order-stat-label
+        label="Predicted prep time:"
+        :value="order.time"
+      />
     </v-row>
     <v-row>
       <v-col>Order Items</v-col>
@@ -26,7 +34,9 @@
 </template>
 
 <script>
+import OrderStatLabel from "./OrderStatLabel";
 export default {
+  components: { OrderStatLabel },
   props: ["order"],
   mounted() {
     console.log("mounted", this.$props.order);
