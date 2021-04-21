@@ -9,6 +9,11 @@
 <style scoped>
 .order-stat {
   height: 60px;
+  padding: 0 15px;
+}
+
+.order-stat:first-child {
+  padding-left: 0;
 }
 
 .right-border {
