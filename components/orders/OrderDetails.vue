@@ -1,11 +1,17 @@
 <template>
   <v-container class="order-detail-root">
     <v-row>
-      <v-col md="6">
-        <v-img contain max-height="100" :src="order.src" />
+      <v-col md="7">
+        <v-img max-width="200" max-height="65" :src="order.src" />
       </v-col>
-      <v-col md="4">Print Order button</v-col>
-      <v-col md="2">Actions</v-col>
+      <v-col md="4">
+        <v-btn elevation="2" rounded dark>Print Order</v-btn>
+      </v-col>
+      <v-col md="1">
+        <v-btn rounded fab small="66" dark>
+          <v-icon color="blue">mdi-dots-vertical</v-icon>
+        </v-btn>
+      </v-col>
     </v-row>
     <v-row>
       <v-col>Order Status</v-col>
