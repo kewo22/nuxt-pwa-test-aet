@@ -262,7 +262,7 @@ export default {
   }),
   mounted() {
     // TODO: following is to simulate the selected order
-    // this.selectedOrder = this.items[0];
+    this.selectedOrder = this.items[0];
   },
   computed: {
     width() {

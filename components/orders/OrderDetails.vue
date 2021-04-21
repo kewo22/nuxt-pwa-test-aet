@@ -1,9 +1,11 @@
 <template>
   <v-container class="order-detail-root">
     <v-row>
-      <v-col>Marketplace Image</v-col>
-      <v-col>Print Order button</v-col>
-      <v-col>Actions</v-col>
+      <v-col md="6">
+        <v-img contain max-height="100" :src="order.src" />
+      </v-col>
+      <v-col md="4">Print Order button</v-col>
+      <v-col md="2">Actions</v-col>
     </v-row>
     <v-row>
       <v-col>Order Status</v-col>
