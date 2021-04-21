@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
     <v-layout>
-      <v-flex xs1 sm1 md1 style="background-color:#282e35">
-        <v-row align="center" justify="center" style="height:100vh">
+      <v-flex xs1 sm1 md1 style="background-color: #282e35">
+        <v-row align="center" justify="center" style="height: 100vh">
           <v-col
             cols="12"
             lg="6"
@@ -15,13 +15,18 @@
       </v-flex>
       <v-flex xs11 sm11 md11>
         <v-layout>
-          <v-flex xs6 sm6 md6 style="background-color:#23282c">
+          <v-flex xs6 sm6 md6 style="background-color: #23282c">
             <v-layout>
               <v-spacer></v-spacer>
               <v-flex xs4 sm4 md4>
                 <v-btn
                   :width="width"
-                  style="background-color:#282e35; color:#babdbf; margin-top:10%;text-transform:none"
+                  style="
+                    background-color: #282e35;
+                    color: #babdbf;
+                    margin-top: 10%;
+                    text-transform: none;
+                  "
                   >Search By Id</v-btn
                 >
               </v-flex>
@@ -29,11 +34,16 @@
             <v-container>
               <v-row>
                 <v-col align="center">
-                  <div style="width:85%;background-color:#282e35">
+                  <div style="width: 85%; background-color: #282e35">
                     <v-layout>
                       <v-flex xs4 sm4 md4>
                         <v-btn
-                          style="width:100%;background-color:#282e35; color:#babdbf; text-transform:none"
+                          style="
+                            width: 100%;
+                            background-color: #282e35;
+                            color: #babdbf;
+                            text-transform: none;
+                          "
                         >
                           New
                         </v-btn>
@@ -41,14 +51,24 @@
                       </v-flex>
                       <v-flex xs4 sm4 md4>
                         <v-btn
-                          style="width:100%;background-color:#282e35; color:#babdbf; text-transform:none"
+                          style="
+                            width: 100%;
+                            background-color: #282e35;
+                            color: #babdbf;
+                            text-transform: none;
+                          "
                           >In Progress</v-btn
                         >
                       </v-flex>
 
                       <v-flex xs4 sm4 md4>
                         <v-btn
-                          style="width:100%;background-color:#282e35; color:#babdbf; text-transform:none"
+                          style="
+                            width: 100%;
+                            background-color: #282e35;
+                            color: #babdbf;
+                            text-transform: none;
+                          "
                           >Finished</v-btn
                         >
                       </v-flex>
@@ -60,21 +80,32 @@
             <v-container>
               <v-row>
                 <v-col align="center">
-                  <div style="width:90%;background-color:#282e35;">
+                  <div style="width: 90%; background-color: #282e35">
                     <v-layout>
                       <v-flex xs12 sm12 md12>
                         <div
-                          style="width:100%;background-color:#23282c;height:600px;overflow:auto;"
+                          style="
+                            width: 100%;
+                            background-color: #23282c;
+                            height: 600px;
+                            overflow: auto;
+                          "
                         >
                           <template>
                             <v-list-item
                               v-for="item in items"
                               :key="item.id"
-                              style="height:100px;"
+                              style="height: 100px"
                             >
-                              <v-list-item-action style="width:100%;">
+                              <v-list-item-action style="width: 100%">
                                 <v-btn
-                                  style="width:100%;background-color:#282e35; color:#babdbf; text-transform:none; height:75px"
+                                  style="
+                                    width: 100%;
+                                    background-color: #282e35;
+                                    color: #babdbf;
+                                    text-transform: none;
+                                    height: 75px;
+                                  "
                                 >
                                   <v-layout>
                                     <v-flex xs4 sm4 md2>
@@ -144,13 +175,13 @@
               </v-row>
             </v-container>
           </v-flex>
-          <v-flex xs6 sm6 md6 style="background-color:#f6f8fa;height:100vh">
+          <v-flex xs6 sm6 md6 style="background-color: #f6f8fa">
             <v-container fill-height fluid>
               <v-row align="center" justify="center">
                 <v-col align="center" justify="center">
                   <img src="/noOrder.png" /><br />
                   <h2 style="margin-top: 4%">NO ORDER SELECTED</h2>
-                  <h4 style="color:#c3c5c8; margin-top: 1%">
+                  <h4 style="color: #c3c5c8; margin-top: 1%">
                     Select an order from the queue on the left
                   </h4>
                 </v-col>
@@ -174,7 +205,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
-        count: "2 items"
+        count: "2 items",
       },
       {
         id: 1,
@@ -182,7 +213,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
-        count: "2 items"
+        count: "2 items",
       },
       {
         id: 2,
@@ -190,7 +221,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
-        count: "2 items"
+        count: "2 items",
       },
       {
         id: 3,
@@ -198,7 +229,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
-        count: "2 items"
+        count: "2 items",
       },
       {
         id: 4,
@@ -206,7 +237,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
-        count: "2 items"
+        count: "2 items",
       },
       {
         id: 5,
@@ -214,7 +245,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
-        count: "2 items"
+        count: "2 items",
       },
       {
         id: 6,
@@ -222,7 +253,7 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
-        count: "2 items"
+        count: "2 items",
       },
       {
         id: 7,
@@ -230,9 +261,9 @@ export default {
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
-        count: "2 items"
-      }
-    ]
+        count: "2 items",
+      },
+    ],
   }),
   computed: {
     width() {
@@ -248,8 +279,8 @@ export default {
         case "xl":
           return 800;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
