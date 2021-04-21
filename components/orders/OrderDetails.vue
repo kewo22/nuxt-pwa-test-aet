@@ -1,6 +1,6 @@
 <template>
   <v-container class="order-detail-root">
-    <v-row>
+    <v-row class="pad-bottom">
       <v-col md="7">
         <v-img max-width="200" max-height="65" :src="order.src" />
       </v-col>
@@ -21,15 +21,18 @@
       <order-stat-label label="Predicted prep time:" :value="order.time" />
     </v-row>
     <v-row>
-      <v-col>Order Items</v-col>
+      <v-col>
+        <order-item-list :items="order.items" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
 import OrderStatLabel from "./OrderStatLabel";
+import OrderItemList from "./OrderItemList";
 export default {
-  components: { OrderStatLabel },
+  components: { OrderStatLabel, OrderItemList },
   props: ["order"],
   mounted() {
     console.log("mounted", this.$props.order);
