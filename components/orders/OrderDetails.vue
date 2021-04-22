@@ -9,7 +9,7 @@
       </v-col>
       <v-col md="1">
         <v-btn rounded fab elevation="2" small dark>
-          <v-icon color="blue">mdi-dots-vertical</v-icon>
+          <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </v-col>
       <p class="order-status in-progress">
