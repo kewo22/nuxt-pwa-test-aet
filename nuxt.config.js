@@ -1,3 +1,4 @@
+import colors from 'vuetify/es5/util/colors'
 import path from 'path'
 import fs from 'fs'
 
@@ -26,6 +27,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/css/global.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -43,8 +45,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/pwa',
     '@nuxtjs/axios',
+    '@nuxtjs/pwa'
   ],
 
   axios: {
@@ -55,6 +57,34 @@ export default {
   build: {
   },
 
+  server: {
+    port: 8000 // default: 3000
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: 'http://localhost:3004/'
+    }
+  },
+
+  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
+  vuetify: {
+    // customVariables: ['~/assets/variables.scss'],
+    theme: {
+      dark: true,
+      themes: {
+        dark: {
+          primary: colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3,
+        },
+      },
+    },
+  },
   manifest: {
     name: 'Nuxt.js PWA survival store',
     short_name: 'Nuxt.js PWA',
@@ -62,13 +92,4 @@ export default {
     display: 'standalone',
   },
 
-  server: {
-    port: 3001, // default: 3000
-    // host: '0.0.0.0', // default: localhost,
-    // timing: false,
-    // https: {
-    //   key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-    //   cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
-    // }
-  }
 }
