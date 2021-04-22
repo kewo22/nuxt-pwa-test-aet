@@ -23,7 +23,7 @@
     <v-row>
       <v-col>
         <OrderItemList
-          :items="order.items"
+          :items="order.ordered_items"
           :amount="`${order.currency}${order.total_amount}`"
         />
       </v-col>

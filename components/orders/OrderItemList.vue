@@ -8,8 +8,11 @@
             <span class="black--text text--darken-1">Items</span>
           </v-col>
           <v-col class="pa-0 text-right black--text text--darken-1">
-            {{ amount }}
+            <strong> {{ amount }} </strong>
           </v-col>
+        </v-row>
+        <v-row>
+          <OrderItemList v-for="(item, idx) of items" :item="item" :key="idx" />
         </v-row>
       </v-container>
     </v-sheet>
@@ -31,7 +34,9 @@
 </style>
 
 <script>
+import OrderItemList from "./OrderItem";
 export default {
+  components: { OrderItemList },
   props: ["items", "amount"],
 };
 </script>
