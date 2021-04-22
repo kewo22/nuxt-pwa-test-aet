@@ -32,6 +32,14 @@
           >
             Login
           </v-btn>
+          <v-alert
+            color="red"
+            dark
+            class="login-error"
+            v-if="loginFail"
+          >
+            If you can not login, Please contact ‘support@lineten.com.’
+          </v-alert>
         </v-container>
       </v-form>
     </v-card>
@@ -43,7 +51,7 @@
 
   export default {
     data: () => ({
-      valid: false,
+      loginFail: false,
       username: '',
       password: '',
       rules: {
@@ -72,13 +80,12 @@
           await this.$axios.$post(authData.url, authData.dataString, {
             headers: authData.headers
           }).then((response) => {
+            this.loginFail = false;
             localStorage.setItem("user_token", `${response.token_type} ${response.access_token}`);
             this.$router.push('/');
           })
           .catch((error) => {
-            console.log('==========error==========', error);
-            console.log('==========stringify==========', JSON.stringify(error));
-            window.alert("Invalid login");
+            this.loginFail = true;
           });
         }
       }
@@ -124,6 +131,11 @@
     margin-top: 35px;
     text-transform: capitalize;
     padding: 10px 45px !important;
+  }
+  .login-error {
+    max-width: 220px;
+    margin: 20px 0 0 0;
+    font-size: 12px;
   }
 </style>
 
