@@ -7,7 +7,10 @@
             <v-icon color="#2D3941"> mdi-format-list-bulleted-square </v-icon>
             <span class="black--text text--darken-1">Items</span>
           </v-col>
-          <v-col class="pa-0 text-right black--text text--darken-1">
+          <v-col
+            v-if="items && items.length"
+            class="pa-0 text-right black--text text--darken-1"
+          >
             <span>{{ amount }}</span>
           </v-col>
         </v-row>
