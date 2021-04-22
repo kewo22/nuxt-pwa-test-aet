@@ -9,7 +9,6 @@
       </v-col>
       <v-col md="3" class="pa-0 text-right black--text text--darken-1">
         {{ itemAmount }}
-        <!-- {{ `${item.currency}${item.amount}` }} -->
       </v-col>
     </v-row>
     <v-row class="py-1">
@@ -25,17 +24,11 @@
 </template>
 
 <script>
-const currencyFormatter = new Intl.NumberFormat("en-GB", {
-  style: "currency",
-  currency: "GBP",
-  maximumFractionDigits: 2
-});
-
 export default {
   props: ["item"],
   computed: {
     itemAmount() {
-      return currencyFormatter.format(this.$props.item.amount);
+      return this.$currency(this.$props.item.amount);
     },
   },
 };
