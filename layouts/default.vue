@@ -41,7 +41,7 @@
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container fill-height fluid>
+      <v-container fill-height fluid class="pa-0">
         <!-- If using vue-router -->
         <!-- <router-view></router-view> -->
         <Nuxt />
