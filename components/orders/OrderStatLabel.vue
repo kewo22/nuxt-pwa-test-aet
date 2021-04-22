@@ -8,7 +8,7 @@
 
 <style scoped>
 .order-stat {
-  height: 60px;
+  /* height: 60px; */
   padding: 0 15px;
 }
 
@@ -25,15 +25,15 @@
 }
 
 .stat-label {
-  line-height: 24px;
+  line-height: 20px;
   color: #9a9ca0;
-  font-size: 1rem;
+  font-size: 18px;
 }
 
 .stat-value {
-  line-height: 36px;
+  line-height: 10px;
   color: #2a343d;
-  font-size: 30px;
+  font-size: 25px;
 }
 </style>
 
