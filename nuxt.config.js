@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+import path from 'path'
+import fs from 'fs'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -38,11 +40,13 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -77,4 +81,11 @@ export default {
       },
     },
   },
+  manifest: {
+    name: 'Nuxt.js PWA survival store',
+    short_name: 'Nuxt.js PWA',
+    lang: 'en',
+    display: 'standalone',
+  },
+
 }
