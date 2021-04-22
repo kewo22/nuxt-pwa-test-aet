@@ -261,10 +261,30 @@ export default {
         count: "2 items",
       },
     ],
+    orderList: []
   }),
+  mounted() {
+    this.loadOrderDetails();
+  },
   methods: {
     selectNewRecord(index){
       this.selectedNewIndex = index;
+    },
+    loadOrderDetails(){
+      this.$axios
+        .get("orders/1")
+        .then(
+          response => {
+            if (response.status == 200) {
+              this.orderList = response.data.orders;
+              console.log("status ds", this.orderList);
+            } else {
+            }
+          },
+          error => {
+            console.log("error", error);
+          }
+        );
     }
   },
   computed: {
