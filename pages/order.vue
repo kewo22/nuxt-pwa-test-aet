@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-0">
     <v-layout>
       <!-- <v-flex xs1 sm1 md1 style="background-color: #282e35">
         <v-row align="center" justify="center" style="height: 100vh">
