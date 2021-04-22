@@ -4,12 +4,7 @@
   </v-app> -->
 
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      absolute
-      expand-on-hover
-    >
+    <v-navigation-drawer v-model="drawer" app absolute expand-on-hover>
       <v-list-item class="px-2">
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
@@ -31,7 +26,9 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>
+              <NuxtLink :to="item.route"> {{ item.title }} </NuxtLink>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -44,7 +41,7 @@
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
+      <v-container fill-height fluid>
         <!-- If using vue-router -->
         <!-- <router-view></router-view> -->
         <Nuxt />
@@ -63,18 +60,33 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Home", icon: "mdi-home-city" },
-        { title: "My Account", icon: "mdi-account" },
-        { title: "Users", icon: "mdi-account-group-outline" },
+        { title: "Orders", icon: "mdi-filter", route: "/orders" },
+        { title: "Filters", icon: "mdi-filter", route: "/order" },
+        { title: "Settings", icon: "mdi-cog", route: "/order" },
       ],
       clipped: true,
     };
   },
-  methods: {
-    
-  },
+  methods: {},
 };
 </script>
 
 <style>
+a.nuxt-link-active {
+  font-weight: bold;
+}
+/* exact link will show the primary color for only the exact matching link */
+a.nuxt-link-exact-active {
+  color: #00c58e;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: #00c58e;
+}
 </style>

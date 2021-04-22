@@ -43,6 +43,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -51,6 +52,12 @@ export default {
 
   server: {
     port: 8000 // default: 3000
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: 'http://localhost:3004/'
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
