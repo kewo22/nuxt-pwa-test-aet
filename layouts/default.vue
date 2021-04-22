@@ -80,7 +80,7 @@
                 <v-select
                   class="mt-6"
                   :items="overflow_items"
-                  label="Solo field"
+                  label="Date-latest"
                   solo
                 ></v-select>
               <v-divider></v-divider>
