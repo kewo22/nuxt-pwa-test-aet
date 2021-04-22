@@ -15,14 +15,17 @@
       <p class="order-status in-progress">{{ order.status }}</p>
     </v-row>
     <v-row class="pb-15">
-      <order-stat-label label="Order Number:" :value="order.orderId" />
-      <order-stat-label label="Type:" :value="order.type" />
-      <order-stat-label label="Items:" :value="order.count" />
-      <order-stat-label label="Predicted prep time:" :value="order.time" />
+      <OrderStatLabel label="Order Number:" :value="order.orderId" />
+      <OrderStatLabel label="Type:" :value="order.type" />
+      <OrderStatLabel label="Items:" :value="order.count" />
+      <OrderStatLabel label="Predicted prep time:" :value="order.time" />
     </v-row>
     <v-row>
       <v-col>
-        <order-item-list :items="order.items" />
+        <OrderItemList
+          :items="order.items"
+          :amount="`${order.currency}${order.total_amount}`"
+        />
       </v-col>
     </v-row>
   </v-container>

@@ -97,7 +97,10 @@
                               :key="item.id"
                               style="height: 100px"
                             >
-                              <v-list-item-action @click="selectedOrder = item" style="width: 100%">
+                              <v-list-item-action
+                                @click="selectedOrder = item"
+                                style="width: 100%"
+                              >
                                 <v-btn
                                   style="
                                     width: 100%;
@@ -203,7 +206,26 @@ export default {
         count: "2 items",
         status: "In Progress…",
         type: "Delivery",
-        items: []
+        total_amount: 12.98,
+        currency: "$",
+        ordered_items: [
+          {
+            id: 12,
+            item_name: "Triple Decker House Burger",
+            item_qty: 1,
+            amount: 10.98,
+            currency: "$",
+            item_modifiers: ["Ketchup", "lettuce", "Mustard"],
+          },
+          {
+            id: 12,
+            item_name: "Triple Cooked Chips",
+            item_qty: 1,
+            amount: 2,
+            currency: "$",
+            item_modifiers: ["Cheese"],
+          },
+        ],
       },
       {
         id: 1,
