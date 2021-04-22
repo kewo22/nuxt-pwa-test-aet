@@ -3,9 +3,9 @@
     <v-row align="center" justify="center">
       <v-col align="center" justify="center">
         <v-avatar color="white" size="10em">
-          <v-icon class="no-order" color="black"
-            >mdi-format-list-bulleted-square</v-icon
-          >
+          <v-icon class="no-order" color="black">
+            mdi-format-list-bulleted-square
+          </v-icon>
         </v-avatar>
         <br />
         <h2 class="black--text text--darken-1 mt-4">NO ORDER SELECTED</h2>
