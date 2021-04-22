@@ -11,6 +11,15 @@
         {{ `${item.currency}${item.amount}` }}
       </v-col>
     </v-row>
+    <v-row class="py-1">
+      <v-col offset-md="1">
+        <v-row v-for="(modifier, idx) of item.item_modifiers" :key="idx">
+          <span class="grey--text">
+            {{ modifier }}
+          </span>
+        </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
