@@ -5,7 +5,7 @@
       class="login-container"
     >
       <LogoLine10 class="logo" />
-      <v-form ref="loginForm" lazy-validation v-model="valid" class="login-form-container">
+      <v-form ref="loginForm" class="login-form-container">
         <v-container>
           <v-row>
             <v-text-field
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+  import { TokenAuthentication } from '@/constants'
+
   export default {
     data: () => ({
       valid: false,
@@ -54,47 +56,30 @@
       },
     }),
     methods:{
-      login: function() {
+      login: async function({ $axios }) {
         const isValid = this.$refs.loginForm.validate();
+
         if (isValid) {
-        let checkUsername = false;
-        if (this.username === "" || this.password === "" || this.password !== "cityslicka") {
-          window.alert("Plese valid enter username and password");
-        }else {
-          let obj = {
-            "email":this.username, // eve.holt@reqres.in
-            "password":this.password //cityslicka
-          };
+          const authData = {
+            url: TokenAuthentication.TokenUrl,
+            headers: {
+              'Authorization': TokenAuthentication.Authorization,
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            dataString: `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`
+          }
 
-          var myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/json");
-          myHeaders.append("Cookie", "__cfduid=ddfe91fe29ce404c0606b4094e0e912bd1618244858");
-
-          var raw = JSON.stringify(obj);
-
-          var requestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: raw,
-          redirect: 'follow'
-          };
-          let self = this;
-          fetch("https://reqres.in/api/login", requestOptions)
-          .then(function(response) {
-            if(response.status === 200){
-              response.blob().then(
-              response => response.text()
-              ).then(result => localStorage.setItem("user_token",result))
-              self.$router.push('/');
-            } else {
-              window.alert("Invalid login");
-            }
+          await this.$axios.$post(authData.url, authData.dataString, {
+            headers: authData.headers
+          }).then((response) => {
+            localStorage.setItem("user_token", `${response.token_type} ${response.access_token}`);
+            this.$router.push('/');
           })
-          .catch(
-            error => console.log('error', error)
-          );
-
-        }
+          .catch((error) => {
+            console.log('==========error==========', error);
+            console.log('==========stringify==========', JSON.stringify(error));
+            window.alert("Invalid login");
+          });
         }
       }
     }
