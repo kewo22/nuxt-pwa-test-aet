@@ -24,7 +24,7 @@
       <v-col>
         <OrderItemList
           :items="order.ordered_items"
-          :amount="`${order.currency}${order.total_amount}`"
+          :amount="order_amount"
         />
       </v-col>
     </v-row>
@@ -37,6 +37,11 @@ import OrderItemList from "./OrderItemList";
 export default {
   components: { OrderStatLabel, OrderItemList },
   props: ["order"],
+  computed: {
+    order_amount() {
+      return this.$currency(this.$props.order.total_amount);
+    }
+  }
 };
 </script>
 
