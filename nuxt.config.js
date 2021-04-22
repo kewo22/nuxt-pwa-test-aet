@@ -1,6 +1,4 @@
 import colors from 'vuetify/es5/util/colors'
-import path from 'path'
-import fs from 'fs'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -87,15 +85,12 @@ export default {
       },
     },
   },
-  manifest: {
-    name: 'Nuxt.js PWA survival store',
-    short_name: 'Nuxt.js PWA',
-    lang: 'en',
-    display: 'standalone',
-  },
 
   pwa: {
     manifest: {
+      name: 'Order Pro | Line Ten',
+      short_name: 'Order Pro | L10',
+      lang: 'en',
       start_ur: "/",
       theme_color: "#ffffff",
       background_color: "#ffffff",
