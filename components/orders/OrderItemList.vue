@@ -8,11 +8,11 @@
             <span class="black--text text--darken-1">Items</span>
           </v-col>
           <v-col class="pa-0 text-right black--text text--darken-1">
-            <strong> {{ amount }} </strong>
+            <span>{{ amount }}</span>
           </v-col>
         </v-row>
         <v-row>
-          <OrderItemList v-for="(item, idx) of items" :item="item" :key="idx" />
+          <OrderItem v-for="(item, idx) of items" :item="item" :key="idx" />
         </v-row>
       </v-container>
     </v-sheet>
@@ -21,7 +21,6 @@
 
 <style scoped>
 .order-item-list {
-  /* box-shadow: 0px 8px 32px #c5c7c9; */
   border-radius: 16px;
   background: #ffffff 0% 0% no-repeat padding-box;
 }
@@ -30,13 +29,14 @@
 }
 .item-details {
   border-bottom: 1px solid #ccced0;
+  font-weight: bold;
 }
 </style>
 
 <script>
-import OrderItemList from "./OrderItem";
+import OrderItem from "./OrderItem";
 export default {
-  components: { OrderItemList },
+  components: { OrderItem },
   props: ["items", "amount"],
 };
 </script>
