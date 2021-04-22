@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-0">
     <v-layout>
-      <v-flex xs1 sm1 md1 style="background-color: #282e35">
+      <!-- <v-flex xs1 sm1 md1 style="background-color: #282e35">
         <v-row align="center" justify="center" style="height: 100vh">
           <v-col
             cols="12"
@@ -12,8 +12,8 @@
             left
           </v-col>
         </v-row>
-      </v-flex>
-      <v-flex xs11 sm11 md11>
+      </v-flex> -->
+      <v-flex>
         <v-layout>
           <v-flex xs6 sm6 md6 style="background-color: #23282c">
             <v-layout>
@@ -87,7 +87,7 @@
                           style="
                             width: 100%;
                             background-color: #23282c;
-                            height: 600px;
+                            max-height: 80vh;
                             overflow: auto;
                           "
                         >
@@ -228,6 +228,31 @@ export default {
             amount: 2,
             currency: "$",
             item_modifiers: ["Cheese"],
+          },
+        ],
+      },
+      {
+        src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
+        orderId: 114782,
+        count: "1 item",
+        time: "43 Mins",
+        order_id: 114782,
+        dp_id: 1,
+        ordered_time: "2020-10-31T01:48:52Z",
+        order_delivery_time: "2020-10-31T01:48:52Z",
+        order_type: "Delivery",
+        order_status: "NEW",
+        total_amount: 10.98,
+        currency: "$",
+        predicted_prep_time: "43 Mins",
+        ordered_items: [
+          {
+            item_id: 12,
+            item_name: "Triple Decker House Burger",
+            item_qty: 1,
+            amount: 10.98,
+            currency: "$",
+            item_modifiers: ["Ketchup", "lettuce", "Mustard"],
           },
         ],
       },

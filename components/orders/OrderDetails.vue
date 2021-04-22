@@ -9,23 +9,28 @@
       </v-col>
       <v-col md="1">
         <v-btn rounded fab elevation="2" small dark>
-          <v-icon color="blue">mdi-dots-vertical</v-icon>
+          <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </v-col>
-      <p class="order-status in-progress">{{ order.status }}</p>
+      <p class="order-status in-progress">
+        {{ order.order_status || order.status }}
+      </p>
     </v-row>
-    <v-row class="pb-15">
-      <OrderStatLabel label="Order Number:" :value="order.orderId" />
-      <OrderStatLabel label="Type:" :value="order.type" />
-      <OrderStatLabel label="Items:" :value="order.count" />
-      <OrderStatLabel label="Predicted prep time:" :value="order.time" />
+    <v-row class="pb-5">
+      <OrderStatLabel
+        label="Order Number:"
+        :value="order.order_id || order.orderId"
+      />
+      <OrderStatLabel label="Type:" :value="order.order_type || order.type" />
+      <OrderStatLabel label="Items:" :value="order_item_count || order.count" />
+      <OrderStatLabel
+        label="Predicted prep time:"
+        :value="order.predicted_prep_time || order.time"
+      />
     </v-row>
     <v-row>
       <v-col>
-        <OrderItemList
-          :items="order.ordered_items"
-          :amount="order_amount"
-        />
+        <OrderItemList :items="order.ordered_items" :amount="order_amount" />
       </v-col>
     </v-row>
   </v-container>
@@ -40,8 +45,12 @@ export default {
   computed: {
     order_amount() {
       return this.$currency(this.$props.order.total_amount);
-    }
-  }
+    },
+    order_item_count() {
+      const { order } = this.$props;
+      return order.ordered_items ? order.ordered_items.length : null;
+    },
+  },
 };
 </script>
 
@@ -54,6 +63,7 @@ export default {
   font-size: 30px;
   line-height: 36px;
   font-weight: bold;
+  text-transform: capitalize;
 }
 .in-progress {
   color: #509ad9;
