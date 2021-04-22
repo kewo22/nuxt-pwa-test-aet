@@ -65,11 +65,9 @@
     ],
     "orders": [{
             "id": "1",
-            "timestamp": "24 hours",
-            "current_page": 1,
-            "total_pages": 10,
+            "timestamp": "67867876",
             "orders": [{
-                    "id": "114788",
+                    "order_id": "114788",
                     "order_ref": "External Order Reference",
                     "order_number": 1,
                     "order_ref_reversed": "External order reference reversed",
@@ -110,23 +108,18 @@
                         "quantity": 1,
                         "tax": 0.00,
                         "total": 16.98,
-                        "note": "any notes for the item",
+                        "note": "Ketchup,lettuce,Mustard",
                         "mapping_data": "internal mapping data",
                         "product": {
                             "product_id": 12,
                             "name": "Triple Decker House Burger",
                             "category": "category type 1"
-                        },
-                        "item_modifiers": [
-                            "Ketchup",
-                            "lettuce",
-                            "Mustard"
-                        ]
+                        }
                     }],
                     "fulfilment_source": "Uber Eats"
                 },
                 {
-                    "id": "114789",
+                    "order_id": "114789",
                     "order_ref": "External Order Reference",
                     "order_number": 2,
                     "order_ref_reversed": "External order reference reversed",
@@ -167,16 +160,13 @@
                             "quantity": 1,
                             "tax": 0.00,
                             "total": 5.98,
-                            "note": "any notes for the item",
+                            "note": "Cheese",
                             "mapping_data": "internal mapping data",
                             "product": {
                                 "product_id": 10,
                                 "name": "Triple Cook Chips",
                                 "category": "category type 2"
-                            },
-                            "item_modifiers": [
-                                "Cheese"
-                            ]
+                            }
                         },
                         {
                             "sku": "321312",
@@ -189,14 +179,13 @@
                                 "product_id": 14,
                                 "name": "Zero Coke 300ml",
                                 "category": "category type 3"
-                            },
-                            "item_modifiers": []
+                            }
                         }
                     ],
                     "fulfilment_source": "Deliveroo"
                 },
                 {
-                    "id": "114790",
+                    "order_id": "114790",
                     "order_ref": "External Order Reference",
                     "order_number": 3,
                     "order_ref_reversed": "External order reference reversed",
@@ -237,23 +226,18 @@
                         "quantity": 1,
                         "tax": 0.00,
                         "total": 16.98,
-                        "note": "any notes for the item",
+                        "note": "Ketchup,lettuce,Mustard",
                         "mapping_data": "internal mapping data",
                         "product": {
                             "product_id": 12,
                             "name": "Triple Decker House Burger",
                             "category": "category type 1"
-                        },
-                        "item_modifiers": [
-                            "Ketchup",
-                            "lettuce",
-                            "Mustard"
-                        ]
+                        }
                     }],
                     "fulfilment_source": "Uber Eats"
                 },
                 {
-                    "id": "114791",
+                    "order_id": "114791",
                     "order_ref": "External Order Reference",
                     "order_number": 4,
                     "order_ref_reversed": "External order reference reversed",
@@ -294,18 +278,13 @@
                             "quantity": 1,
                             "tax": 0.00,
                             "total": 16.98,
-                            "note": "any notes for the item",
+                            "note": "Ketchup,lettuce,Mustard",
                             "mapping_data": "internal mapping data",
                             "product": {
                                 "product_id": 12,
                                 "name": "Triple Decker House Burger",
                                 "category": "category type 1"
-                            },
-                            "item_modifiers": [
-                                "Ketchup",
-                                "lettuce",
-                                "Mustard"
-                            ]
+                            }
                         },
                         {
                             "sku": "321312",
@@ -318,14 +297,13 @@
                                 "product_id": 14,
                                 "name": "Zero Coke 300ml",
                                 "category": "category type 3"
-                            },
-                            "item_modifiers": []
+                            }
                         }
                     ],
                     "fulfilment_source": "Just Eat"
                 },
                 {
-                    "id": "114792",
+                    "order_id": "114792",
                     "order_ref": "External Order Reference",
                     "order_number": 5,
                     "order_ref_reversed": "External order reference reversed",
@@ -366,16 +344,13 @@
                             "quantity": 1,
                             "tax": 0.00,
                             "total": 5.98,
-                            "note": "any notes for the item",
+                            "note": "Cheese",
                             "mapping_data": "internal mapping data",
                             "product": {
                                 "product_id": 10,
                                 "name": "Triple Cook Chips",
                                 "category": "category type 2"
-                            },
-                            "item_modifiers": [
-                                "Cheese"
-                            ]
+                            }
                         },
                         {
                             "sku": "321312",
@@ -388,14 +363,13 @@
                                 "product_id": 14,
                                 "name": "Zero Coke 300ml",
                                 "category": "category type 3"
-                            },
-                            "item_modifiers": []
+                            }
                         }
                     ],
                     "fulfilment_source": "Deliveroo"
                 },
                 {
-                    "id": "114792",
+                    "order_id": "114792",
                     "order_ref": "External Order Reference",
                     "order_number": 6,
                     "order_ref_reversed": "External order reference reversed",
@@ -454,16 +428,13 @@
                             "quantity": 1,
                             "tax": 0.00,
                             "total": 5.98,
-                            "note": "any notes for the item",
+                            "note": "Cheese",
                             "mapping_data": "internal mapping data",
                             "product": {
                                 "product_id": 10,
                                 "name": "Triple Cook Chips",
                                 "category": "category type 2"
-                            },
-                            "item_modifiers": [
-                                "Cheese"
-                            ]
+                            }
                         },
                         {
                             "sku": "321312",
@@ -472,9 +443,7 @@
                             "item_id": 14,
                             "item_name": "Zero Coke 300ml",
                             "item_qty": 1,
-                            "amount": 1.00,
-                            "currency": "$",
-                            "item_modifiers": []
+                            "amount": 1.00
                         }
                     ]
                 }
@@ -487,7 +456,7 @@
             "current_page": 1,
             "total_pages": 10,
             "orders": [{
-                    "id": "114788",
+                    "order_id": "114788",
                     "order_ref": "External Order Reference",
                     "order_number": 7,
                     "order_ref_reversed": "External order reference reversed",
@@ -528,23 +497,18 @@
                         "quantity": 1,
                         "tax": 0.00,
                         "total": 16.98,
-                        "note": "any notes for the item",
+                        "note": "Ketchup,lettuce,Mustard",
                         "mapping_data": "internal mapping data",
                         "product": {
                             "product_id": 12,
                             "name": "Triple Decker House Burger",
                             "category": "category type 1"
-                        },
-                        "item_modifiers": [
-                            "Ketchup",
-                            "lettuce",
-                            "Mustard"
-                        ]
+                        }
                     }],
                     "fulfilment_source": "Deliveroo"
                 },
                 {
-                    "id": "114790",
+                    "order_id": "114790",
                     "order_ref": "External Order Reference",
                     "order_number": 8,
                     "order_ref_reversed": "External order reference reversed",
@@ -585,23 +549,18 @@
                         "quantity": 1,
                         "tax": 0.00,
                         "total": 16.98,
-                        "note": "any notes for the item",
+                        "note": "Ketchup,lettuce,Mustard",
                         "mapping_data": "internal mapping data",
                         "product": {
                             "product_id": 12,
                             "name": "Triple Decker House Burger",
                             "category": "category type 1"
-                        },
-                        "item_modifiers": [
-                            "Ketchup",
-                            "lettuce",
-                            "Mustard"
-                        ]
+                        }
                     }],
                     "fulfilment_source": "Just Eat"
                 },
                 {
-                    "id": "114782",
+                    "order_id": "114782",
                     "order_ref": "External Order Reference",
                     "order_number": 9,
                     "order_ref_reversed": "External order reference reversed",
@@ -642,23 +601,18 @@
                         "quantity": 1,
                         "tax": 0.00,
                         "total": 16.98,
-                        "note": "any notes for the item",
+                        "note": "Ketchup,lettuce,Mustard",
                         "mapping_data": "internal mapping data",
                         "product": {
                             "product_id": 12,
                             "name": "Triple Decker House Burger",
                             "category": "category type 1"
-                        },
-                        "item_modifiers": [
-                            "Ketchup",
-                            "lettuce",
-                            "Mustard"
-                        ]
+                        }
                     }],
                     "fulfilment_source": "Uber Eats"
                 },
                 {
-                    "id": "114783",
+                    "order_id": "114783",
                     "order_ref": "External Order Reference",
                     "order_number": 10,
                     "order_ref_reversed": "External order reference reversed",
@@ -699,19 +653,13 @@
                             "quantity": 1,
                             "tax": 0.00,
                             "total": 16.98,
-                            "note": "any notes for the item",
+                            "note": "Ketchup,lettuce,Mustard",
                             "mapping_data": "internal mapping data",
                             "product": {
                                 "product_id": 12,
                                 "name": "Triple Decker House Burger",
                                 "category": "category type 1"
-                            },
-                            "item_modifiers": [
-                                "Ketchup",
-                                "lettuce",
-                                "Mustard"
-                            ],
-                            "fulfilment_source": "Deliveroo"
+                            }
                         },
                         {
                             "sku": "321312",
@@ -724,13 +672,13 @@
                                 "product_id": 14,
                                 "name": "Zero Coke 300ml",
                                 "category": "category type 3"
-                            },
-                            "item_modifiers": []
+                            }
                         }
-                    ]
+                    ],
+                    "fulfilment_source": "Deliveroo"
                 },
                 {
-                    "id": "114784",
+                    "order_id": "114784",
                     "order_ref": "External Order Reference",
                     "order_number": 11,
                     "order_ref_reversed": "External order reference reversed",
@@ -771,18 +719,13 @@
                             "quantity": 1,
                             "tax": 0.00,
                             "total": 16.98,
-                            "note": "any notes for the item",
+                            "note": "Ketchup,lettuce,Mustard",
                             "mapping_data": "internal mapping data",
                             "product": {
                                 "product_id": 12,
                                 "name": "Triple Decker House Burger",
                                 "category": "category type 1"
-                            },
-                            "item_modifiers": [
-                                "Ketchup",
-                                "lettuce",
-                                "Mustard"
-                            ]
+                            }
                         },
                         {
                             "sku": "321312",
@@ -795,14 +738,13 @@
                                 "product_id": 14,
                                 "name": "Zero Coke 300ml",
                                 "category": "category type 3"
-                            },
-                            "item_modifiers": []
+                            }
                         }
                     ],
                     "fulfilment_source": "Uber Eats"
                 },
                 {
-                    "id": "114785",
+                    "order_id": "114785",
                     "order_ref": "External Order Reference",
                     "order_number": 12,
                     "order_ref_reversed": "External order reference reversed",
@@ -842,37 +784,32 @@
                             "quantity": 1,
                             "tax": 0.00,
                             "total": 16.98,
-                            "note": "any notes for the item",
+                            "note": "Ketchup,lettuce,Mustard",
                             "mapping_data": "internal mapping data",
                             "product": {
                                 "product_id": 12,
                                 "name": "Triple Decker House Burger",
                                 "category": "category type 1"
-                            },
-                            "item_modifiers": [
-                                "Ketchup",
-                                "lettuce",
-                                "Mustard"
-                            ]
+                            }
                         },
                         {
-                            "sku": "321312",
+                            "sku": "321311",
                             "quantity": 1,
                             "tax": 0.00,
-                            "item_id": 10,
-                            "item_name": "Triple Cook Chips",
-                            "item_qty": 1,
-                            "amount": 5.98,
-                            "currency": "$",
-                            "item_modifiers": [
-                                "Cheese"
-                            ]
+                            "total": 5.98,
+                            "note": "Cheese",
+                            "mapping_data": "internal mapping data",
+                            "product": {
+                                "product_id": 10,
+                                "name": "Triple Cook Chips",
+                                "category": "category type 2"
+                            }
                         }
                     ],
                     "fulfilment_source": "Just Eat"
                 },
                 {
-                    "id": "114785",
+                    "order_id": "114785",
                     "order_ref": "External Order Reference",
                     "order_number": 13,
                     "order_ref_reversed": "External order reference reversed",
@@ -908,17 +845,17 @@
                         }
                     },
                     "order_lines": [{
-                        "sku": "321312",
+                        "sku": "321311",
                         "quantity": 1,
                         "tax": 0.00,
-                        "item_id": 10,
-                        "item_name": "Triple Cook Chips",
-                        "item_qty": 1,
-                        "amount": 5.98,
-                        "currency": "$",
-                        "item_modifiers": [
-                            "Cheese"
-                        ]
+                        "total": 5.98,
+                        "note": "Cheese",
+                        "mapping_data": "internal mapping data",
+                        "product": {
+                            "product_id": 10,
+                            "name": "Triple Cook Chips",
+                            "category": "category type 2"
+                        }
                     }],
                     "fulfilment_source": "Deliveroo"
                 }
