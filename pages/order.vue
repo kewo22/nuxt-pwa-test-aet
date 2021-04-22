@@ -93,11 +93,14 @@
                         >
                           <template>
                             <v-list-item
-                              v-for="(item,index) in items"
+                              v-for="(item, index) in items"
                               :key="item.id"
                               style="height: 100px"
                             >
-                              <v-list-item-action style="width: 100%">
+                              <v-list-item-action
+                                @click="selectedOrder = item"
+                                style="width: 100%"
+                              >
                                 <v-btn
                                   style="
                                     width: 100%;
@@ -107,7 +110,9 @@
                                     height: 75px;
                                   "
                                   @click="selectNewRecord(index)"
-                                  :class="{ 'newBtnSelected' : index == selectedNewIndex}"
+                                  :class="{
+                                    newBtnSelected: index == selectedNewIndex,
+                                  }"
                                 >
                                   <v-layout>
                                     <v-flex xs4 sm4 md2>
@@ -129,7 +134,11 @@
                                     <v-flex xs4 sm4 md6>
                                       <v-container fill-height fluid>
                                         <v-row align="center" justify="center">
-                                          <v-col align="left" justify="center" style="color:#509ad8">
+                                          <v-col
+                                            align="left"
+                                            justify="center"
+                                            style="color: #509ad8"
+                                          >
                                             {{ item.time }}
                                           </v-col>
                                         </v-row>
@@ -172,18 +181,9 @@
               </v-row>
             </v-container>
           </v-flex>
-          <v-flex xs6 sm6 md6 style="background-color: #f6f8fa; height: 100vh">
-            <v-container fill-height fluid>
-              <v-row align="center" justify="center">
-                <v-col align="center" justify="center">
-                  <img src="/noOrder.png" /><br />
-                  <h2 style="margin-top: 4%">NO ORDER SELECTED</h2>
-                  <h4 style="color: #c3c5c8; margin-top: 1%">
-                    Select an order from the queue on the left
-                  </h4>
-                </v-col>
-              </v-row>
-            </v-container>
+          <v-flex xs6 sm6 md6 style="background-color: #f6f8fa">
+            <OrderDetails v-if="selectedOrder" :order="selectedOrder" />
+            <NoOrder v-else />
           </v-flex>
         </v-layout>
       </v-flex>
@@ -192,17 +192,44 @@
 </template>
 
 <script>
+import OrderDetails from "~/components/orders/OrderDetails.vue";
+import NoOrder from "~/components/orders/NoOrder.vue";
 export default {
+  components: { OrderDetails, NoOrder },
   data: () => ({
+    benched: 0,
+    selectedOrder: null,
     selectedNewIndex: 0,
     items: [
       {
-        id: 0,
-        name: "n0",
+        id: "0",
+        name: "Jennifier Harrison",
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
         count: "2 items",
+        status: "In Progress…",
+        type: "Delivery",
+        total_amount: 12.98,
+        currency: "$",
+        ordered_items: [
+          {
+            id: 12,
+            item_name: "Triple Decker House Burger",
+            item_qty: 1,
+            amount: 10.98,
+            currency: "$",
+            item_modifiers: ["Ketchup", "lettuce", "Mustard"],
+          },
+          {
+            id: 12,
+            item_name: "Triple Cooked Chips",
+            item_qty: 1,
+            amount: 2,
+            currency: "$",
+            item_modifiers: ["Cheese"],
+          },
+        ],
       },
       {
         id: 1,
@@ -261,31 +288,29 @@ export default {
         count: "2 items",
       },
     ],
-    orderList: []
+    orderList: [],
   }),
   mounted() {
     this.loadOrderDetails();
   },
   methods: {
-    selectNewRecord(index){
+    selectNewRecord(index) {
       this.selectedNewIndex = index;
     },
-    loadOrderDetails(){
-      this.$axios
-        .get("orders/1")
-        .then(
-          response => {
-            if (response.status == 200) {
-              this.orderList = response.data.orders;
-              console.log("status ds", this.orderList);
-            } else {
-            }
-          },
-          error => {
-            console.log("error", error);
+    loadOrderDetails() {
+      this.$axios.get("orders/1").then(
+        (response) => {
+          if (response.status == 200) {
+            this.orderList = response.data.orders;
+            console.log("status ds", this.orderList);
+          } else {
           }
-        );
-    }
+        },
+        (error) => {
+          console.log("error", error);
+        }
+      );
+    },
   },
   computed: {
     width() {
