@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div>
+    <p>swqd</p>
+  </div>
+  <!-- <div class="container">
     <div>
       <Logo />
       <h1 class="title">
@@ -24,11 +27,11 @@
         </a>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
 <style>
@@ -42,16 +45,8 @@ export default {}
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
