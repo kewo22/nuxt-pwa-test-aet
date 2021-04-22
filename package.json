@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "dev:sw": "npm run generate && serve -s dist",
+    "dev:sw": "npm run build && npm run generate && serve -s dist",
     "dev:sw:watch": "nodemon -w static/workers/*.sw.js --exec \"npm run dev:sw\"",
     "build": "nuxt build",
     "start": "nuxt start",

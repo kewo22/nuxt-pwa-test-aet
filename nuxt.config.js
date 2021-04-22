@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt-pwa-test',
+    title: 'Order Pro | Line10',
     htmlAttrs: {
       lang: 'en'
     },
@@ -17,7 +17,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
     ]
   },
 
@@ -48,9 +48,10 @@ export default {
   pwa: {
     manifest: {
       start_ur: "/",
-      theme_color: "#FF5734",
-      display: "fullscreen",
-      orientation: "portrait"
+      theme_color: "#ffffff",
+      background_color: "#ffffff",
+      display: "standalone",
+      orientation: "landscape"
     },
     workbox: {
       importScripts: [
@@ -59,7 +60,6 @@ export default {
       ],
       runtimeCaching: [
         {
-          // urlPattern: 'https://my-cdn.com/posts/.*',
           urlPattern: 'https://jsonplaceholder.typicode.com/.*',
           strategyOptions: {
             cacheName: 'test-cache-v2',
