@@ -8,12 +8,13 @@
 
 <style scoped>
 .order-stat {
-  /* height: 60px; */
+  height: 60px;
   padding: 0 15px;
 }
 
 .order-stat:first-child {
   padding-left: 0;
+  flex: 1.5;
 }
 
 .right-border {
@@ -22,6 +23,8 @@
 
 .right-border:last-child {
   border-right: none;
+  padding-right: 0;
+  flex: 2;
 }
 
 .stat-label {

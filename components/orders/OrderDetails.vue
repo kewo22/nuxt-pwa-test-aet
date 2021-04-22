@@ -14,7 +14,7 @@
       </v-col>
       <p class="order-status in-progress">{{ order.status }}</p>
     </v-row>
-    <v-row class="pb-15">
+    <v-row class="pb-5">
       <OrderStatLabel label="Order Number:" :value="order.orderId" />
       <OrderStatLabel label="Type:" :value="order.type" />
       <OrderStatLabel label="Items:" :value="order.count" />
