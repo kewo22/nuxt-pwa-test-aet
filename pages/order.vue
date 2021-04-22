@@ -232,6 +232,27 @@ export default {
         ],
       },
       {
+        order_id: 114782,
+        dp_id: 1,
+        ordered_time: "2020-10-31T01:48:52Z",
+        order_delivery_time: "2020-10-31T01:48:52Z",
+        order_type: "Delivery",
+        order_status: "NEW",
+        total_amount: 10.98,
+        currency: "$",
+        predicted_prep_time: "43 Mins",
+        ordered_items: [
+          {
+            item_id: 12,
+            item_name: "Triple Decker House Burger",
+            item_qty: 1,
+            amount: 10.98,
+            currency: "$",
+            item_modifiers: ["Ketchup", "lettuce", "Mustard"],
+          },
+        ],
+      },
+      {
         id: 1,
         name: "Jennifier Harrison",
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
