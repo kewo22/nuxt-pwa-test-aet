@@ -2,7 +2,7 @@
   <div>
     <v-sheet class="order-item-list" elevation="5">
       <v-container class="order-item-container">
-        <v-row class="item-details pb-2">
+        <v-row class="item-details pb-2 mb-2">
           <v-col class="pa-0">
             <v-icon color="#2D3941"> mdi-format-list-bulleted-square </v-icon>
             <span class="black--text text--darken-1">Items</span>
