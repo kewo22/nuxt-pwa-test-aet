@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout>
-      <v-flex xs1 sm1 md1 style="background-color: #282e35">
+      <!-- <v-flex xs1 sm1 md1 style="background-color: #282e35">
         <v-row align="center" justify="center" style="height: 100vh">
           <v-col
             cols="12"
@@ -12,8 +12,8 @@
             left
           </v-col>
         </v-row>
-      </v-flex>
-      <v-flex xs11 sm11 md11>
+      </v-flex> -->
+      <v-flex>
         <v-layout>
           <v-flex xs6 sm6 md6 style="background-color: #23282c">
             <v-layout>
