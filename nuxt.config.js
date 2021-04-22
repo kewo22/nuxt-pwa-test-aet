@@ -11,7 +11,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt-pwa-test',
+    title: 'Order Pro | Line10',
     htmlAttrs: {
       lang: 'en'
     },
@@ -21,7 +21,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
     ]
   },
 
@@ -32,7 +32,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/currencyFormatter.client.js'
+    '~/plugins/currencyFormatter.client.js',
+    '~/plugins/idb.client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -92,5 +93,36 @@ export default {
     lang: 'en',
     display: 'standalone',
   },
+
+  pwa: {
+    manifest: {
+      start_ur: "/",
+      theme_color: "#ffffff",
+      background_color: "#ffffff",
+      display: "standalone",
+      orientation: "landscape"
+    },
+    workbox: {
+      importScripts: [
+        'idb-sw.client.js',
+        'workers/custom.sw.js'
+      ],
+      runtimeCaching: [
+        {
+          urlPattern: 'https://jsonplaceholder.typicode.com/.*',
+          strategyOptions: {
+            cacheName: 'test-cache-v2',
+          },
+          strategyPlugins: [{
+            use: 'BackgroundSync',
+            config: {
+              maxEntries: 10,
+              maxAgeSeconds: 3000
+            }
+          }]
+        }
+      ]
+    }
+  }
 
 }
