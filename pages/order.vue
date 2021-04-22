@@ -93,7 +93,7 @@
                         >
                           <template>
                             <v-list-item
-                              v-for="item in items"
+                              v-for="(item,index) in items"
                               :key="item.id"
                               style="height: 100px"
                             >
@@ -106,6 +106,8 @@
                                     text-transform: none;
                                     height: 75px;
                                   "
+                                  @click="selectNewRecord(index)"
+                                  :class="{ 'newBtnSelected' : index == selectedNewIndex}"
                                 >
                                   <v-layout>
                                     <v-flex xs4 sm4 md2>
@@ -127,12 +129,7 @@
                                     <v-flex xs4 sm4 md6>
                                       <v-container fill-height fluid>
                                         <v-row align="center" justify="center">
-                                          <v-col align="left" justify="center">
-                                            {{ item.name }}
-                                          </v-col>
-                                        </v-row>
-                                        <v-row align="center" justify="center">
-                                          <v-col align="left" justify="center">
+                                          <v-col align="left" justify="center" style="color:#509ad8">
                                             {{ item.time }}
                                           </v-col>
                                         </v-row>
@@ -197,11 +194,11 @@
 <script>
 export default {
   data: () => ({
-    benched: 0,
+    selectedNewIndex: 0,
     items: [
       {
         id: 0,
-        name: "Jennifier Harrison",
+        name: "n0",
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         time: "43 Min",
         orderId: "#114782",
@@ -209,9 +206,9 @@ export default {
       },
       {
         id: 1,
-        name: "n2",
+        name: "Jennifier Harrison",
         src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-        time: "43 Min",
+        time: "1h 5 Min",
         orderId: "#114782",
         count: "2 items",
       },
@@ -265,6 +262,11 @@ export default {
       },
     ],
   }),
+  methods: {
+    selectNewRecord(index){
+      this.selectedNewIndex = index;
+    }
+  },
   computed: {
     width() {
       switch (this.$vuetify.breakpoint.name) {
@@ -290,5 +292,8 @@ export default {
   position: absolute;
   top: -41.5%;
   z-index: 1;
+}
+.newBtnSelected {
+  border: 2px solid #aa33bf;
 }
 </style>
