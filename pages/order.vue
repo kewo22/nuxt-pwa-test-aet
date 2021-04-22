@@ -87,7 +87,7 @@
                           style="
                             width: 100%;
                             background-color: #23282c;
-                            height: 600px;
+                            max-height: 80vh;
                             overflow: auto;
                           "
                         >
@@ -232,6 +232,10 @@ export default {
         ],
       },
       {
+        src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
+        orderId: 114782,
+        count: "1 item",
+        time: "43 Mins",
         order_id: 114782,
         dp_id: 1,
         ordered_time: "2020-10-31T01:48:52Z",
