@@ -37,6 +37,7 @@
   line-height: 10px;
   color: #2a343d;
   font-size: 25px;
+  font-weight: bold;
 }
 </style>
 
