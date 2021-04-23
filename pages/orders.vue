@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex fill-height orders-wrapper">
-    <div class="d-flex flex-column section-1 mr-2">
+    <div class="d-flex flex-column section-1 mr-2 pa-2">
       <div>
         <v-text-field
           label="Search by ID"
@@ -24,96 +24,46 @@
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
-          <v-tab-item>
-            <v-card flat>
+          <v-tab-item class="tab-item">
+            <v-card class="v-card" flat>
               <v-card-text class="">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Exercitationem temporibus, placeat aspernatur accusamus est
-                necessitatibus illum iure, mollitia quas a molestiae dolorem
-                voluptatum unde non nulla odit tenetur pariatur molestias
-                inventore velit. Sit vel atque enim. Reprehenderit repellendus
-                amet voluptatibus esse a distinctio cum delectus eos consectetur
-                asperiores iure, at nisi magnam quaerat explicabo harum quidem
-                minus? Quo eveniet, placeat veniam doloribus doloremque, quae
-                nisi cumque reiciendis inventore magnam aut eius debitis dolorum
-                tempore dolorem et quos illum fugiat mollitia necessitatibus
-                vitae nobis possimus amet consequatur? Iure dolore itaque, ab
-                debitis error cumque impedit doloremque voluptatibus
-                necessitatibus excepturi aliquid maiores saepe quas voluptates
-                tenetur? Modi, laboriosam provident? Tempora sapiente ullam
-                exercitationem atque ad cum porro. Laborum sint voluptatem, at
-                placeat laboriosam cum quia quisquam suscipit explicabo a
-                recusandae sapiente ipsam atque vitae ut dolores ratione illo
-                totam officia est molestias perferendis corporis? Qui aut
-                pariatur deserunt natus earum repudiandae eaque cum, dicta vel.
-                Nam ea odio at iure nesciunt hic animi recusandae soluta eum ab
-                dignissimos quo doloribus tenetur dolores alias harum, minima
-                officiis laboriosam saepe quae rerum dolor et nihil voluptatem!
-                Delectus, est iusto cupiditate assumenda accusamus, unde cum
-                doloribus veritatis modi atque eum! Cumque explicabo quibusdam
-                quasi quas!
+                <div v-if="newOrders.length">
+                  <OrderQueueItem
+                    class="mb-2"
+                    v-for="newOrder in newOrders"
+                    :key="`${newOrder.order_id}`"
+                    :item="newOrder"
+                    @orcerClick="onNewOrderClick(newOrder)"
+                  />
+                </div>
               </v-card-text>
             </v-card>
           </v-tab-item>
-          <v-tab-item>
-            <v-card flat>
+          <v-tab-item class="tab-item">
+            <v-card class="v-card" flat>
               <v-card-text>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Exercitationem temporibus, placeat aspernatur accusamus est
-                necessitatibus illum iure, mollitia quas a molestiae dolorem
-                voluptatum unde non nulla odit tenetur pariatur molestias
-                inventore velit. Sit vel atque enim. Reprehenderit repellendus
-                amet voluptatibus esse a distinctio cum delectus eos consectetur
-                asperiores iure, at nisi magnam quaerat explicabo harum quidem
-                minus? Quo eveniet, placeat veniam doloribus doloremque, quae
-                nisi cumque reiciendis inventore magnam aut eius debitis dolorum
-                tempore dolorem et quos illum fugiat mollitia necessitatibus
-                vitae nobis possimus amet consequatur? Iure dolore itaque, ab
-                debitis error cumque impedit doloremque voluptatibus
-                necessitatibus excepturi aliquid maiores saepe quas voluptates
-                tenetur? Modi, laboriosam provident? Tempora sapiente ullam
-                exercitationem atque ad cum porro. Laborum sint voluptatem, at
-                placeat laboriosam cum quia quisquam suscipit explicabo a
-                recusandae sapiente ipsam atque vitae ut dolores ratione illo
-                totam officia est molestias perferendis corporis? Qui aut
-                pariatur deserunt natus earum repudiandae eaque cum, dicta vel.
-                Nam ea odio at iure nesciunt hic animi recusandae soluta eum ab
-                dignissimos quo doloribus tenetur dolores alias harum, minima
-                officiis laboriosam saepe quae rerum dolor et nihil voluptatem!
-                Delectus, est iusto cupiditate assumenda accusamus, unde cum
-                doloribus veritatis modi atque eum! Cumque explicabo quibusdam
-                quasi quas!
+                <div v-if="inProgressOrders.length">
+                  <OrderQueueItem
+                    class="mb-2"
+                    v-for="newOrder in inProgressOrders"
+                    :key="`${newOrder.order_id}`"
+                    :item="newOrder"
+                  />
+                </div>
               </v-card-text>
             </v-card>
           </v-tab-item>
-          <v-tab-item>
-            <v-card flat>
+          <v-tab-item class="tab-item">
+            <v-card class="v-card" flat>
               <v-card-text>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Exercitationem temporibus, placeat aspernatur accusamus est
-                necessitatibus illum iure, mollitia quas a molestiae dolorem
-                voluptatum unde non nulla odit tenetur pariatur molestias
-                inventore velit. Sit vel atque enim. Reprehenderit repellendus
-                amet voluptatibus esse a distinctio cum delectus eos consectetur
-                asperiores iure, at nisi magnam quaerat explicabo harum quidem
-                minus? Quo eveniet, placeat veniam doloribus doloremque, quae
-                nisi cumque reiciendis inventore magnam aut eius debitis dolorum
-                tempore dolorem et quos illum fugiat mollitia necessitatibus
-                vitae nobis possimus amet consequatur? Iure dolore itaque, ab
-                debitis error cumque impedit doloremque voluptatibus
-                necessitatibus excepturi aliquid maiores saepe quas voluptates
-                tenetur? Modi, laboriosam provident? Tempora sapiente ullam
-                exercitationem atque ad cum porro. Laborum sint voluptatem, at
-                placeat laboriosam cum quia quisquam suscipit explicabo a
-                recusandae sapiente ipsam atque vitae ut dolores ratione illo
-                totam officia est molestias perferendis corporis? Qui aut
-                pariatur deserunt natus earum repudiandae eaque cum, dicta vel.
-                Nam ea odio at iure nesciunt hic animi recusandae soluta eum ab
-                dignissimos quo doloribus tenetur dolores alias harum, minima
-                officiis laboriosam saepe quae rerum dolor et nihil voluptatem!
-                Delectus, est iusto cupiditate assumenda accusamus, unde cum
-                doloribus veritatis modi atque eum! Cumque explicabo quibusdam
-                quasi quas!
+                <div v-if="finishedOrders.length">
+                  <OrderQueueItem
+                    class="mb-2"
+                    v-for="newOrder in finishedOrders"
+                    :key="`${newOrder.order_id}`"
+                    :item="newOrder"
+                  />
+                </div>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -121,7 +71,7 @@
       </div>
     </div>
 
-    <div class="section-2 ml-2">
+    <div class="section-2 ml-2 pa-2">
       <OrderDetails v-if="selectedOrder" :order="selectedOrder" />
       <NoOrder v-else />
       <!-- <v-icon style="color: black">mdi-format-list-bulleted</v-icon>
@@ -134,13 +84,18 @@
 <script>
 import OrderDetails from "~/components/orders/OrderDetails.vue";
 import NoOrder from "~/components/orders/NoOrder.vue";
+import OrderQueueItem from "~/components/orders/OrderQueueItem.vue";
 
 export default {
-  components: { OrderDetails, NoOrder },
+  components: { OrderDetails, NoOrder, OrderQueueItem },
   data() {
     return {
       tabs: null,
       selectedOrder: null,
+      newOrders: [],
+      inProgressOrders: [],
+      finishedOrders: [],
+      allOrders: [],
     };
   },
   mounted() {
@@ -149,8 +104,25 @@ export default {
   methods: {
     async getOrders() {
       const orders = await this.$axios.$get("http://localhost:3004/orders");
-      console.log(orders)
+      console.log(orders);
+      this.allOrders = orders;
+      const newOrders = orders.filter((order) => {
+        return order.status === "NEW";
+      });
+      this.newOrders = newOrders;
+      const inProgressOrders = orders.filter((order) => {
+        return order.status === "IN PROGRESS";
+      });
+      this.inProgressOrders = inProgressOrders;
+      const finishedOrders = orders.filter((order) => {
+        return order.status === "FINISHED";
+      });
+      this.finishedOrders = finishedOrders;
       // this.selectedOrder = orders.orders[0];
+    },
+    onNewOrderClick(order) {
+      // console.log(order);
+      this.selectedOrder = order;
     },
   },
 };
@@ -169,9 +141,13 @@ export default {
 .tab-items {
   flex-grow: 1;
   background-color: transparent;
+  height: 100%;
+  overflow: hidden;
 }
 .tab-item {
   background-color: transparent;
+  height: 100%;
+  overflow: hidden;
 }
 .order-list-wrapper {
   flex-grow: 1;
@@ -183,5 +159,10 @@ export default {
 }
 .search-input {
   width: 250px;
+}
+
+.v-card {
+  height: 100%;
+  overflow: hidden;
 }
 </style>

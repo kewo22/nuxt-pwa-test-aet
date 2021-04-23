@@ -7,13 +7,15 @@
       text-transform: none;
       height: 75px;
     "
+    @click="onOrderClick()"
   >
     <v-layout>
       <v-flex xs4 sm4 md2>
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              <v-img :aspect-ratio="16 / 9" width="100" :src="item.src"></v-img>
+              <!-- <v-img :aspect-ratio="16 / 9" width="100" :src="item.src"></v-img> -->
+              <img src="~/assets/ubereats.png" width="70%" />
             </v-col>
           </v-row>
         </v-container>
@@ -22,7 +24,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="left" justify="center" style="color: #509ad8">
-              {{ item.time }}
+              {{ item.pos_fulfilment_time }}
             </v-col>
           </v-row>
         </v-container>
@@ -31,7 +33,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              {{ item.orderId }}
+              {{ item.order_id }}
             </v-col>
           </v-row>
         </v-container>
@@ -40,7 +42,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              {{ item.count }}
+              {{ item.order_lines.length }}
             </v-col>
           </v-row>
         </v-container>
@@ -51,6 +53,14 @@
 
 <script>
 export default {
-  props: ["selectNewRecord", "item", "index", "selectedNewIndex"],
+  props: ["item"],
+  mounted() {
+    console.log(this.item);
+  },
+  methods: {
+    onOrderClick() {
+      this.$emit("orcerClick", this.item);
+    },
+  },
 };
 </script>
