@@ -18,7 +18,6 @@
           class="tab-header"
           v-model="tabs"
         >
-          <!-- <v-tab v-for="n in 3" :key="n"> Item {{ n }} </v-tab> -->
           <v-tab> New </v-tab>
           <v-tab> In Progress </v-tab>
           <v-tab> Finished </v-tab>
@@ -150,7 +149,8 @@ export default {
   methods: {
     async getOrders() {
       const orders = await this.$axios.$get("http://localhost:3004/orders");
-      this.selectedOrder = orders.orders[0];
+      console.log(orders)
+      // this.selectedOrder = orders.orders[0];
     },
   },
 };
