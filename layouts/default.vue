@@ -3,7 +3,7 @@
     <Nuxt />
   </v-app> -->
 
-  <v-app>
+  <v-app dark>
     <v-navigation-drawer v-model="drawer" app absolute expand-on-hover>
       <v-list-item class="px-2">
         <v-list-item-avatar>
