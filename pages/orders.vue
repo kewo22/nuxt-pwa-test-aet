@@ -18,11 +18,9 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab > New </v-tab>
-          <v-tab >
-            In Progress
-          </v-tab>
-          <v-tab > Finished </v-tab>
+          <v-tab> New </v-tab>
+          <v-tab> In Progress </v-tab>
+          <v-tab> Finished </v-tab>
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
@@ -107,15 +105,15 @@ export default {
       const orders = await this.$axios.$get("http://localhost:3004/orders");
       this.allOrders = orders;
       const newOrders = orders.filter((order) => {
-        return order.status === "NEW";
+        return order.status === "new";
       });
       this.newOrders = newOrders;
       const inProgressOrders = orders.filter((order) => {
-        return order.status === "IN PROGRESS";
+        return order.status === "in progress";
       });
       this.inProgressOrders = inProgressOrders;
       const finishedOrders = orders.filter((order) => {
-        return order.status === "FINISHED";
+        return order.status === "finished";
       });
       this.finishedOrders = finishedOrders;
       this.selectedOrder = this.newOrders[0];
