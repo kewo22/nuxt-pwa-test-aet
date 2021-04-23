@@ -84,7 +84,7 @@
           <v-list-item class="mt-4">
             <div class="w-100">
               <div>
-                  <p class="font-weight-light my-2 subTitle">CHANNElS</p>
+                  <p class="font-weight-light my-2 subTitle">CHANNELS</p>
                 <div class="d-flex justify-space-between align-baseline mb-1">
                   <span class="float-left channelName">All Channels</span>
                   <v-checkbox
