@@ -2,7 +2,8 @@
   <v-container class="order-detail-root">
     <v-row class="pb-5">
       <v-col md="7">
-        <v-img max-width="200" max-height="65" :src="order.src" />
+        <!-- <v-img max-width="200" max-height="65" :src="order.src" /> -->
+        <img src="~/assets/ubereats.png" width="20%" />
       </v-col>
       <v-col md="4">
         <v-btn elevation="2" rounded dark>Print Order</v-btn>

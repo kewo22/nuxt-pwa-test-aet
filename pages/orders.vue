@@ -74,9 +74,6 @@
     <div class="section-2 ml-2 pa-2">
       <OrderDetails v-if="selectedOrder" :order="selectedOrder" />
       <NoOrder v-else />
-      <!-- <v-icon style="color: black">mdi-format-list-bulleted</v-icon>
-      <p class="pa-0 ma-0">NO ORDERS SELECTED</p>
-      <small>Select an order from the queue on the left</small> -->
     </div>
   </div>
 </template>
@@ -104,7 +101,6 @@ export default {
   methods: {
     async getOrders() {
       const orders = await this.$axios.$get("http://localhost:3004/orders");
-      console.log(orders);
       this.allOrders = orders;
       const newOrders = orders.filter((order) => {
         return order.status === "NEW";
@@ -118,7 +114,7 @@ export default {
         return order.status === "FINISHED";
       });
       this.finishedOrders = finishedOrders;
-      // this.selectedOrder = orders.orders[0];
+      this.selectedOrder = orders.orders[0];
     },
     onNewOrderClick(order) {
       // console.log(order);
