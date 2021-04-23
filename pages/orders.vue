@@ -18,9 +18,11 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab> New </v-tab>
-          <v-tab> In Progress </v-tab>
-          <v-tab> Finished </v-tab>
+          <v-tab > New </v-tab>
+          <v-tab >
+            In Progress
+          </v-tab>
+          <v-tab > Finished </v-tab>
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
@@ -116,12 +118,21 @@ export default {
         return order.status === "FINISHED";
       });
       this.finishedOrders = finishedOrders;
-      this.selectedOrder = orders.orders[0];
+      this.selectedOrder = this.newOrders[0];
     },
     onNewOrderClick(order) {
       // console.log(order);
       this.selectedOrder = order;
     },
+    //     onNewTabClick(){
+
+    //     }
+    // onInProgressTabClick(){
+
+    // }
+    // onFinishedTabClick(){
+
+    // }
   },
 };
 </script>
