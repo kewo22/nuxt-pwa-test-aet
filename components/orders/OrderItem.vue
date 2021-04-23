@@ -1,17 +1,17 @@
 <template>
   <v-container>
     <v-row class="item-header">
-      <v-col md="1" class="pa-0 black--text"> {{ item.item_qty }}x </v-col>
+      <v-col md="1" class="pa-0 black--text"> {{ item.quantity }}x </v-col>
       <v-col md="8" class="pa-0 black--text">
-        {{ item.item_name }}
+        {{ item.product.name }}
       </v-col>
       <v-col md="3" class="pa-0 text-right black--text">
         {{ itemAmount }}
       </v-col>
     </v-row>
-    <v-row class="py-1">
+    <v-row v-if="item.note" class="py-1">
       <v-col offset-md="1">
-        <v-row v-for="(modifier, idx) of item.item_modifiers" :key="idx">
+        <v-row v-for="(modifier, idx) of item.note.split(',')" :key="idx">
           <span class="grey--text">
             {{ modifier }}
           </span>
@@ -32,7 +32,7 @@ export default {
   props: ["item"],
   computed: {
     itemAmount() {
-      return this.$currency(this.$props.item.amount);
+      return this.$currency(this.$props.item.total);
     },
   },
 };

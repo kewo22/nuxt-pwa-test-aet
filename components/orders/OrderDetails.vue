@@ -14,24 +14,21 @@
         </v-btn>
       </v-col>
       <p class="order-status in-progress">
-        {{ order.order_status || order.status }}
+        {{ order.status }}
       </p>
     </v-row>
     <v-row class="pb-5">
-      <OrderStatLabel
-        label="Order Number:"
-        :value="order.order_id || order.orderId"
-      />
-      <OrderStatLabel label="Type:" :value="order.order_type || order.type" />
-      <OrderStatLabel label="Items:" :value="order_item_count || order.count" />
+      <OrderStatLabel label="Order Number:" :value="order.order_id" />
+      <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
+      <OrderStatLabel label="Items:" :value="order_item_count" />
       <OrderStatLabel
         label="Predicted prep time:"
-        :value="order.predicted_prep_time || order.time"
+        value="20 Mins"
       />
     </v-row>
     <v-row>
       <v-col>
-        <OrderItemList :items="order.ordered_items" :amount="order_amount" />
+        <OrderItemList :items="order.order_lines" :amount="order_amount" />
       </v-col>
     </v-row>
   </v-container>
@@ -45,11 +42,11 @@ export default {
   props: ["order"],
   computed: {
     order_amount() {
-      return this.$currency(this.$props.order.total_amount);
+      return this.$currency(this.$props.order.total);
     },
     order_item_count() {
       const { order } = this.$props;
-      return order.ordered_items ? order.ordered_items.length : null;
+      return order.order_lines ? order.order_lines.length : null;
     },
   },
 };
