@@ -24,7 +24,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="left" justify="center" style="color: #509ad8">
-              <!-- NEED TO CALCULATE -->
+              <!-- TODO: NEED TO CALCULATE -->
               20Min
               <!-- {{ item.pos_fulfilment_time }} -->
             </v-col>

@@ -44,11 +44,15 @@
       <OrderStatLabel label="Order Number:" :value="order.order_id" />
       <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
       <OrderStatLabel label="Items:" :value="order_item_count" />
-      <OrderStatLabel label="Predicted prep time:" value="20 Mins" />
+      <!-- TODO: NEED TO CALCULATE -->
+      <OrderStatLabel
+        v-if="isInProgressStatus"
+        label="Predicted prep time:"
+        value="20 Mins"
+      />
     </div>
 
     <OrderItemList :items="order.order_lines" :amount="order_amount" />
-    
   </v-container>
 </template>
 
@@ -65,6 +69,9 @@ export default {
     order_item_count() {
       const { order } = this.$props;
       return order.order_lines ? order.order_lines.length : null;
+    },
+    isInProgressStatus() {
+      return this.$props.order.status === "in progress";
     },
   },
 };
