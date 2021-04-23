@@ -30,13 +30,13 @@
 .stat-label {
   line-height: 20px;
   color: #9a9ca0;
-  font-size: 18px;
+  /* font-size: 18px; */
 }
 
 .stat-value {
   line-height: 10px;
   color: #2a343d;
-  font-size: 25px;
+  /* font-size: 25px; */
   font-weight: bold;
 }
 </style>
