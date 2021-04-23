@@ -451,10 +451,16 @@
                     "sku": "321312",
                     "quantity": 1,
                     "tax": 0.00,
+                    "total": 5,
                     "item_id": 14,
                     "item_name": "Zero Coke 300ml",
                     "item_qty": 1,
-                    "amount": 1.00
+                    "amount": 1.00,
+                    "product": {
+                        "product_id": 15,
+                        "name": "Triple Cook Kebab",
+                        "category": "category type 5"
+                    }
                 }
             ],
             "fulfilment_source": "Just Eat"
