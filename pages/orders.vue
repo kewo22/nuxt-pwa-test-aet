@@ -125,17 +125,17 @@ export default {
       this.allOrders = orders;
       this.tempOrders = orders;
       const newOrders = orders.filter((order) => {
-        return order.status === "NEW";
+        return order.status === "new";
       });
       this.newOrders = newOrders;
       this.tempNewOrders = newOrders;
       const inProgressOrders = orders.filter((order) => {
-        return order.status === "IN PROGRESS";
+        return order.status === "in progress";
       });
       this.inProgressOrders = inProgressOrders;
       this.tempInProgressOrders = inProgressOrders;
       const finishedOrders = orders.filter((order) => {
-        return order.status === "FINISHED";
+        return order.status === "finished";
       });
       this.finishedOrders = finishedOrders;
       this.tempFinishedOrders = finishedOrders;
