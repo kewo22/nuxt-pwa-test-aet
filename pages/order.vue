@@ -1,19 +1,7 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-0">
     <v-layout>
-      <v-flex xs1 sm1 md1 style="background-color: #282e35">
-        <v-row align="center" justify="center" style="height: 100vh">
-          <v-col
-            cols="12"
-            lg="6"
-            md="6"
-            class="fill-height d-flex flex-column justify-center align-center"
-          >
-            left
-          </v-col>
-        </v-row>
-      </v-flex>
-      <v-flex xs11 sm11 md11>
+      <v-flex>
         <v-layout>
           <v-flex xs6 sm6 md6 style="background-color: #23282c">
             <v-layout>
@@ -87,7 +75,7 @@
                           style="
                             width: 100%;
                             background-color: #23282c;
-                            height: 600px;
+                            max-height: 80vh;
                             overflow: auto;
                           "
                         >
@@ -101,75 +89,14 @@
                                 @click="selectedOrder = item"
                                 style="width: 100%"
                               >
-                                <v-btn
-                                  style="
-                                    width: 100%;
-                                    background-color: #282e35;
-                                    color: #babdbf;
-                                    text-transform: none;
-                                    height: 75px;
-                                  "
+                                <OrderQueueItem
                                   @click="selectNewRecord(index)"
                                   :class="{
                                     newBtnSelected: index == selectedNewIndex,
                                   }"
-                                >
-                                  <v-layout>
-                                    <v-flex xs4 sm4 md2>
-                                      <v-container fill-height fluid>
-                                        <v-row align="center" justify="center">
-                                          <v-col
-                                            align="center"
-                                            justify="center"
-                                          >
-                                            <v-img
-                                              :aspect-ratio="16 / 9"
-                                              width="100"
-                                              :src="item.src"
-                                            ></v-img>
-                                          </v-col>
-                                        </v-row>
-                                      </v-container>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md6>
-                                      <v-container fill-height fluid>
-                                        <v-row align="center" justify="center">
-                                          <v-col
-                                            align="left"
-                                            justify="center"
-                                            style="color: #509ad8"
-                                          >
-                                            {{ item.time }}
-                                          </v-col>
-                                        </v-row>
-                                      </v-container>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md2>
-                                      <v-container fill-height fluid>
-                                        <v-row align="center" justify="center">
-                                          <v-col
-                                            align="center"
-                                            justify="center"
-                                          >
-                                            {{ item.orderId }}
-                                          </v-col>
-                                        </v-row>
-                                      </v-container>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md2>
-                                      <v-container fill-height fluid>
-                                        <v-row align="center" justify="center">
-                                          <v-col
-                                            align="center"
-                                            justify="center"
-                                          >
-                                            {{ item.count }}
-                                          </v-col>
-                                        </v-row>
-                                      </v-container>
-                                    </v-flex>
-                                  </v-layout>
-                                </v-btn>
+                                  :item="item"
+                                  :selectedNewIndex="selectedNewIndex"
+                                />
                               </v-list-item-action>
                             </v-list-item>
                           </template>
@@ -193,9 +120,10 @@
 
 <script>
 import OrderDetails from "~/components/orders/OrderDetails.vue";
+import OrderQueueItem from "~/components/orders/OrderQueueItem.vue";
 import NoOrder from "~/components/orders/NoOrder.vue";
 export default {
-  components: { OrderDetails, NoOrder },
+  components: { OrderDetails, OrderQueueItem, NoOrder },
   data: () => ({
     benched: 0,
     selectedOrder: null,
@@ -228,6 +156,31 @@ export default {
             amount: 2,
             currency: "$",
             item_modifiers: ["Cheese"],
+          },
+        ],
+      },
+      {
+        src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
+        orderId: 114782,
+        count: "1 item",
+        time: "43 Mins",
+        order_id: 114782,
+        dp_id: 1,
+        ordered_time: "2020-10-31T01:48:52Z",
+        order_delivery_time: "2020-10-31T01:48:52Z",
+        order_type: "Delivery",
+        order_status: "NEW",
+        total_amount: 10.98,
+        currency: "$",
+        predicted_prep_time: "43 Mins",
+        ordered_items: [
+          {
+            item_id: 12,
+            item_name: "Triple Decker House Burger",
+            item_qty: 1,
+            amount: 10.98,
+            currency: "$",
+            item_modifiers: ["Ketchup", "lettuce", "Mustard"],
           },
         ],
       },

@@ -1,13 +1,11 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col md="1" class="pa-0 black--text text--darken-1">
-        {{ item.item_qty }}x
-      </v-col>
-      <v-col md="8" class="pa-0 black--text text--darken-1">
+    <v-row class="item-header">
+      <v-col md="1" class="pa-0 black--text"> {{ item.item_qty }}x </v-col>
+      <v-col md="8" class="pa-0 black--text">
         {{ item.item_name }}
       </v-col>
-      <v-col md="3" class="pa-0 text-right black--text text--darken-1">
+      <v-col md="3" class="pa-0 text-right black--text">
         {{ itemAmount }}
       </v-col>
     </v-row>
@@ -22,6 +20,12 @@
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+.item-header :not(.text-right) {
+  font-weight: bold;
+}
+</style>
 
 <script>
 export default {
