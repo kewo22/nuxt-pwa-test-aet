@@ -33,7 +33,9 @@
                             </v-flex>
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
-                                <v-col align="right"> </v-col>
+                                <v-col align="right">
+                                  <v-img src="/tick.png" width="27px"></v-img>
+                                </v-col>
                               </v-row>
                             </v-flex>
                           </v-layout>
