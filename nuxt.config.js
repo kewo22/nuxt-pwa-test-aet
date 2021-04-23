@@ -48,7 +48,23 @@ export default {
   modules: [
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
+
+  auth: {
+    strategies: {
+      customStrategy: {
+        scheme: '~/schemes/customScheme',
+        endpoints: {
+          user: { url: '/api/users/{userId}', method: 'get', propertyName: 'auth_token' }
+        },
+      }
+    }
+  },
+
+  router: {
+    middleware: ['auth']
+  },
 
   axios: {
     // proxy: true

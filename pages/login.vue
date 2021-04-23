@@ -6,41 +6,39 @@
     >
       <LogoLine10 class="logo" />
       <v-form ref="loginForm" class="login-form-container">
-        <v-container>
-          <v-row>
-            <v-text-field
-              v-model="username"
-              :rules="[rules.usernameRequired, rules.emailValid]"
-              label="username"
-              required
-              class="login-input"
-            ></v-text-field>
-          </v-row>
-          <v-row>
-            <v-text-field
-              v-model="password"
-              :type="'password'"
-              name="Password"
-              label="password"
-              :rules="[rules.passwordRequired]"
-              class="login-input"
-            ></v-text-field>
-          </v-row>
-          <v-btn
-            class="login-button"
-            @click="login"
-          >
-            Login
-          </v-btn>
-          <v-alert
-            color="red"
-            dark
-            class="login-error"
-            v-if="loginFail"
-          >
-            If you can not login, Please contact ‘support@lineten.com.’
-          </v-alert>
-        </v-container>
+        <v-row>
+          <v-text-field
+            v-model="username"
+            :rules="[rules.usernameRequired, rules.emailValid]"
+            label="username"
+            required
+            class="login-input"
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="password"
+            :type="'password'"
+            name="Password"
+            label="password"
+            :rules="[rules.passwordRequired]"
+            class="login-input"
+          ></v-text-field>
+        </v-row>
+        <v-btn
+          class="login-button"
+          @click="login"
+        >
+          Login
+        </v-btn>
+        <v-alert
+          color="red"
+          dark
+          class="login-error"
+          v-if="loginFail"
+        >
+          If you can not login, Please contact ‘support@lineten.com.’
+        </v-alert>
       </v-form>
     </v-card>
   </v-container>
@@ -81,6 +79,14 @@
             headers: authData.headers
           }).then((response) => {
             this.loginFail = false;
+
+            const customUser = {
+              fullName: 'test user',
+              roles: ['user']
+            }
+            this.$auth.setUser(customUser);
+            this.$auth.setUserToken(`${response.token_type} ${response.access_token}`, response.refresh_token);
+
             localStorage.setItem("user_token", `${response.token_type} ${response.access_token}`);
             this.$router.push('/');
           })
