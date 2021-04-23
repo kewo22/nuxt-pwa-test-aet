@@ -22,7 +22,7 @@ $ json-server --watch db.json --port 3004
 * Example
   * http://localhost:3004/location/{id} - location API
   * http://localhost:3004/marketplaces/{id} - marketplace API
-  * http://localhost:3004/orders/{id} - orders API
+  * http://localhost:3004/orders - orders API
   * id = 1 0r 2
 
 ```

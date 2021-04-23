@@ -39,24 +39,28 @@
                 <v-btn
                   class="mb-3 rounded-pill orderTypeBtn"
                   x-large
-                  outlined
+                  :outlined="BothOL"
                   color="primary"
+                  @click="filterOrderType('Both')"
                 >
                   Both
                 </v-btn>
                 <v-btn
                   class="mb-3 rounded-pill orderTypeBtn"
                   x-large
-                  outlined
+                  :outlined="pickupOL"
                   color="primary"
+                  @click="filterOrderType('Pickup')"
                 >
                   Pickup
                 </v-btn>
                 <v-btn
-                  class=" rounded-pill orderTypeBtn"
+                  class="mb-4 rounded-pill orderTypeBtn"
                   x-large
-                  outlined
+                  :outlined="deliveryOL"
                   color="primary"
+                  id="delivery"
+                  @click="filterOrderType('Delivery')"
                 >
                   Delivery
                 </v-btn>
@@ -70,30 +74,36 @@
                   class="mt-6"
                   :items="overflow_items"
                   label="Date-latest"
+                  v-model="dateLatest"
+                  @change="filterDateLatest(dateLatest)"
                   solo
                 ></v-select>
               <v-divider></v-divider>
             </div>
           </v-list-item>
-          <v-list-item>
+          <v-list-item class="mt-4">
             <div class="w-100">
               <div>
-                  <p class="font-weight-light ma-2 subTitle">CHANNElS</p>
+                  <p class="font-weight-light my-2 subTitle">CHANNElS</p>
                 <div class="d-flex justify-space-between align-baseline mb-1">
                   <span class="float-left channelName">All Channels</span>
                   <v-checkbox
                     v-model="allChannels"
+                    value="All Channels"
                     color="primary"
                     class="float-left"
+                    @click="filterChannels(allChannels)"
                     hide-details
                   ></v-checkbox>
                 </div>
                 <div v-for="item in channels" :key="item.id" class="d-flex justify-space-between align-baseline mb-1">
                   <span class="float-left channelName">{{item.name}}</span>
                   <v-checkbox
-                    :v-model="item.name"
+                    v-model="selected"
+                    :value="item.name"
                     color="primary"
                     class="float-left"
+                    @click="filterChannels(selected)"
                     hide-details
                   ></v-checkbox>
                 </div>
@@ -101,7 +111,7 @@
             </div>
           </v-list-item>
         </v-list>
-        <div id="line10Logo" class="d-flex justify-center align-center">
+        <div id="line10Logo" class="d-flex justify-center align-center mt-4">
           <img src="../assets/LineTen Logo Standard.png" alt="">
         </div>
       </div>
@@ -138,12 +148,17 @@ export default {
         { title: "Users", icon: "mdi-account-group-outline" },
       ],
       channels:[],
-      allChannels:"",
+      allChannels:"All Channels",
+      selected: [],
       overflow_items:["Item 1","Item 2","Item 3","Item 4","Item 5"],
+      dateLatest:"",
       clipped: true,
       expand: false,
       isFilter: false,
-      mini: true
+      mini: true,
+      BothOL:false,
+      pickupOL: true,
+      deliveryOL: true
     };
   },
   mounted() {
@@ -173,6 +188,33 @@ export default {
         }
         
       }
+    },
+    filterOrderType: function(type) {
+      if (type == "Both") {
+        this.BothOL = false;
+        this.pickupOL= true;
+        this.deliveryOL= true;
+      } else if(type == "Pickup"){
+        this.BothOL = true;
+        this.pickupOL= false;
+        this.deliveryOL= true;
+      }else{
+        this.BothOL = true;
+        this.pickupOL= true;
+        this.deliveryOL= false;
+      }
+    },
+    filterChannels: function(channel){
+      let checkType = channel; 
+      if(typeof checkType === "object"){
+        this.allChannels = ""
+      }
+      if(checkType === "All Channels"){
+        this.selected = [];
+      }
+    },
+    filterDateLatest: function(date){
+      window.alert(date);
     }
   },
 };
@@ -195,19 +237,10 @@ h2 {
 #line10Logo {
   height: 200px;
   background-color: white;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
 }
 
 #line10Logo img{
   height: 30%;
-}
-
-.orderTypeBtn:hover {
-  background-color: #42A5F5 !important;
-  border:#42A5F5 !important;
-  color: white !important;
 }
 
 .w-100 {
