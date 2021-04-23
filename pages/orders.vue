@@ -48,6 +48,7 @@
                     v-for="newOrder in inProgressOrders"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
+                    @orcerClick="onNewOrderClick(newOrder)"
                   />
                 </div>
               </v-card-text>
@@ -62,6 +63,7 @@
                     v-for="newOrder in finishedOrders"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
+                    @orcerClick="onNewOrderClick(newOrder)"
                   />
                 </div>
               </v-card-text>
