@@ -134,24 +134,10 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Home", icon: "mdi-home-city" },
         { title: "Filter", icon: "mdi-filter" },
         { title: "Users", icon: "mdi-account-group-outline" },
       ],
-      channels:[
-        {
-          id: 1,
-          name: "Uber Eats",
-      },
-      {
-          id: 2,
-          name: "Deliveroo"
-      },
-      {
-          id: 3,
-          name: "Just Eat"
-      }
-      ],
+      channels:[],
       allChannels:"",
       overflow_items:["Item 1","Item 2","Item 3","Item 4","Item 5"],
       clipped: true,
@@ -161,23 +147,23 @@ export default {
     };
   },
   mounted() {
-    // this.getMarketplacesList();
+    this.getMarketplacesList();
   },
   methods: {
-    // getMarketplacesList(){
-    //   this.$axios
-    //     .get("marketplaces/0")
-    //     .then(
-    //       response => {
-    //         if (response.status == 200) {
-    //           this.channels = response.data.marketplaces;
-    //         }
-    //       },
-    //       error => {
-    //         console.log("error", error);
-    //       }
-    //     );
-    // },
+    getMarketplacesList(){
+      this.$axios
+        .get("marketplaces/0")
+        .then(
+          response => {
+            if (response.status == 200) {
+              this.channels = response.data.marketplaces;
+            }
+          },
+          error => {
+            console.log("error", error);
+          }
+        );
+    },
     showTab:function(tab){
       if (tab === "Filter") {
         if (this.isFilter === false) {
