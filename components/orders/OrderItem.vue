@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <v-row class="item-header">
-      <v-col md="1" class="pa-0 black--text"> {{ item.item_qty }}x </v-col>
+      <v-col md="1" class="pa-0 black--text"> {{ item.quantity }}x </v-col>
       <v-col md="8" class="pa-0 black--text">
-        {{ item.item_name }}
+        {{ item.product.name }}
       </v-col>
       <v-col md="3" class="pa-0 text-right black--text">
         {{ itemAmount }}
@@ -32,7 +32,7 @@ export default {
   props: ["item"],
   computed: {
     itemAmount() {
-      return this.$currency(this.$props.item.amount);
+      return this.$currency(this.$props.item.total);
     },
   },
 };
