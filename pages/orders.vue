@@ -9,6 +9,7 @@
           dense
           height="30"
           class="search-input ml-auto"
+          @keyup="onSearchKeyUp"
         ></v-text-field>
       </div>
       <div class="d-flex flex-column order-list-wrapper">
@@ -18,17 +19,15 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab > New </v-tab>
-          <v-tab >
-            In Progress
-          </v-tab>
-          <v-tab > Finished </v-tab>
+          <v-tab @click="onNewTabClick(0)"> New </v-tab>
+          <v-tab @click="onInProgressTabClick(1)"> In Progress </v-tab>
+          <v-tab @click="onFinishedTabClick(2)"> Finished </v-tab>
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
           <v-tab-item class="tab-item">
             <v-card class="v-card" flat>
-              <v-card-text class="">
+              <v-card-text class="v-card-text">
                 <div v-if="newOrders.length">
                   <OrderQueueItem
                     class="mb-2"
@@ -38,12 +37,16 @@
                     @orcerClick="onNewOrderClick(newOrder)"
                   />
                 </div>
+                <div class="no-search-result" v-else>
+                  No orders found for ID -
+                  <span class="font-weight-black">&nbsp;{{ searchVal }}</span>
+                </div>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item class="tab-item">
             <v-card class="v-card" flat>
-              <v-card-text>
+              <v-card-text class="v-card-text">
                 <div v-if="inProgressOrders.length">
                   <OrderQueueItem
                     class="mb-2"
@@ -53,12 +56,16 @@
                     @orcerClick="onNewOrderClick(newOrder)"
                   />
                 </div>
+                <div class="no-search-result" v-else>
+                  No orders found for ID -
+                  <span class="font-weight-black">&nbsp;{{ searchVal }}</span>
+                </div>
               </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item class="tab-item">
             <v-card class="v-card" flat>
-              <v-card-text>
+              <v-card-text class="v-card-text">
                 <div v-if="finishedOrders.length">
                   <OrderQueueItem
                     class="mb-2"
@@ -67,6 +74,10 @@
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
                   />
+                </div>
+                <div class="no-search-result" v-else>
+                  No orders found for ID -
+                  <span class="font-weight-black">&nbsp;{{ searchVal }}</span>
                 </div>
               </v-card-text>
             </v-card>
@@ -96,7 +107,13 @@ export default {
       newOrders: [],
       inProgressOrders: [],
       finishedOrders: [],
+      tempNewOrders: [],
+      tempInProgressOrders: [],
+      tempFinishedOrders: [],
       allOrders: [],
+      tempOrders: [],
+      currentTab: 0,
+      searchVal: "",
     };
   },
   mounted() {
@@ -106,33 +123,88 @@ export default {
     async getOrders() {
       const orders = await this.$axios.$get("http://localhost:3004/orders");
       this.allOrders = orders;
+      this.tempOrders = orders;
       const newOrders = orders.filter((order) => {
         return order.status === "NEW";
       });
       this.newOrders = newOrders;
+      this.tempNewOrders = newOrders;
       const inProgressOrders = orders.filter((order) => {
         return order.status === "IN PROGRESS";
       });
       this.inProgressOrders = inProgressOrders;
+      this.tempInProgressOrders = inProgressOrders;
       const finishedOrders = orders.filter((order) => {
         return order.status === "FINISHED";
       });
       this.finishedOrders = finishedOrders;
+      this.tempFinishedOrders = finishedOrders;
       this.selectedOrder = this.newOrders[0];
     },
     onNewOrderClick(order) {
-      // console.log(order);
       this.selectedOrder = order;
     },
-    //     onNewTabClick(){
-
-    //     }
-    // onInProgressTabClick(){
-
-    // }
-    // onFinishedTabClick(){
-
-    // }
+    onNewTabClick(e) {
+      this.currentTab = 0;
+      this.selectedOrder = this.newOrders[0];
+    },
+    onInProgressTabClick(e) {
+      this.currentTab = 1;
+      this.selectedOrder = this.inProgressOrders[0];
+    },
+    onFinishedTabClick(e) {
+      this.currentTab = 2;
+      this.selectedOrder = this.finishedOrders[0];
+    },
+    onSearchKeyUp(e) {
+      this.searchVal = e.target.value;
+      if (this.currentTab === 0) {
+        if (this.searchVal) {
+          const filteredNewOrders = this.tempNewOrders.filter((order) => {
+            // return order.order_id === searchVal;
+            return order.order_id.includes(this.searchVal);
+          });
+          this.newOrders = filteredNewOrders;
+          if (filteredNewOrders.length === 1)
+            this.selectedOrder = filteredNewOrders[0];
+        } else {
+          this.newOrders = this.tempNewOrders;
+          this.selectedOrder = this.newOrders[0];
+        }
+      }
+      if (this.currentTab === 1) {
+        if (this.searchVal) {
+          const filteredInprogressOrders = this.tempInProgressOrders.filter(
+            (order) => {
+              // return order.order_id === searchVal;
+              return order.order_id.includes(this.searchVal);
+            }
+          );
+          this.inProgressOrders = filteredInprogressOrders;
+          if (filteredInprogressOrders.length === 1)
+            this.selectedOrder = filteredInprogressOrders[0];
+        } else {
+          this.inProgressOrders = this.tempInProgressOrders;
+          this.selectedOrder = this.inProgressOrders[0];
+        }
+      }
+      if (this.currentTab === 2) {
+        if (this.searchVal) {
+          const filteredFinishedOrders = this.tempFinishedOrders.filter(
+            (order) => {
+              // return order.order_id === searchVal;
+              return order.order_id.includes(this.searchVal);
+            }
+          );
+          this.finishedOrders = filteredFinishedOrders;
+          if (filteredFinishedOrders.length === 1)
+            this.selectedOrder = filteredFinishedOrders[0];
+        } else {
+          this.finishedOrders = this.tempFinishedOrders;
+          this.selectedOrder = this.finishedOrders[0];
+        }
+      }
+    },
   },
 };
 </script>
@@ -173,5 +245,16 @@ export default {
 .v-card {
   height: 100%;
   overflow: hidden;
+}
+
+.v-card-text {
+  height: 100%;
+}
+
+.no-search-result {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

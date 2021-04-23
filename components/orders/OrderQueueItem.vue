@@ -57,7 +57,6 @@
 export default {
   props: ["item"],
   mounted() {
-    console.log(this.item);
   },
   methods: {
     onOrderClick() {
