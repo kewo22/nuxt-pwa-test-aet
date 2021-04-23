@@ -1,5 +1,6 @@
 {
-    "location": [{
+    "location": [
+        {
             "id": 11,
             "name": "London"
         },
@@ -8,7 +9,8 @@
             "name": "Manchester"
         }
     ],
-    "marketplace": [{
+    "marketplace": [
+        {
             "id": 1,
             "name": "Uber Eats",
             "full_logo": "https://mms.businesswire.com/media/20200316005228/en/779858/22/Uber_Eats_Logo.jpg",
@@ -24,7 +26,8 @@
     "orders": {
         "current_page": 1,
         "total_pages": 10,
-        "orders": [{
+        "orders": [
+            {
                 "order_id": 114782,
                 "dp_id": 1,
                 "ordered_time": "2020-10-31T01:48:52Z",
@@ -34,18 +37,20 @@
                 "total_amount": 11.98,
                 "currency": "$",
                 "predicted_prep_time": "43mins",
-                "ordered_items": [{
-                    "item_id": 12,
-                    "item_name": "Triple Decker House Burger",
-                    "item_qty": 1,
-                    "amount": 10.98,
-                    "currency": "$",
-                    "item_modifiers": [
-                        "Ketchup",
-                        "lettuce",
-                        "Mustard"
-                    ]
-                }]
+                "ordered_items": [
+                    {
+                        "item_id": 12,
+                        "item_name": "Triple Decker House Burger",
+                        "item_qty": 1,
+                        "amount": 10.98,
+                        "currency": "$",
+                        "item_modifiers": [
+                            "Ketchup",
+                            "lettuce",
+                            "Mustard"
+                        ]
+                    }
+                ]
             },
             {
                 "order_id": 114783,
@@ -57,7 +62,8 @@
                 "total_amount": 12.98,
                 "currency": "$",
                 "predicted_prep_time": "43mins",
-                "ordered_items": [{
+                "ordered_items": [
+                    {
                         "item_id": 12,
                         "item_name": "Triple Decker House Burger",
                         "item_qty": 1,
@@ -89,7 +95,8 @@
                 "total_amount": 16.70,
                 "currency": "$",
                 "predicted_prep_time": "43mins",
-                "ordered_items": [{
+                "ordered_items": [
+                    {
                         "item_id": 12,
                         "item_name": "Triple Decker House Burger",
                         "item_qty": 1,

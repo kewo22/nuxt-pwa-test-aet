@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex fill-height">
+  <div class="d-flex fill-height orders-wrapper">
     <div class="d-flex flex-column section-1 mr-2">
       <div>
         <v-text-field
@@ -18,7 +18,10 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab v-for="n in 3" :key="n"> Item {{ n }} </v-tab>
+          <!-- <v-tab v-for="n in 3" :key="n"> Item {{ n }} </v-tab> -->
+          <v-tab> New </v-tab>
+          <v-tab> In Progress </v-tab>
+          <v-tab> Finished </v-tab>
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
@@ -120,27 +123,45 @@
     </div>
 
     <div class="section-2 ml-2">
-      <v-icon style="color:black">mdi-format-list-bulleted</v-icon>
+      <OrderDetails v-if="selectedOrder" :order="selectedOrder" />
+      <NoOrder v-else />
+      <!-- <v-icon style="color: black">mdi-format-list-bulleted</v-icon>
       <p class="pa-0 ma-0">NO ORDERS SELECTED</p>
-      <small>Select an order from the queue on the left</small>
+      <small>Select an order from the queue on the left</small> -->
     </div>
   </div>
 </template>
 
 <script>
+import OrderDetails from "~/components/orders/OrderDetails.vue";
+import NoOrder from "~/components/orders/NoOrder.vue";
+
 export default {
+  components: { OrderDetails, NoOrder },
   data() {
     return {
       tabs: null,
+      selectedOrder: null,
     };
+  },
+  mounted() {
+    this.getOrders();
+  },
+  methods: {
+    async getOrders() {
+      const orders = await this.$axios.$get("http://localhost:3004/orders");
+      this.selectedOrder = orders.orders[0];
+    },
   },
 };
 </script>
 
 <style scoped>
+.orders-wrapper {
+  width: 100%;
+}
 .section-1 {
   flex: 1 0 50%;
-  /* min-width: 600px; */
 }
 .tab-header {
   flex: 0 0 8%;
@@ -157,7 +178,6 @@ export default {
 }
 .section-2 {
   flex: 1 0 50%;
-  /* min-width: 600px; */
   background: aliceblue;
   color: black;
 }
