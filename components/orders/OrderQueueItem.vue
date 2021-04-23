@@ -21,7 +21,7 @@
         </v-container>
       </v-flex>
       <v-flex xs4 sm4 md6>
-        <v-container fill-height fluid>
+        <v-container v-if="isOrderFinished" fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="left" justify="center" style="color: #509ad8">
               <!-- TODO: NEED TO CALCULATE -->
@@ -58,6 +58,11 @@ export default {
   props: ["item"],
   mounted() {
     console.log(this.item);
+  },
+  computed: {
+    isOrderFinished() {
+      return this.$props.item.status !== "finished";
+    },
   },
   methods: {
     onOrderClick() {
