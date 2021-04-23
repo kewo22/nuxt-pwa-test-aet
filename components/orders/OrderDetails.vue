@@ -28,7 +28,7 @@
           </v-btn>
         </div>
       </div>
-      <div class="order-status in-progress">
+      <div :class="`order-status in-progress ${order.status}`">
         <p>{{ order.status }}</p>
       </div>
     </div>
@@ -88,5 +88,11 @@ export default {
 }
 .in-progress {
   color: #509ad9;
+}
+.new {
+  color: #aa33bf;
+}
+.finished {
+  color: #4aa36f;
 }
 </style>
