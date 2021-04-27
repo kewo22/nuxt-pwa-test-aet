@@ -207,9 +207,6 @@ export default {
               return order.fulfilment_type === type;
             });
           }
-          if (channel === "All Channels") {
-            channelDataArray = orderTypeData
-          }
           if (channel !== "All Channels") {
             channelDataArray = [];
             let arr = channel.split(',');
@@ -224,6 +221,8 @@ export default {
               );
               
             }
+          } else {
+            channelDataArray = orderTypeData;
           }
           this.filterOrderData = channelDataArray;
           console.log("this.filterOrderData",this.filterOrderData)

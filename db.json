@@ -69,8 +69,8 @@
             "order_number": 1,
             "order_ref_reversed": "External order reference reversed",
             "status": "finished",
-            "pos_state_updated_at": "2020-10-31T01:20:52Z",
-            "pos_fulfilment_time": "2020-10-31T01:30:52Z",
+            "pos_state_updated_at": "2020-10-31 01:20:52",
+            "pos_fulfilment_time": "2020-10-31 01:30:52",
             "client": {
                 "code": "224wed",
                 "name": "John Cena"
@@ -113,7 +113,8 @@
                     "category": "category type 1"
                 }
             }],
-            "fulfilment_source": "Uber Eats"
+            "fulfilment_source": "Uber Eats",
+            "prep-time": 10
         },
         {
             "order_id": "114789",
@@ -121,8 +122,8 @@
             "order_number": 2,
             "order_ref_reversed": "External order reference reversed",
             "status": "finished",
-            "pos_state_updated_at": "2020-10-31T01:25:52Z",
-            "pos_fulfilment_time": "2020-10-31T01:40:52Z",
+            "pos_state_updated_at": "2020-10-31 01:25:52",
+            "pos_fulfilment_time": "2020-10-31 01:40:52",
             "client": {
                 "code": "23as4wed",
                 "name": "Big Cass"
@@ -179,7 +180,8 @@
                     }
                 }
             ],
-            "fulfilment_source": "Deliveroo"
+            "fulfilment_source": "Deliveroo",
+            "prep-time": 20
         },
         {
             "order_id": "114790",
@@ -187,8 +189,8 @@
             "order_number": 3,
             "order_ref_reversed": "External order reference reversed",
             "status": "in progress",
-            "pos_state_updated_at": "2020-10-31T01:48:52Z",
-            "pos_fulfilment_time": "2020-10-31T02:10:52Z",
+            "pos_state_updated_at": "2020-10-31 01:48:52",
+            "pos_fulfilment_time": "2020-10-31 02:10:52",
             "client": {
                 "code": "222340ws",
                 "name": "Candice Michelle"
@@ -200,7 +202,7 @@
                 "site_id": 2323
             },
             "order_paid": false,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -231,7 +233,8 @@
                     "category": "category type 1"
                 }
             }],
-            "fulfilment_source": "Uber Eats"
+            "fulfilment_source": "Uber Eats",
+            "prep-time": 30
         },
         {
             "order_id": "114791",
@@ -239,8 +242,8 @@
             "order_number": 4,
             "order_ref_reversed": "External order reference reversed",
             "status": "in progress",
-            "pos_state_updated_at": "2020-10-31T02:05:52Z",
-            "pos_fulfilment_time": "2020-10-31T02:20:52Z",
+            "pos_state_updated_at": "2020-10-31 02:05:52",
+            "pos_fulfilment_time": "2020-10-31 02:20:52",
             "client": {
                 "code": "220ws",
                 "name": "Daniel Bryan"
@@ -297,7 +300,8 @@
                     }
                 }
             ],
-            "fulfilment_source": "Deliveroo"
+            "fulfilment_source": "Just Eat",
+            "prep-time": 40
         },
         {
             "order_id": "124792",
@@ -305,8 +309,8 @@
             "order_number": 5,
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
-            "pos_state_updated_at": "2020-10-31T01:48:52Z",
-            "pos_fulfilment_time": "2020-10-31T01:48:52Z",
+            "pos_state_updated_at": "2020-10-31 01:48:52",
+            "pos_fulfilment_time": "2020-10-31 01:48:52",
             "client": {
                 "code": "22430ws",
                 "name": "Enzo Amore"
@@ -363,7 +367,8 @@
                     }
                 }
             ],
-            "fulfilment_source": "Deliveroo"
+            "fulfilment_source": "Deliveroo",
+            "prep-time": 34
         },
         {
             "order_id": "114192",
@@ -371,8 +376,8 @@
             "order_number": 6,
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
-            "pos_state_updated_at": "2020-10-31T01:48:52Z",
-            "pos_fulfilment_time": "2020-10-31T01:48:52Z",
+            "pos_state_updated_at": "2020-10-31 01:48:52",
+            "pos_fulfilment_time": "2020-10-31 01:48:52",
             "client": {
                 "code": "232344wed",
                 "name": "Hulk Hogan"
@@ -449,7 +454,8 @@
                     }
                 }
             ],
-            "fulfilment_source": "Just Eat"
+            "fulfilment_source": "Just Eat",
+            "prep-time": 38
         },
         {
             "order_id": "914788",
@@ -457,8 +463,8 @@
             "order_number": 7,
             "order_ref_reversed": "External order reference reversed",
             "status": "finished",
-            "pos_state_updated_at": "2020-10-31T01:32:52Z",
-            "pos_fulfilment_time": "2020-10-31T01:45:52Z",
+            "pos_state_updated_at": "2020-10-31 01:32:52",
+            "pos_fulfilment_time": "2020-10-31 01:45:52",
             "client": {
                 "code": "24334wed",
                 "name": "Maria Kanellis"
@@ -470,7 +476,7 @@
                 "site_id": 2323
             },
             "order_paid": true,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -501,7 +507,8 @@
                     "category": "category type 1"
                 }
             }],
-            "fulfilment_source": "Deliveroo"
+            "fulfilment_source": "Deliveroo",
+            "prep-time": 45
         },
         {
             "order_id": "114790",
@@ -509,8 +516,8 @@
             "order_number": 8,
             "order_ref_reversed": "External order reference reversed",
             "status": "finished",
-            "pos_state_updated_at": "2020-10-31T01:48:52Z",
-            "pos_fulfilment_time": "2020-10-31T02:10:52Z",
+            "pos_state_updated_at": "2020-10-31 01:48:52",
+            "pos_fulfilment_time": "2020-10-31 02:10:52",
             "client": {
                 "code": "235434wed",
                 "name": "Randy Orton"
@@ -553,7 +560,8 @@
                     "category": "category type 1"
                 }
             }],
-            "fulfilment_source": "Just Eat"
+            "fulfilment_source": "Just Eat",
+            "prep-time": 46
         },
         {
             "order_id": "114782",
@@ -561,8 +569,8 @@
             "order_number": 9,
             "order_ref_reversed": "External order reference reversed",
             "status": "in progress",
-            "pos_state_updated_at": "2020-10-31T03:40:52Z",
-            "pos_fulfilment_time": "2020-10-31T03:55:52Z",
+            "pos_state_updated_at": "2020-10-31 03:40:52",
+            "pos_fulfilment_time": "2020-10-31 03:55:52",
             "client": {
                 "code": "23344wed",
                 "name": "Rey Mysterio"
@@ -574,7 +582,7 @@
                 "site_id": 2323
             },
             "order_paid": true,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -605,7 +613,8 @@
                     "category": "category type 1"
                 }
             }],
-            "fulfilment_source": "Uber Eats"
+            "fulfilment_source": "Uber Eats",
+            "prep-time": 54
         },
         {
             "order_id": "114783",
@@ -613,8 +622,8 @@
             "order_number": 10,
             "order_ref_reversed": "External order reference reversed",
             "status": "in progress",
-            "pos_state_updated_at": "2020-10-31T03:50:52Z",
-            "pos_fulfilment_time": "2020-10-31T04:04:52Z",
+            "pos_state_updated_at": "2020-10-31 03:50:52",
+            "pos_fulfilment_time": "2020-10-31 04:04:52",
             "client": {
                 "code": "234678wed",
                 "name": "Henry Alexander"
@@ -671,7 +680,8 @@
                     }
                 }
             ],
-            "fulfilment_source": "Deliveroo"
+            "fulfilment_source": "Deliveroo",
+            "prep-time": 53
         },
         {
             "order_id": "114784",
@@ -679,8 +689,8 @@
             "order_number": 11,
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
-            "pos_state_updated_at": "2020-10-31T03:55:52Z",
-            "pos_fulfilment_time": "2020-10-31T04:08:52Z",
+            "pos_state_updated_at": "2020-10-31 03:55:52",
+            "pos_fulfilment_time": "2020-10-31 04:08:52",
             "client": {
                 "code": "23467wed",
                 "name": "Liam Noah"
@@ -692,7 +702,7 @@
             },
             "order_paid": true,
             "dp_id": 1,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -737,7 +747,8 @@
                     }
                 }
             ],
-            "fulfilment_source": "Uber Eats"
+            "fulfilment_source": "Uber Eats",
+            "prep-time": 27
         },
         {
             "order_id": "114786",
@@ -745,8 +756,8 @@
             "order_number": 12,
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
-            "pos_state_updated_at": "2020-10-31T04:00:52Z",
-            "pos_fulfilment_time": "2020-10-31T04:15:52Z",
+            "pos_state_updated_at": "2020-10-31 04:00:52",
+            "pos_fulfilment_time": "2020-10-31 04:15:52",
             "client": {
                 "code": "23454wed",
                 "name": "James William"
@@ -757,7 +768,7 @@
                 "reference": "site external reference"
             },
             "order_paid": true,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -802,7 +813,8 @@
                     }
                 }
             ],
-            "fulfilment_source": "Just Eat"
+            "fulfilment_source": "Just Eat",
+            "prep-time": 15
         },
         {
             "order_id": "114785",
@@ -810,8 +822,8 @@
             "order_number": 13,
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
-            "pos_state_updated_at": "2020-10-31T04:10:52Z",
-            "pos_fulfilment_time": "2020-10-31T04:20:52Z",
+            "pos_state_updated_at": "2020-10-31 04:10:52",
+            "pos_fulfilment_time": "2020-10-31 04:20:52",
             "client": {
                 "code": "234wed",
                 "name": "Benjamin Lucas"
@@ -853,8 +865,8 @@
                     "category": "category type 2"
                 }
             }],
-            "fulfilment_source": "Deliveroo"
+            "fulfilment_source": "Deliveroo",
+            "prep-time": 57
         }
     ]
-
 }
