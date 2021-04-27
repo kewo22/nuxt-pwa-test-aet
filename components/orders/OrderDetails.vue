@@ -22,10 +22,36 @@
       <div class="d-flex flex-row justify-space-between mb-1">
         <img src="~/assets/ubereats.png" width="10%" />
         <div>
-          <v-btn elevation="2" rounded dark>Print Order</v-btn>
-          <v-btn rounded fab elevation="2" small dark>
-            <v-icon>mdi-dots-vertical</v-icon>
+          <v-btn @click="printOrder(order)" elevation="2" rounded dark>
+            Print Order
           </v-btn>
+
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <!-- <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                Dropdown
+              </v-btn> -->
+              <v-btn
+                rounded
+                fab
+                elevation="2"
+                small
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <div>
+              <!-- HELLO -->
+              <v-list>
+                <v-list-item v-for="(item, index) in items" :key="index">
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </div>
+          </v-menu>
         </div>
       </div>
       <div :class="`order-status in-progress ${order.status}`">
@@ -62,6 +88,11 @@ import OrderItemList from "./OrderItemList";
 export default {
   components: { OrderStatLabel, OrderItemList },
   props: ["order"],
+  data() {
+    return {
+      items: [{ title: "hello" }, { title: "1122" }, { title: "oaisdoiasd" }],
+    };
+  },
   computed: {
     order_amount() {
       return this.$currency(this.$props.order.total);
@@ -72,6 +103,14 @@ export default {
     },
     isInProgressStatus() {
       return this.$props.order.status === "in progress";
+    },
+  },
+  methods: {
+    printOrder(order) {
+      console.log(`order`, order);
+    },
+    showActions(evt) {
+      console.log(`evt`, evt);
     },
   },
 };
