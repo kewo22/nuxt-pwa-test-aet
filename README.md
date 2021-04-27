@@ -17,6 +17,8 @@ $ npm run start
 $ npm run generate
 
 # mock data running in port - 3004 - 
+$ npm run dev:data
+# or
 $ npm i json-server
 $ json-server --watch db.json --port 3004
 * Example
