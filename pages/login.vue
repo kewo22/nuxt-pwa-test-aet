@@ -1,9 +1,6 @@
 <template>
   <v-container fluid class="container-main">
-    <v-card
-      elevation="2"
-      class="login-container"
-    >
+    <v-card elevation="2" class="login-container">
       <LogoLine10 class="logo" />
       <v-form ref="loginForm" class="login-form-container">
         <v-row>
@@ -25,18 +22,8 @@
             class="login-input"
           ></v-text-field>
         </v-row>
-        <v-btn
-          class="login-button"
-          @click="login"
-        >
-          Login
-        </v-btn>
-        <v-alert
-          color="red"
-          dark
-          class="login-error"
-          v-if="loginFail"
-        >
+        <v-btn class="login-button" @click="login"> Login </v-btn>
+        <v-alert color="red" dark class="login-error" v-if="loginFail">
           If you can not login, Please contact ‘support@lineten.com.’
         </v-alert>
       </v-form>
@@ -45,25 +32,28 @@
 </template>
 
 <script>
-  import { TokenAuthentication } from '@/constants'
+import { TokenAuthentication } from "@/constants";
 
-  export default {
-    data: () => ({
-      loginFail: false,
-      username: '',
-      password: '',
-      rules: {
-        usernameRequired: value => !!value || 'Username is required',
-        passwordRequired: value => !!value || 'Password is required',
-        emailValid: value => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(value) || 'Invalid e-mail.'
-        },
+export default {
+  options: {
+    layout: "empty",
+  },
+  data: () => ({
+    loginFail: false,
+    username: "",
+    password: "",
+    rules: {
+      usernameRequired: (value) => !!value || "Username is required",
+      passwordRequired: (value) => !!value || "Password is required",
+      emailValid: (value) => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || "Invalid e-mail.";
       },
-    }),
-    methods:{
-      login: async function({ $axios }) {
-        const isValid = this.$refs.loginForm.validate();
+    },
+  }),
+  methods: {
+    login: async function ({ $axios }) {
+      const isValid = this.$refs.loginForm.validate();
 
         if (isValid) {
       // try {
@@ -86,9 +76,11 @@
             dataString: `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`
           }
 
-          await this.$axios.$post(authData.url, authData.dataString, {
-            headers: authData.headers
-          }).then((response) => {
+        await this.$axios
+          .$post(authData.url, authData.dataString, {
+            headers: authData.headers,
+          })
+          .then((response) => {
             this.loginFail = false;
 
             const customUser = {
@@ -98,61 +90,64 @@
             this.$auth.setUser(customUser);
             this.$auth.setUserToken(`${response.token_type} ${response.access_token}`, response.refresh_token);
 
-            localStorage.setItem("user_token", `${response.token_type} ${response.access_token}`);
-            this.$router.push('/');
+            localStorage.setItem(
+              "user_token",
+              `${response.token_type} ${response.access_token}`
+            );
+            this.$router.push("/orders");
           })
           .catch((error) => {
             this.loginFail = true;
           });
-        }
       }
-    }
-  }
+    },
+  },
+};
 </script>
 
 <style>
-  .container-main {
-    margin: 0;
-    min-height: 100vh;
-    min-width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: #23282c;
-  }
-  .logo {
-    width: 130px;
-    position: absolute;
-    right: 20px;
-  }
-  .login-container {
-    padding: 20px;
-    max-width: 960px;
-    border-radius: 10px;
-  }
-  .login-form-container {
-    padding: 75px 140px 50px 140px;
-  }
-  .login-input .v-label {
-    font-size: 13px;
-  }
-  .login-input input{
-    font-size: 22px;
-  }
-  .login-button {
-    font-size: 13px;
-    background: #23282c !important;
-    color: #ffffff !important;
-    border-radius: 20px;
-    margin-top: 35px;
-    text-transform: capitalize;
-    padding: 10px 45px !important;
-  }
-  .login-error {
-    max-width: 220px;
-    margin: 20px 0 0 0;
-    font-size: 12px;
-  }
+.container-main {
+  margin: 0;
+  min-height: 100vh;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #23282c;
+}
+.logo {
+  width: 130px;
+  position: absolute;
+  right: 20px;
+}
+.login-container {
+  padding: 20px;
+  max-width: 960px;
+  border-radius: 10px;
+}
+.login-form-container {
+  padding: 75px 140px 50px 140px;
+}
+.login-input .v-label {
+  font-size: 13px;
+}
+.login-input input {
+  font-size: 22px;
+}
+.login-button {
+  font-size: 13px;
+  background: #23282c !important;
+  color: #ffffff !important;
+  border-radius: 20px;
+  margin-top: 35px;
+  text-transform: capitalize;
+  padding: 10px 45px !important;
+}
+.login-error {
+  max-width: 220px;
+  margin: 20px 0 0 0;
+  font-size: 12px;
+}
 </style>
 
