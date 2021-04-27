@@ -25,7 +25,9 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>
+              <NuxtLink :to="item.route"> {{ item.title }} </NuxtLink>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -124,7 +126,7 @@
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
+      <v-container fill-height fluid class="pa-0">
         <!-- If using vue-router -->
         <!-- <router-view></router-view> -->
         <Nuxt />
@@ -144,8 +146,13 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Filter", icon: "mdi-filter" },
-        { title: "Users", icon: "mdi-account-group-outline" },
+        // {
+        //   title: "Orders",
+        //   icon: "mdi-format-list-bulleted-square",
+        //   route: "/orders",
+        // },
+        { title: "Filters", icon: "mdi-filter", route: "" },
+        { title: "Settings", icon: "mdi-cog", route: "/order" },
       ],
       channels:[],
       allChannels:"All Channels",
@@ -180,7 +187,7 @@ export default {
         );
     },
     showTab:function(tab){
-      if (tab === "Filter") {
+      if (tab === "Filters") {
         if (this.isFilter === false) {
           this.isFilter = true;
         } else {
