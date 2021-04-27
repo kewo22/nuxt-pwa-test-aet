@@ -26,7 +26,7 @@
             Print Order
           </v-btn>
 
-          <v-menu offset-y>
+          <v-menu offset-y rounded="lg" nudge-top="-10">
             <template v-slot:activator="{ on, attrs }">
               <!-- <v-btn color="primary" dark v-bind="attrs" v-on="on">
                 Dropdown
@@ -43,14 +43,7 @@
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
-            <div>
-              <!-- HELLO -->
-              <v-list>
-                <v-list-item v-for="(item, index) in items" :key="index">
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </div>
+            <OrderActionContent />
           </v-menu>
         </div>
       </div>
@@ -85,14 +78,11 @@
 <script>
 import OrderStatLabel from "./OrderStatLabel";
 import OrderItemList from "./OrderItemList";
+import OrderActionContent from "./OrderActionContent";
+
 export default {
-  components: { OrderStatLabel, OrderItemList },
+  components: { OrderActionContent, OrderStatLabel, OrderItemList },
   props: ["order"],
-  data() {
-    return {
-      items: [{ title: "hello" }, { title: "1122" }, { title: "oaisdoiasd" }],
-    };
-  },
   computed: {
     order_amount() {
       return this.$currency(this.$props.order.total);
