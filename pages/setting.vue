@@ -14,7 +14,7 @@
                           style="
                             width: 100%;
                             background-color: #23282c;
-                            height: 600px;
+                            height: 700px;
                             overflow: auto;
                           "
                         >
@@ -56,7 +56,7 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right"
-                                  ><v-select
+                                  ><v-select class="settingsDrop"
                                     :items="timeIntervals"
                                     label="15 minutes"
                                     solo
@@ -82,9 +82,9 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right"
-                                  ><v-select
+                                  ><v-select class="settingsDrop"
                                     :items="ticketFontSizes"
-                                    label="Select a size"
+                                    label="8 pt"
                                     solo
                                   ></v-select>
                                 </v-col>
@@ -108,7 +108,7 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right"
-                                  ><v-select
+                                  ><v-select class="settingsDrop"
                                     :items="orderStatus"
                                     label="In progress"
                                     solo
@@ -134,7 +134,7 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right"
-                                  ><v-select
+                                  ><v-select class="settingsDrop"
                                     :items="ticketCounts"
                                     label="2"
                                     solo
@@ -158,9 +158,9 @@
                               </div>
                             </v-flex>
                             <v-flex xs12 sm12 md6>
-                              <v-row no-gutters>
-                                <v-col align="right"
-                                  ><v-select
+                              <v-row no-gutters >
+                                <v-col align="right" 
+                                  ><v-select class="settingsDrop"
                                     :items="reloadIntervals"
                                     label="Every 1 minute"
                                     solo
@@ -187,18 +187,45 @@
                               <v-row no-gutters>
                                 <v-col
                                   align="right"
-                                  style="color:#4f97d5;text-decoration: underline;"
-                                  class="fontweight"
+                                  style="color:#4f97d5;text-decoration: underline; font-weight: 500"
                                 >
                                   Select Printers
                                 </v-col>
                               </v-row>
                             </v-flex>
                           </v-layout>
+                          <v-card-actions
+                            class="justify-center"
+                            style="margin-top:5%"
+                          >
+                            <v-btn
+                              style="text-transform:none; background-color:#509ad9;border-radius: 20px; width: 22%;"
+                            >
+                              Save
+                            </v-btn>
+                          </v-card-actions>
+
+                          <!-- <v-btn
+                            color="primary"
+                            align="center"
+                            justify="center"
+                            style="text-transform:none"
+                            >Save</v-btn
+                          > -->
                         </div>
                       </v-flex>
                     </v-layout>
                   </div>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-flex>
+          <v-flex xs6 sm6 md6 style="background-color: #f6f8fa">
+            <v-container fill-height fluid>
+              <v-row align="center" justify="center">
+                <v-col align="center" justify="center">
+                  <v-img src="/lineTenLogo.png" width="25%" /><br />
+                  <h4 style="color:#b1b3b8">2021 v.1.0.0</h4>
                 </v-col>
               </v-row>
             </v-container>
@@ -212,10 +239,10 @@
 <script>
 export default {
   data: () => ({
-    timeIntervals: ["15 minutes", "10 minutes", "5 minutes"],
-    ticketFontSizes: ["15 px", "10 px", "5 px"],
+    timeIntervals: ["15 minutes", "30 minutes", "45 minutes"],
+    ticketFontSizes: ["8 pt", "10 pt", "12 pt"],
     orderStatus: ["In progress", "New", "Finished"],
-    ticketCounts: ["2", "3", "4"],
+    ticketCounts: ["2", "3", "1"],
     reloadIntervals: ["Every 1 minute", "Every 5 minutes", "Every 10 minutes"]
   }),
 
@@ -237,5 +264,11 @@ export default {
 }
 .fontweight {
   font-weight: 300;
+}
+
+</style>
+<style>
+.settingsDrop .v-input__slot {
+  background-color: #282e35 !important;
 }
 </style>
