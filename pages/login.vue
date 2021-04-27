@@ -66,6 +66,15 @@
         const isValid = this.$refs.loginForm.validate();
 
         if (isValid) {
+      // try {
+      //   let response = await this.$auth.loginWith('customStrategy', {
+      //     username: this.username,
+      //     password: this.password,
+      //   });
+      //   console.log('============response/////////////', response);
+      // } catch (err) {
+      //   console.log('============err/////////////', err);
+      // }
           const authData = {
             url: TokenAuthentication.TokenUrl,
             headers: {

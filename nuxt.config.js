@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import { TokenAuthentication } from './constants';
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -55,7 +56,8 @@ export default {
       customStrategy: {
         scheme: '~/schemes/customScheme',
         endpoints: {
-          user: { url: '/api/users/{userId}', method: 'get', propertyName: 'auth_token' }
+          login: { url: TokenAuthentication.TokenUrl, method: 'post' },
+          user: { url: 'user/1', method: 'get', propertyName: 'auth_token' } // Mock (/api/users/{userId} will be correct endpoint)
         },
       }
     }
