@@ -64,7 +64,7 @@ export default {
   props: ["order"],
   computed: {
     order_amount() {
-      return this.$currency(this.$props.order.total);
+      // return this.$currency(this.$props.order.total);
     },
     order_item_count() {
       const { order } = this.$props;
