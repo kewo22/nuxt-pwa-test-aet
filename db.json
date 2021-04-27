@@ -68,7 +68,7 @@
             "order_ref": "External Order Reference",
             "order_number": 1,
             "order_ref_reversed": "External order reference reversed",
-            "status": "FINISHED",
+            "status": "finished",
             "pos_state_updated_at": "2020-10-31T01:20:52Z",
             "pos_fulfilment_time": "2020-10-31T01:30:52Z",
             "client": {
@@ -120,7 +120,7 @@
             "order_ref": "External Order Reference",
             "order_number": 2,
             "order_ref_reversed": "External order reference reversed",
-            "status": "FINISHED",
+            "status": "finished",
             "pos_state_updated_at": "2020-10-31T01:25:52Z",
             "pos_fulfilment_time": "2020-10-31T01:40:52Z",
             "client": {
@@ -186,7 +186,7 @@
             "order_ref": "External Order Reference",
             "order_number": 3,
             "order_ref_reversed": "External order reference reversed",
-            "status": "IN PROGRESS",
+            "status": "in progress",
             "pos_state_updated_at": "2020-10-31T01:48:52Z",
             "pos_fulfilment_time": "2020-10-31T02:10:52Z",
             "client": {
@@ -238,7 +238,7 @@
             "order_ref": "External Order Reference",
             "order_number": 4,
             "order_ref_reversed": "External order reference reversed",
-            "status": "IN PROGRESS",
+            "status": "in progress",
             "pos_state_updated_at": "2020-10-31T02:05:52Z",
             "pos_fulfilment_time": "2020-10-31T02:20:52Z",
             "client": {
@@ -297,14 +297,14 @@
                     }
                 }
             ],
-            "fulfilment_source": "Just Eat"
+            "fulfilment_source": "Deliveroo"
         },
         {
-            "order_id": "114792",
+            "order_id": "124792",
             "order_ref": "External Order Reference",
             "order_number": 5,
             "order_ref_reversed": "External order reference reversed",
-            "status": "NEW",
+            "status": "new",
             "pos_state_updated_at": "2020-10-31T01:48:52Z",
             "pos_fulfilment_time": "2020-10-31T01:48:52Z",
             "client": {
@@ -366,11 +366,11 @@
             "fulfilment_source": "Deliveroo"
         },
         {
-            "order_id": "114792",
+            "order_id": "114192",
             "order_ref": "External Order Reference",
             "order_number": 6,
             "order_ref_reversed": "External order reference reversed",
-            "status": "NEW",
+            "status": "new",
             "pos_state_updated_at": "2020-10-31T01:48:52Z",
             "pos_fulfilment_time": "2020-10-31T01:48:52Z",
             "client": {
@@ -437,20 +437,26 @@
                     "sku": "321312",
                     "quantity": 1,
                     "tax": 0.00,
+                    "total": 5,
                     "item_id": 14,
                     "item_name": "Zero Coke 300ml",
                     "item_qty": 1,
-                    "amount": 1.00
+                    "amount": 1.00,
+                    "product": {
+                        "product_id": 15,
+                        "name": "Triple Cook Kebab",
+                        "category": "category type 5"
+                    }
                 }
             ],
             "fulfilment_source": "Just Eat"
         },
         {
-            "order_id": "114788",
+            "order_id": "914788",
             "order_ref": "External Order Reference",
             "order_number": 7,
             "order_ref_reversed": "External order reference reversed",
-            "status": "FINISHED",
+            "status": "finished",
             "pos_state_updated_at": "2020-10-31T01:32:52Z",
             "pos_fulfilment_time": "2020-10-31T01:45:52Z",
             "client": {
@@ -502,7 +508,7 @@
             "order_ref": "External Order Reference",
             "order_number": 8,
             "order_ref_reversed": "External order reference reversed",
-            "status": "FINISHED",
+            "status": "finished",
             "pos_state_updated_at": "2020-10-31T01:48:52Z",
             "pos_fulfilment_time": "2020-10-31T02:10:52Z",
             "client": {
@@ -554,7 +560,7 @@
             "order_ref": "External Order Reference",
             "order_number": 9,
             "order_ref_reversed": "External order reference reversed",
-            "status": "IN PROGRESS",
+            "status": "in progress",
             "pos_state_updated_at": "2020-10-31T03:40:52Z",
             "pos_fulfilment_time": "2020-10-31T03:55:52Z",
             "client": {
@@ -606,7 +612,7 @@
             "order_ref": "External Order Reference",
             "order_number": 10,
             "order_ref_reversed": "External order reference reversed",
-            "status": "IN PROGRESS",
+            "status": "in progress",
             "pos_state_updated_at": "2020-10-31T03:50:52Z",
             "pos_fulfilment_time": "2020-10-31T04:04:52Z",
             "client": {
@@ -672,7 +678,7 @@
             "order_ref": "External Order Reference",
             "order_number": 11,
             "order_ref_reversed": "External order reference reversed",
-            "status": "NEW",
+            "status": "new",
             "pos_state_updated_at": "2020-10-31T03:55:52Z",
             "pos_fulfilment_time": "2020-10-31T04:08:52Z",
             "client": {
@@ -734,11 +740,11 @@
             "fulfilment_source": "Uber Eats"
         },
         {
-            "order_id": "114785",
+            "order_id": "114786",
             "order_ref": "External Order Reference",
             "order_number": 12,
             "order_ref_reversed": "External order reference reversed",
-            "status": "NEW",
+            "status": "new",
             "pos_state_updated_at": "2020-10-31T04:00:52Z",
             "pos_fulfilment_time": "2020-10-31T04:15:52Z",
             "client": {
@@ -803,7 +809,7 @@
             "order_ref": "External Order Reference",
             "order_number": 13,
             "order_ref_reversed": "External order reference reversed",
-            "status": "NEW",
+            "status": "new",
             "pos_state_updated_at": "2020-10-31T04:10:52Z",
             "pos_fulfilment_time": "2020-10-31T04:20:52Z",
             "client": {

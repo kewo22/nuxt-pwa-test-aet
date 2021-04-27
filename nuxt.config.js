@@ -11,7 +11,7 @@ export default {
 
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
-        title: 'nuxt-pwa-test',
+        title: 'Order Pro | Line10',
         htmlAttrs: {
             lang: 'en'
         },
@@ -21,7 +21,7 @@ export default {
             { hid: 'description', name: 'description', content: '' }
         ],
         link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+            { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
         ]
     },
 
@@ -31,31 +31,35 @@ export default {
     ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [],
+    plugins: [
+        '~/plugins/currencyFormatter.client.js',
+        '~/plugins/idb.client.js'
+    ],
 
-    // Auto import components: https://go.nuxtjs.dev/config-components
-    components: true,
+    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+    plugins: [],
 
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
     buildModules: [
-        '@nuxtjs/pwa',
         '@nuxtjs/vuetify',
+        '@nuxtjs/pwa',
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
         '@nuxtjs/pwa',
-        '@nuxtjs/axios'
+        '@nuxtjs/axios',
     ],
+
+    axios: {
+        // proxy: true
+    },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {},
 
-    manifest: {
-        name: 'Nuxt.js PWA survival store',
-        short_name: 'Nuxt.js PWA',
-        lang: 'en',
-        display: 'standalone',
+    server: {
+        port: 8000 // default: 3000
     },
 
     server: {
