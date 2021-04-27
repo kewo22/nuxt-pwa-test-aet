@@ -75,6 +75,8 @@
       // } catch (err) {
       //   console.log('============err/////////////', err);
       // }
+
+      // ref: https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc
           const authData = {
             url: TokenAuthentication.TokenUrl,
             headers: {
