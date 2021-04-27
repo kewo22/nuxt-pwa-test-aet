@@ -146,11 +146,11 @@ export default {
     return {
       drawer: true,
       items: [
-        // {
-        //   title: "Orders",
-        //   icon: "mdi-format-list-bulleted-square",
-        //   route: "/orders",
-        // },
+        {
+          title: "Orders",
+          icon: "mdi-format-list-bulleted-square",
+          route: "/orders",
+        },
         { title: "Filters", icon: "mdi-filter", route: "" },
         { title: "Settings", icon: "mdi-cog", route: "/order" },
       ],
