@@ -200,9 +200,9 @@
                 "site_id": 2323
             },
             "order_paid": false,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
-            "delivery_fee": 4.00,
+            "delivery_fee": 0.00,
             "tax": 0.00,
             "total": 20.98,
             "customer": {
@@ -252,9 +252,9 @@
                 "site_id": 2323
             },
             "order_paid": true,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
-            "delivery_fee": 4.00,
+            "delivery_fee": 0.00,
             "tax": 0.00,
             "total": 21.98,
             "customer": {
@@ -384,9 +384,9 @@
                 "site_id": 2323
             },
             "order_paid": false,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
-            "delivery_fee": 4.00,
+            "delivery_fee": 0.00,
             "tax": 0.00,
             "total": 27.96,
             "customer": {
@@ -574,9 +574,9 @@
                 "site_id": 2323
             },
             "order_paid": true,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
-            "delivery_fee": 4.00,
+            "delivery_fee": 0.00,
             "tax": 0.00,
             "total": 20.98,
             "customer": {
@@ -822,9 +822,9 @@
                 "reference": "site external reference"
             },
             "order_paid": true,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
-            "delivery_fee": 4.00,
+            "delivery_fee": 0.00,
             "tax": 0.00,
             "total": 9.98,
             "customer": {

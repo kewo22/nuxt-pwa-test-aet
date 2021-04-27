@@ -95,36 +95,4 @@ export default {
             },
         },
     },
-
-    pwa: {
-        manifest: {
-            name: 'Order Pro | Line Ten',
-            short_name: 'Order Pro | L10',
-            lang: 'en',
-            start_ur: "/",
-            theme_color: "#ffffff",
-            background_color: "#ffffff",
-            display: "standalone",
-            orientation: "landscape"
-        },
-        workbox: {
-            importScripts: [
-                'idb-sw.client.js',
-                'workers/custom.sw.js'
-            ],
-            runtimeCaching: [{
-                urlPattern: 'https://jsonplaceholder.typicode.com/.*',
-                strategyOptions: {
-                    cacheName: 'test-cache-v2',
-                },
-                strategyPlugins: [{
-                    use: 'BackgroundSync',
-                    config: {
-                        maxEntries: 10,
-                        maxAgeSeconds: 3000
-                    }
-                }]
-            }]
-        }
-    }
 }

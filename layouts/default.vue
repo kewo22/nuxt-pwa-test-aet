@@ -155,6 +155,10 @@ export default {
         { title: "Settings", icon: "mdi-cog", route: "/order" },
       ],
       channels:[],
+      orders:[],
+      tempOrders:[],
+      orderType:[],
+      filterOrderData:[],
       allChannels:"All Channels",
       selected: [],
       overflow_items:["Item 1","Item 2","Item 3","Item 4","Item 5"],
@@ -170,6 +174,8 @@ export default {
   },
   mounted() {
     this.getMarketplacesList();
+    this.filterOrderType();
+    this.filterChannels()
   },
   methods: {
     getMarketplacesList(){
@@ -186,6 +192,47 @@ export default {
           }
         );
     },
+    async getOrders(filterType) {
+      try {
+        const orders = await this.$axios.$get("http://localhost:3004/orders");
+        this.allOrders = orders;
+        this.filterOrderData = orders;
+        let orderTypeData = orders;
+        let channelDataArray = orders;
+        let type = localStorage.getItem("filterOrderType");
+        let channel = localStorage.getItem("filterChannels");
+        if (filterType !== undefined ) {
+          if (type !== "Both") {
+            orderTypeData = orders.filter((order) => {
+              return order.fulfilment_type === type;
+            });
+          }
+          if (channel === "All Channels") {
+            channelDataArray = orderTypeData
+          }
+          if (channel !== "All Channels") {
+            channelDataArray = [];
+            let arr = channel.split(',');
+            for (let index = 0; index < arr.length; index++) {
+              let element = arr[index];
+              orderTypeData.filter((order) => {
+                if (order.fulfilment_source === element) {
+                  channelDataArray.push(order);
+                  return channelDataArray;
+                }
+              }
+              );
+              
+            }
+          }
+          this.filterOrderData = channelDataArray;
+          console.log("this.filterOrderData",this.filterOrderData)
+        }
+      } catch (error) {
+
+        console.log(error);
+      }
+    },
     showTab:function(tab){
       if (tab === "Filters") {
         if (this.isFilter === false) {
@@ -197,27 +244,57 @@ export default {
       }
     },
     filterOrderType: function(type) {
+      if (type === undefined) {
+        if (localStorage.getItem("filterOrderType")) {
+          type = localStorage.getItem("filterOrderType");
+        } else {
+          localStorage.setItem("filterOrderType", "Both");
+          type = localStorage.getItem("filterOrderType");
+        }
+      }
       if (type == "Both") {
         this.BothOL = false;
         this.pickupOL= true;
         this.deliveryOL= true;
+        localStorage.setItem("filterOrderType", "Both");
+        this.getOrders("OrderType");
       } else if(type == "Pickup"){
         this.BothOL = true;
         this.pickupOL= false;
         this.deliveryOL= true;
+        localStorage.setItem("filterOrderType", type);
+        this.getOrders( "OrderType");
       }else{
         this.BothOL = true;
         this.pickupOL= true;
         this.deliveryOL= false;
+        localStorage.setItem("filterOrderType", type);
+        this.getOrders ( "OrderType");
       }
     },
     filterChannels: function(channel){
+      if (channel === undefined) {
+        if (localStorage.getItem("filterChannels")) {
+          channel = localStorage.getItem("filterChannels")
+          if (localStorage.getItem("filterChannels") !== "All Channels") {
+            channel = localStorage.getItem("filterChannels").split(',');
+            this.selected = channel ;
+          }
+        } else {
+          localStorage.setItem("filterChannels", "All Channels");
+          channel = localStorage.getItem("filterChannels");
+        }
+      }
       let checkType = channel; 
-      if(typeof checkType === "object"){
+      if(typeof checkType === "object" && checkType !== null){
         this.allChannels = ""
+        localStorage.setItem("filterChannels", channel);
+        this.getOrders("channels");
       }
       if(checkType === "All Channels"){
         this.selected = [];
+        localStorage.setItem("filterChannels", "All Channels");
+        this.getOrders("channels");
       }
     },
     filterDateLatest: function(date){
