@@ -21,7 +21,14 @@
         </v-container>
       </v-flex>
       <v-flex xs4 sm4 md6>
-        <v-container v-if="isOrderFinished" fill-height fluid>
+        <v-container v-if="isCancelled" fill-height fluid>
+          <v-row align="center" justify="center">
+            <v-col align="left" justify="center" class="cancelled">
+              Cancelled
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-container v-else-if="isOrderFinished" fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="left" justify="center" style="color: #509ad8">
               <!-- TODO: NEED TO CALCULATE -->
@@ -56,11 +63,12 @@
 <script>
 export default {
   props: ["item"],
-  mounted() {
-  },
   computed: {
     isOrderFinished() {
       return this.$props.item.status !== "finished";
+    },
+    isCancelled() {
+      return this.$props.item.cancelled;
     },
   },
   methods: {
@@ -70,3 +78,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.cancelled {
+  color: #f09d00;
+  text-decoration: line-through 2px;
+}
+</style>
