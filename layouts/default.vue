@@ -3,21 +3,21 @@
     <Nuxt />
   </v-app> -->
 
-  <v-app>
+  <v-app dark>
     <v-navigation-drawer v-model="drawer" app absolute expand-on-hover>
-      <v-list-item class="px-2">
-        <v-list-item-avatar>
+      <!-- <v-list-item class="px-2"> -->
+      <!-- <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
         </v-list-item-avatar>
 
-        <v-list-item-title>John Leider</v-list-item-title>
+        <v-list-item-title>John Leider</v-list-item-title> -->
 
-        <!-- <v-btn icon @click.stop="test">
+      <!-- <v-btn icon @click.stop="test">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn> -->
-      </v-list-item>
+      <!-- </v-list-item> -->
 
-      <v-divider></v-divider>
+      <!-- <v-divider></v-divider> -->
 
       <v-list dense>
         <v-list-item v-for="item in items" :key="item.title" link>
@@ -60,7 +60,11 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Orders", icon: "mdi-filter", route: "/orders" },
+        {
+          title: "Orders",
+          icon: "mdi-format-list-bulleted-square",
+          route: "/orders",
+        },
         { title: "Filters", icon: "mdi-filter", route: "/order" },
         { title: "Settings", icon: "mdi-cog", route: "/order" },
       ],
