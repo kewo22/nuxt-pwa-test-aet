@@ -15,7 +15,7 @@ export default {
   emits: ["orderStatusChange"],
   methods: {
     orderStatusChange() {
-      this.$emit("orderStatusChange", this.$props.state);
+      this.$emit("orderStatusChange", this.nextState.toLowerCase());
     },
   },
   computed: {

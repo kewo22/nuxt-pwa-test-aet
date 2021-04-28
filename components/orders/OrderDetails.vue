@@ -25,14 +25,7 @@
           <Button @click="printOrder(order)" elevation="2" dark>
             Print Order
           </Button>
-          <v-menu
-            offset-y
-            rounded="lg"
-            nudge-top="-10"
-            :close-on-click="false"
-            :close-on-content-click="false"
-            :value="actionOpen"
-          >
+          <v-menu offset-y rounded="lg" nudge-top="-10">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 rounded
@@ -90,11 +83,6 @@ import Button from "../common/Button";
 export default {
   components: { Button, OrderActionContent, OrderStatLabel, OrderItemList },
   props: ["order"],
-  data() {
-    return {
-      actionOpen: false,
-    };
-  },
   computed: {
     order_amount() {
       return this.$currency(this.$props.order.total);
@@ -113,7 +101,6 @@ export default {
     },
     showActions(evt) {
       console.log(`evt`, evt);
-      this.actionOpen = false;
     },
   },
 };
