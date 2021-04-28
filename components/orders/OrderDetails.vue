@@ -22,10 +22,9 @@
       <div class="d-flex flex-row justify-space-between mb-1">
         <img src="~/assets/ubereats.png" width="10%" />
         <div>
-          <v-btn @click="printOrder(order)" elevation="2" rounded dark>
+          <Button @click="printOrder(order)" elevation="2" dark>
             Print Order
-          </v-btn>
-
+          </Button>
           <v-menu
             offset-y
             rounded="lg"
@@ -83,9 +82,10 @@
 import OrderStatLabel from "./OrderStatLabel";
 import OrderItemList from "./OrderItemList";
 import OrderActionContent from "./OrderActionContent";
+import Button from "../common/Button";
 
 export default {
-  components: { OrderActionContent, OrderStatLabel, OrderItemList },
+  components: { Button, OrderActionContent, OrderStatLabel, OrderItemList },
   props: ["order"],
   data() {
     return {
@@ -110,7 +110,7 @@ export default {
     },
     showActions(evt) {
       console.log(`evt`, evt);
-      this.actionOpen = false
+      this.actionOpen = false;
     },
   },
 };
