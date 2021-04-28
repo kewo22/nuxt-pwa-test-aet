@@ -18,7 +18,7 @@
       </p>
     </v-row> -->
 
-    <div class="d-flex flex-column mb-3">
+    <div class="d-flex flex-column mb-1">
       <div class="d-flex flex-row justify-space-between mb-1">
         <img src="~/assets/ubereats.png" width="10%" />
         <div>
@@ -33,6 +33,10 @@
                 elevation="2"
                 small
                 dark
+                :disabled="isCancelled"
+                :style="
+                  isCancelled ? { backgroundColor: 'grey !important' } : {}
+                "
                 v-bind="attrs"
                 v-on="on"
               >
@@ -46,8 +50,10 @@
           </v-menu>
         </div>
       </div>
-      <div :class="`order-status in-progress ${order.status}`">
-        <p>{{ order.status }}</p>
+      <div
+        :class="`order-status ${order.status} ${isCancelled && `cancelled`}`"
+      >
+        <p>{{ isCancelled ? `Cancelled!` : order.status }}</p>
       </div>
     </div>
 
@@ -84,6 +90,12 @@ export default {
   components: { Button, OrderActionContent, OrderStatLabel, OrderItemList },
   props: ["order"],
   computed: {
+    isCancelled() {
+      // return this.$props.order.status === "cancelled";
+      // TODO: Need to figure out how to manage cancelled order
+      //       in the dataset while it is on the in-progress queue
+      return this.$props.order.cancelled;
+    },
     order_amount() {
       return this.$currency(this.$props.order.total);
     },
@@ -97,10 +109,15 @@ export default {
   },
   methods: {
     printOrder(order) {
-      console.log(`order`, order);
+      console.log("Print order " + order.order_id);
     },
-    showActions(evt) {
-      console.log(`evt`, evt);
+    showActions(nextState) {
+      const currentState = this.$props.order.status;
+      if (currentState === "finished" && nextState === "in progress") {
+        // show prompt to confirm
+        console.log(`Show propmt : `, nextState);
+      }
+      console.log(`Next State : `, nextState);
     },
   },
 };
@@ -112,10 +129,9 @@ export default {
   /* padding: 50px 80px; */
 }
 .order-status {
+  font-size: 25px;
   font-weight: bold;
   text-transform: capitalize;
-}
-.in-progress {
   color: #509ad9;
 }
 .new {
@@ -123,5 +139,9 @@ export default {
 }
 .finished {
   color: #4aa36f;
+}
+.cancelled {
+  color: #f09d00;
+  text-decoration: line-through 2px;
 }
 </style>
