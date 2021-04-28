@@ -22,7 +22,7 @@
       <div class="d-flex flex-row justify-space-between mb-1">
         <img src="~/assets/ubereats.png" width="10%" />
         <div>
-          <v-btn elevation="2" rounded dark>Print Order</v-btn>
+          <v-btn elevation="2" rounded dark @click="printTicket()">Print Order</v-btn>
           <v-btn rounded fab elevation="2" small dark>
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
@@ -53,6 +53,7 @@
     </div>
 
     <OrderItemList :items="order.order_lines" :amount="order_amount" />
+    <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt="">
   </v-container>
 </template>
 
@@ -74,6 +75,18 @@ export default {
       return this.$props.order.status === "in progress";
     },
   },
+  methods:{
+    async printTicket() {
+      var printdata = document.getElementById('ticket');
+      // let newwin = window.open("");
+      // newwin.document.write(printdata.outerHTML);
+      // newwin.print();
+      // newwin.close();
+      // window.open("https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif");
+      window.document.write(printdata.outerHTML);
+      window.print();
+    }
+  }
 };
 </script>
 
@@ -94,5 +107,10 @@ export default {
 }
 .finished {
   color: #4aa36f;
+}
+
+#ticket {
+  display: none;
+  height: 50%;
 }
 </style>
