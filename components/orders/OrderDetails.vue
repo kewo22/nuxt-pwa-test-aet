@@ -26,11 +26,15 @@
             Print Order
           </v-btn>
 
-          <v-menu offset-y rounded="lg" nudge-top="-10">
+          <v-menu
+            offset-y
+            rounded="lg"
+            nudge-top="-10"
+            :close-on-click="false"
+            :close-on-content-click="false"
+            :value="actionOpen"
+          >
             <template v-slot:activator="{ on, attrs }">
-              <!-- <v-btn color="primary" dark v-bind="attrs" v-on="on">
-                Dropdown
-              </v-btn> -->
               <v-btn
                 rounded
                 fab
@@ -43,7 +47,7 @@
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
-            <OrderActionContent />
+            <OrderActionContent @orderStatusChange="showActions" />
           </v-menu>
         </div>
       </div>
@@ -83,6 +87,11 @@ import OrderActionContent from "./OrderActionContent";
 export default {
   components: { OrderActionContent, OrderStatLabel, OrderItemList },
   props: ["order"],
+  data() {
+    return {
+      actionOpen: false,
+    };
+  },
   computed: {
     order_amount() {
       return this.$currency(this.$props.order.total);
@@ -101,6 +110,7 @@ export default {
     },
     showActions(evt) {
       console.log(`evt`, evt);
+      this.actionOpen = false
     },
   },
 };

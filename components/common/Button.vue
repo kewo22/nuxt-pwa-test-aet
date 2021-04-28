@@ -1,5 +1,5 @@
 <template>
-  <div>
-    <v-btn v-bind="$attrs" class="px-10" rounded ></v-btn>
-  </div>
+  <v-btn class="px-10" rounded v-bind="$attrs" v-on="$listeners">
+    <slot />
+  </v-btn>
 </template>
