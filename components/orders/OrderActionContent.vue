@@ -21,10 +21,9 @@ export default {
   computed: {
     btnColor() {
       switch (this.$props.state) {
-        case "new":
-          return "blue";
         case "in progress":
           return "green";
+        case "new":
         case "finished":
         default:
           return "blue";
@@ -32,12 +31,12 @@ export default {
     },
     actionMessage() {
       switch (this.$props.state) {
+        case "finished":
+          return "Move back to";
         case "new":
         case "in progress":
-          return "Move forward to";
-        case "finished":
         default:
-          return "Move back to";
+          return "Move forward to";
       }
     },
     nextState() {
