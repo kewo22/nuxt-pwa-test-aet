@@ -34,7 +34,13 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right">
-                                  <v-img src="/tick.png" width="27px"></v-img>
+                                  <input
+                                    type="checkbox"
+                                    id="checkbox"
+                                    :checked="isPrintChecked"
+                                    @click="changeIsPrintValue"
+                                    style="width:40px;height:40px;"
+                                  />
                                 </v-col>
                               </v-row>
                             </v-flex>
@@ -56,10 +62,12 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right"
-                                  ><v-select class="settingsDrop"
+                                  ><v-select
+                                    class="settingsDrop"
                                     :items="timeIntervals"
-                                    label="15 minutes"
+                                    :label="selectedTimeInterval"
                                     solo
+                                    @input="setTimeIntervalDrop"
                                   ></v-select>
                                 </v-col>
                               </v-row>
@@ -82,10 +90,12 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right"
-                                  ><v-select class="settingsDrop"
+                                  ><v-select
+                                    class="settingsDrop"
                                     :items="ticketFontSizes"
-                                    label="8 pt"
+                                    :label="selectedTicketFontSize"
                                     solo
+                                    @input="setTicketFontSizesDrop"
                                   ></v-select>
                                 </v-col>
                               </v-row>
@@ -108,9 +118,11 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right"
-                                  ><v-select class="settingsDrop"
+                                  ><v-select
+                                    class="settingsDrop"
                                     :items="orderStatus"
-                                    label="In progress"
+                                    :label="selectedOrderStatus"
+                                    @input="setOrderStatusDrop"
                                     solo
                                   ></v-select>
                                 </v-col>
@@ -134,9 +146,11 @@
                             <v-flex xs12 sm12 md6>
                               <v-row no-gutters>
                                 <v-col align="right"
-                                  ><v-select class="settingsDrop"
+                                  ><v-select
+                                    class="settingsDrop"
                                     :items="ticketCounts"
-                                    label="2"
+                                    :label="selectedTicketCount"
+                                    @input="setTicketCountDrop"
                                     solo
                                   ></v-select>
                                 </v-col>
@@ -158,11 +172,13 @@
                               </div>
                             </v-flex>
                             <v-flex xs12 sm12 md6>
-                              <v-row no-gutters >
-                                <v-col align="right" 
-                                  ><v-select class="settingsDrop"
+                              <v-row no-gutters>
+                                <v-col align="right"
+                                  ><v-select
+                                    class="settingsDrop"
                                     :items="reloadIntervals"
-                                    label="Every 1 minute"
+                                    :label="selectedReloadInterval"
+                                    @input="setReloadIntervalDrop"
                                     solo
                                   ></v-select>
                                 </v-col>
@@ -199,6 +215,7 @@
                             style="margin-top:5%"
                           >
                             <v-btn
+                              @click="saveSettings"
                               style="text-transform:none; background-color:#509ad9;border-radius: 20px; width: 22%;"
                             >
                               Save
@@ -241,13 +258,73 @@ export default {
   data: () => ({
     timeIntervals: ["15 minutes", "30 minutes", "45 minutes"],
     ticketFontSizes: ["8 pt", "10 pt", "12 pt"],
-    orderStatus: ["In progress", "New", "Finished"],
-    ticketCounts: ["2", "3", "1"],
-    reloadIntervals: ["Every 1 minute", "Every 5 minutes", "Every 10 minutes"]
+    orderStatus: ["New", "In progress", "Finished"],
+    ticketCounts: ["1", "2", "3"],
+    reloadIntervals: ["Every 1 minute", "Every 5 minutes", "Every 10 minutes"],
+    settingData: {},
+    isPrintChecked: "",
+    selectedTimeInterval: "",
+    selectedTicketFontSize: "",
+    selectedOrderStatus: "",
+    selectedTicketCount: "",
+    selectedReloadInterval: ""
   }),
 
-  mounted() {},
-  methods: {},
+  mounted() {
+    this.loadSettingData();
+  },
+  methods: {
+    async loadSettingData() {
+      this.settingData = (await this.$idb.get("settingData")) || [];
+      this.settingData.isPrintChecked
+        ? (this.isPrintChecked = true)
+        : (this.isPrintChecked = false);
+      this.selectedTimeInterval =
+        this.settingData.selectedTimeInterval || "15 minutes";
+      this.selectedTicketFontSize =
+        this.settingData.selectedTicketFontSize || "8 pt";
+      this.selectedOrderStatus = this.settingData.selectedOrderStatus || "New";
+      this.selectedTicketCount = this.settingData.selectedTicketCount || "1";
+      this.selectedReloadInterval =
+        this.settingData.selectedReloadInterval || "Every 1 minute";
+    },
+    saveSettings() {
+      this.isPrintChecked
+        ? (this.settingData.isPrintChecked = 1)
+        : (this.settingData.isPrintChecked = 0);
+
+      this.settingData = {
+        isPrintChecked: this.isPrintChecked,
+        selectedTimeInterval: this.selectedTimeInterval,
+        selectedTicketFontSize: this.selectedTicketFontSize,
+        selectedOrderStatus: this.selectedOrderStatus,
+        selectedTicketCount: this.selectedTicketCount,
+        selectedReloadInterval: this.selectedReloadInterval
+      };
+
+      this.$idb.set("settingData", this.settingData);
+    },
+
+    changeIsPrintValue: function(e) {
+      this.isPrintChecked = e.target.checked;
+    },
+
+    setTimeIntervalDrop(value) {
+      this.selectedTimeInterval = value;
+    },
+    setTicketFontSizesDrop(value) {
+      this.selectedTicketFontSize = value;
+    },
+    setOrderStatusDrop(value) {
+      this.selectedOrderStatus = value;
+    },
+    setTicketCountDrop(value) {
+      this.selectedTicketCount = value;
+    },
+    setReloadIntervalDrop(value) {
+      this.selectedReloadInterval = value;
+    }
+  },
   computed: {}
 };
 </script>
@@ -265,7 +342,6 @@ export default {
 .fontweight {
   font-weight: 300;
 }
-
 </style>
 <style>
 .settingsDrop .v-input__slot {
