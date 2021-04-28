@@ -1,24 +1,9 @@
 <template>
   <v-sheet class="order-action-content pa-7 text-center">
-    <p class="mb-3">Move forward to</p>
-    <Button
-      @click="orderStatusChange"
-      class="px-1"
-      light
-      outlined
-      :color="btnColor"
-    >
-      Finished
+    <p class="mb-3">{{ actionMessage }}</p>
+    <Button @click="orderStatusChange" light outlined :color="btnColor">
+      {{ nextState }}
     </Button>
-    <!-- <v-btn
-        @click="orderStatusChange"
-        rounded
-        light
-        outlined
-        :color="btnColor"
-      >
-        Finished
-      </v-btn> -->
   </v-sheet>
 </template>
 
@@ -36,9 +21,35 @@ export default {
   computed: {
     btnColor() {
       switch (this.$props.state) {
+        case "new":
+          return "blue";
+        case "in progress":
+          return "green";
         case "finished":
         default:
-          return "green";
+          return "blue";
+      }
+    },
+    actionMessage() {
+      switch (this.$props.state) {
+        case "new":
+        case "in progress":
+          return "Move forward to";
+        case "finished":
+        default:
+          return "Move back to";
+      }
+    },
+    nextState() {
+      switch (this.$props.state) {
+        case "new":
+          return "In progress";
+        case "in progress":
+          return "Finished";
+        case "finished":
+          return "In Progress";
+        default:
+          return "Move back to";
       }
     },
   },

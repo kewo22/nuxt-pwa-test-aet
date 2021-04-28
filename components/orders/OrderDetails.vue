@@ -46,7 +46,10 @@
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
-            <OrderActionContent @orderStatusChange="showActions" />
+            <OrderActionContent
+              :state="order.status"
+              @orderStatusChange="showActions"
+            />
           </v-menu>
         </div>
       </div>
