@@ -232,31 +232,19 @@ export default {
       }
     },
     orderStatusChange(order, nextState) {
-      console.log(`DATA`, { order, nextState });
       const { status } = order;
       const fromOrderArrayName = this.findOrderArray(status);
       const toOrderArrayName = this.findOrderArray(nextState);
-      /**
-        newOrders: [],
-      inProgressOrders: [],
-      finishedOrders: [],
-       */
-      if (nextState === "in progress") {
-        // find order from belonging order array and update to in progress
-        // orderArray.filter
-        // from
-        this[fromOrderArrayName] = this[fromOrderArrayName].filter(
-          (ord) => order.order_id !== ord.order_id
-        );
-        // to
-        this[toOrderArrayName] = [
-          { ...order, status: "in progress" },
-          ...this[toOrderArrayName],
-        ];
-        this.selectedOrder = this[fromOrderArrayName][0];
-      } else if (nextState === "finished") {
-        // find order from belonging order array and update to finished
-      }
+      // from
+      this[fromOrderArrayName] = this[fromOrderArrayName].filter(
+        (ord) => order.order_id !== ord.order_id
+      );
+      // to
+      this[toOrderArrayName] = [
+        { ...order, status: nextState },
+        ...this[toOrderArrayName],
+      ];
+      this.selectedOrder = this[fromOrderArrayName][0];
     },
   },
 };
