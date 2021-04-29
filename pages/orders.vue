@@ -131,7 +131,7 @@ export default {
       this.newOrders = newOrders;
       this.newOrders = this.calculatePickupTime(newOrders);
 
-      this.tempNewOrders = this.newOrders;
+      this.tempNewOrders = newOrders;
       const inProgressOrders = orders.filter(order => {
         return order.status === "in progress";
       });
@@ -216,13 +216,23 @@ export default {
         var today = moment();
         var pickupTimeInMinutes = pos_fulfilment_time.diff(today, "minutes");
 
-        var h = Math.floor((pickupTimeInMinutes % 1440) / 60);
-        var m = Math.floor((pickupTimeInMinutes % 1440) % 60);
         var pickupTime;
+        // var pickupTimeWithSeconds;
+
+        var h = Math.floor(pickupTimeInMinutes / 60);
+        var m = Math.floor(pickupTimeInMinutes % 60);
+        // var s = Math.floor(m / 60);
+
         h != 0
           ? (pickupTime = h + " hr " + m + " Min")
           : (pickupTime = m + " Min");
+
+        // h != 0
+        //   ? (pickupTimeWithSeconds = h + " hr " + m + " Min " + s + " Seconds")
+        //   : (pickupTimeWithSeconds = m + " Min" + s + " Seconds");
+
         orders[i].pickupTime = pickupTime;
+        // orders[i].pickupTimeWithSeconds = pickupTimeWithSeconds;
       }
       return orders;
     }
