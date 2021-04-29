@@ -99,7 +99,11 @@
     </div>
 
     <div class="section-2 ml-2 pa-2">
-      <OrderDetails v-if="selectedOrder" :order="selectedOrder" />
+      <OrderDetails
+        v-if="selectedOrder"
+        :order="selectedOrder"
+        @orderStatusChange="orderStatusChange"
+      />
       <NoOrder v-else />
     </div>
   </div>
@@ -215,6 +219,43 @@ export default {
           this.finishedOrders = this.tempFinishedOrders;
           this.selectedOrder = this.finishedOrders[0];
         }
+      }
+    },
+    findOrderArray(orderStatus) {
+      switch (orderStatus) {
+        case "in progress":
+          return "inProgressOrders";
+        case "finished":
+          return "finishedOrders";
+        default:
+          return "newOrders";
+      }
+    },
+    orderStatusChange(order, nextState) {
+      console.log(`DATA`, { order, nextState });
+      const { status } = order;
+      const orderArrayName = this.findOrderArray(status);
+      const orderArray = this[orderArrayName];
+      /**
+        newOrders: [],
+      inProgressOrders: [],
+      finishedOrders: [],
+       */
+      if (nextState === "in progress") {
+        // find order from belonging order array and update to in progress
+        // orderArray.filter
+        // from
+        this.newOrders = this.newOrders.filter(
+          (ord) => order.order_id !== ord.order_id
+        );
+        // to
+        this.inProgressOrders = [
+          { ...order, status: "in progress" },
+          ...this.inProgressOrders,
+        ];
+        this.selectedOrder = this.newOrders[0];
+      } else if (nextState === "finished") {
+        // find order from belonging order array and update to finished
       }
     },
   },

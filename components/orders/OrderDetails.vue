@@ -36,7 +36,9 @@
                   dark
                   :disabled="isActionsCancelled"
                   :style="
-                    isActionsCancelled ? { backgroundColor: 'grey !important' } : {}
+                    isActionsCancelled
+                      ? { backgroundColor: 'grey !important' }
+                      : {}
                   "
                   v-bind="attrs"
                   v-on="on"
@@ -140,16 +142,16 @@ export default {
       if (currentState === "finished" && nextState === "in progress") {
         // show prompt to confirm
         this.showDialog = true;
-        console.log(`Show propmt : `, nextState);
       } else {
-        console.log(`Next State : `, nextState);
+        this.$emit("orderStatusChange", this.$props.order, nextState);
       }
     },
     closeDialog() {
       this.showDialog = false;
     },
     confirmOrderStateChange() {
-      this.$emit("order-state-change", this.$props.order, "");
+      this.closeDialog();
+      this.$emit("orderStatusChange", this.$props.order, "in progress");
     },
   },
 };

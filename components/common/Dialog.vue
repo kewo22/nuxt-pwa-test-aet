@@ -37,8 +37,5 @@ export default {
       return this.$emit("clickConfirm");
     },
   },
-  mounted() {
-    console.log(this);
-  },
 };
 </script>
