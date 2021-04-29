@@ -1,9 +1,10 @@
 <template>
-  <v-container class="order-detail-root pa-10">
-    <!-- <v-row class="pb-5">
+  <div>
+    <v-container class="order-detail-root pa-10">
+      <!-- <v-row class="pb-5">
       <v-col md="7"> -->
-    <!-- <v-img max-width="200" max-height="65" :src="order.src" /> -->
-    <!-- <img src="~/assets/ubereats.png" width="20%" />
+      <!-- <v-img max-width="200" max-height="65" :src="order.src" /> -->
+      <!-- <img src="~/assets/ubereats.png" width="20%" />
       </v-col>
       <v-col md="4">
         <v-btn elevation="2" rounded dark>Print Order</v-btn>
@@ -18,66 +19,72 @@
       </p>
     </v-row> -->
 
-    <div class="d-flex flex-column mb-1">
-      <div class="d-flex flex-row justify-space-between mb-1">
-        <img src="~/assets/ubereats.png" width="10%" />
-        <div>
-          <Button @click="printOrder(order)" elevation="2" dark>
-            Print Order
-          </Button>
-          <v-menu offset-y rounded="lg" nudge-top="-10">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                rounded
-                fab
-                elevation="2"
-                small
-                dark
-                :disabled="isCancelled"
-                :style="
-                  isCancelled ? { backgroundColor: 'grey !important' } : {}
-                "
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
-            <OrderActionContent
-              :state="order.status"
-              @orderStatusChange="showActions"
-            />
-          </v-menu>
+      <div class="d-flex flex-column mb-1">
+        <div class="d-flex flex-row justify-space-between mb-1">
+          <img src="~/assets/ubereats.png" width="10%" />
+          <div>
+            <Button @click="printOrder(order)" elevation="2" dark>
+              Print Order
+            </Button>
+            <v-menu offset-y rounded="lg" nudge-top="-10">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  rounded
+                  fab
+                  elevation="2"
+                  small
+                  dark
+                  :disabled="isCancelled"
+                  :style="
+                    isCancelled ? { backgroundColor: 'grey !important' } : {}
+                  "
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <OrderActionContent
+                :state="order.status"
+                @orderStatusChange="changeOrderStatus"
+              />
+            </v-menu>
+          </div>
+        </div>
+        <div
+          :class="`order-status ${order.status} ${isCancelled && `cancelled`}`"
+        >
+          <p>{{ isCancelled ? `Cancelled!` : order.status }}</p>
         </div>
       </div>
-      <div
-        :class="`order-status ${order.status} ${isCancelled && `cancelled`}`"
-      >
-        <p>{{ isCancelled ? `Cancelled!` : order.status }}</p>
-      </div>
-    </div>
 
-    <!-- <v-row class="pb-5">
+      <!-- <v-row class="pb-5">
       <OrderStatLabel label="Order Number:" :value="order.order_id" />
       <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
       <OrderStatLabel label="Items:" :value="order_item_count" />
       <OrderStatLabel label="Predicted prep time:" value="20 Mins" />
     </v-row> -->
 
-    <div class="d-flex flex-row justify-space-between mb-3">
-      <OrderStatLabel label="Order Number:" :value="order.order_id" />
-      <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
-      <OrderStatLabel label="Items:" :value="order_item_count" />
-      <!-- TODO: NEED TO CALCULATE -->
-      <OrderStatLabel
-        v-if="isInProgressStatus"
-        label="Predicted prep time:"
-        value="20 Mins"
-      />
-    </div>
+      <div class="d-flex flex-row justify-space-between mb-3">
+        <OrderStatLabel label="Order Number:" :value="order.order_id" />
+        <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
+        <OrderStatLabel label="Items:" :value="order_item_count" />
+        <!-- TODO: NEED TO CALCULATE -->
+        <OrderStatLabel
+          v-if="isInProgressStatus"
+          label="Predicted prep time:"
+          value="20 Mins"
+        />
+      </div>
 
-    <OrderItemList :items="order.order_lines" :amount="order_amount" />
-  </v-container>
+      <OrderItemList :items="order.order_lines" :amount="order_amount" />
+    </v-container>
+    <Dialog
+      :show="showDialog"
+      @closeDialog="closeDialog"
+      @clickConfirm="confirmOrderStateChange"
+    />
+  </div>
 </template>
 
 <script>
@@ -85,10 +92,22 @@ import OrderStatLabel from "./OrderStatLabel";
 import OrderItemList from "./OrderItemList";
 import OrderActionContent from "./OrderActionContent";
 import Button from "../common/Button";
+import Dialog from "../common/Dialog";
 
 export default {
-  components: { Button, OrderActionContent, OrderStatLabel, OrderItemList },
+  components: {
+    Button,
+    Dialog,
+    OrderActionContent,
+    OrderStatLabel,
+    OrderItemList,
+  },
   props: ["order"],
+  data() {
+    return {
+      showDialog: false,
+    };
+  },
   computed: {
     isCancelled() {
       // return this.$props.order.status === "cancelled";
@@ -111,13 +130,21 @@ export default {
     printOrder(order) {
       console.log("Print order " + order.order_id);
     },
-    showActions(nextState) {
+    changeOrderStatus(nextState) {
       const currentState = this.$props.order.status;
       if (currentState === "finished" && nextState === "in progress") {
         // show prompt to confirm
+        this.showDialog = true;
         console.log(`Show propmt : `, nextState);
+      } else {
+        console.log(`Next State : `, nextState);
       }
-      console.log(`Next State : `, nextState);
+    },
+    closeDialog() {
+      this.showDialog = false;
+    },
+    confirmOrderStateChange() {
+      this.$emit("order-state-change", this.$props.order, "");
     },
   },
 };

@@ -82,6 +82,6 @@ export default {
 <style scoped>
 .cancelled {
   color: #f09d00;
-  text-decoration: line-through 2px;
+  text-decoration: line-through 1px;
 }
 </style>
