@@ -17,7 +17,8 @@
     "idb": "^6.0.0",
     "json-server": "^0.16.3",
     "nuxt": "^2.15.3",
-    "object-sizeof": "^1.6.1"
+    "object-sizeof": "^1.6.1",
+    "vue-moment": "^4.1.0"
   },
   "devDependencies": {
     "@nuxtjs/pwa": "^3.3.5",
