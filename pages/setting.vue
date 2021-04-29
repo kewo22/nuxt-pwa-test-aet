@@ -57,7 +57,7 @@
                                     justify="center"
                                     class="fontweight"
                                   >
-                                    Load time
+                                    Lead time
                                   </v-col>
                                 </v-row>
                               </div>
@@ -85,7 +85,7 @@
                                     justify="center"
                                     class="fontweight"
                                   >
-                                    ticket token size
+                                    Ticket font size
                                   </v-col>
                                 </v-row>
                               </div>
@@ -169,7 +169,7 @@
                                     justify="center"
                                     class="fontweight"
                                   >
-                                    Reload Orders
+                                    Reload orders
                                   </v-col>
                                 </v-row>
                               </div>
@@ -221,11 +221,13 @@
                                     align="left"
                                     justify="center"
                                     class="fontweight"
-                                    style="color:#F09D00;text-decoration: underline;"
                                   >
-                                    <p @click="isResetPopup = true">
+                                    <a
+                                      style="color:#F09D00;text-decoration: underline;"
+                                      @click="isResetPopup = true"
+                                    >
                                       Reset to default settings
-                                    </p>
+                                    </a>
                                   </v-col>
                                 </v-row>
                               </div>
@@ -248,24 +250,35 @@
             </v-container>
           </v-flex>
           <v-dialog v-model="isResetPopup" width="500">
-            <v-card>
-              <v-card-title class="headline grey lighten-2">
+            <v-card style="background-color: #FFFFFF !important">
+              <v-card-title style="color:black">
                 Confirm Action
               </v-card-title>
 
-              <v-card-text>
+              <v-card-text style="color:black">
                 Please confirm that you wish to reset the settings back to it’s
                 default configuration.
               </v-card-text>
 
               <v-divider></v-divider>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="isResetPopup = false">
+              <v-card-actions class="justify-center">
+                <v-btn
+                  color="primary"
+                  class="confirmPopBtn"
+                  text
+                  style="color:black !important"
+                  @click="isResetPopup = false"
+                >
                   Close
                 </v-btn>
-                <v-btn color="primary" text @click="resetSettingData">
+                <v-btn
+                  color="primary"
+                  class="confirmPopBtn"
+                  style="background-color:#2F3940;color:white !important"
+                  text
+                  @click="resetSettingData"
+                >
                   Confirm
                 </v-btn>
               </v-card-actions>
@@ -377,19 +390,6 @@ export default {
 
       this.saveSettings();
     }
-    // resetSettingData: function(e) {
-    //   this.$nextTick(() => {
-    //     this.isPrintChecked = true;
-    //     this.selectedTimeInterval = "15 minutes";
-    //     this.selectedTicketFontSize = "1";
-    //     this.selectedOrderStatus = "New";
-    //     this.selectedTicketCount = "1";
-    //     this.selectedReloadInterval = "Every 1 minute";
-    //     this.isResetPopup = false;
-
-    //     this.saveSettings();
-    //   });
-    // }
   },
   computed: {}
 };
@@ -407,6 +407,12 @@ export default {
 }
 .fontweight {
   font-weight: 300;
+}
+.confirmPopBtn {
+  border: 2px solid black;
+  width: 25%;
+  border-radius: 15px;
+  text-transform: none;
 }
 </style>
 <style>
