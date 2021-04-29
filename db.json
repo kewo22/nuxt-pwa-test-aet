@@ -63,6 +63,265 @@
             ]
         }
     ],
+    "menu": [{
+            "menu_id": 1,
+            "code": "string",
+            "name": "Menu 1",
+            "client": {
+                "code": "string",
+                "name": "string",
+                "client_id": 0,
+                "marketplaces": [
+                    "string"
+                ]
+            },
+            "product": [{
+                "product_id": 12,
+                "sku": "321312",
+                "name": "Triple Decker House Burger",
+                "category": "category type 1",
+                "active": true,
+                "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+            }],
+            "options": [{
+                    "option_id": 1,
+                    "value": "string",
+                    "name": "Ketchup",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 2,
+                    "value": "string",
+                    "name": "lettuce",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 3,
+                    "value": "string",
+                    "name": "Mustard",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                }
+            ],
+            "site": {
+                "site_id": 0,
+                "code": "string",
+                "name": "string"
+            }
+        },
+        {
+            "menu_id": 2,
+            "code": "string",
+            "name": "Menu 2",
+            "client": {
+                "code": "string",
+                "name": "string",
+                "client_id": 0,
+                "marketplaces": [
+                    "string"
+                ]
+            },
+            "product": [{
+                    "product_id": 12,
+                    "sku": "321312",
+                    "name": "Triple Decker House Burger",
+                    "category": "category type 1",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                },
+                {
+                    "product_id": 10,
+                    "sku": "321311",
+                    "name": "Triple Cook Chips",
+                    "category": "category type 2",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                },
+                {
+                    "product_id": 10,
+                    "sku": "321311",
+                    "name": "Triple Cook Chips",
+                    "category": "category type 2",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                }
+            ],
+            "options": [{
+                    "option_id": 1,
+                    "value": "string",
+                    "name": "Ketchup",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 2,
+                    "value": "string",
+                    "name": "lettuce",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 3,
+                    "value": "string",
+                    "name": "Mustard",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 4,
+                    "value": "string",
+                    "name": "Cheese",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 10
+                }
+            ],
+            "site": {
+                "site_id": 0,
+                "code": "string",
+                "name": "string"
+            }
+        },
+        {
+            "menu_id": 3,
+            "code": "string",
+            "name": "string",
+            "client": {
+                "code": "string",
+                "name": "string",
+                "client_id": 0,
+                "marketplaces": [
+                    "string"
+                ]
+            },
+            "product": [{
+                    "product_id": 12,
+                    "sku": "321312",
+                    "name": "Triple Decker House Burger",
+                    "category": "category type 1",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                },
+                {
+                    "product_id": 10,
+                    "sku": "321311",
+                    "name": "Triple Cook Chips",
+                    "category": "category type 2",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                },
+                {
+                    "product_id": 10,
+                    "sku": "321312",
+                    "name": "Zero Coke 300ml",
+                    "category": "category type 3",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                }
+            ],
+            "options": [{
+                    "option_id": 1,
+                    "value": "string",
+                    "name": "Ketchup",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 2,
+                    "value": "string",
+                    "name": "lettuce",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 3,
+                    "value": "string",
+                    "name": "Mustard",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 4,
+                    "value": "string",
+                    "name": "Cheese",
+                    "active": true,
+                    "list": [{
+                        "value": "string",
+                        "name": "string",
+                        "status": true,
+                        "code": "string"
+                    }],
+                    "product_id": 10
+                }
+            ],
+            "site": {
+                "site_id": 0,
+                "code": "string",
+                "name": "string"
+            }
+        }
+    ],
     "orders": [{
             "order_id": "114780",
             "order_ref": "External Order Reference",
