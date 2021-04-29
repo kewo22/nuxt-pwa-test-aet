@@ -34,9 +34,9 @@
                   elevation="2"
                   small
                   dark
-                  :disabled="isCancelled"
+                  :disabled="isActionsCancelled"
                   :style="
-                    isCancelled ? { backgroundColor: 'grey !important' } : {}
+                    isActionsCancelled ? { backgroundColor: 'grey !important' } : {}
                   "
                   v-bind="attrs"
                   v-on="on"
@@ -113,7 +113,12 @@ export default {
       // return this.$props.order.status === "cancelled";
       // TODO: Need to figure out how to manage cancelled order
       //       in the dataset while it is on the in-progress queue
-      return this.$props.order.cancelled;
+      const { order } = this.$props;
+      return order.cancelled;
+    },
+    isActionsCancelled() {
+      const { order } = this.$props;
+      return order.status === "finished" && order.cancelled;
     },
     order_amount() {
       return this.$currency(this.$props.order.total);
