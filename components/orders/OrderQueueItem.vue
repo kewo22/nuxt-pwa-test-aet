@@ -25,8 +25,7 @@
           <v-row align="center" justify="center">
             <v-col align="left" justify="center" style="color: #509ad8">
               <!-- TODO: NEED TO CALCULATE -->
-              20Min
-              <!-- {{ item.pos_fulfilment_time }} -->
+              {{ item.pickupTime }}
             </v-col>
           </v-row>
         </v-container>
@@ -56,17 +55,21 @@
 <script>
 export default {
   props: ["item"],
-  mounted() {
+  data() {
+    return {
+      pickupTime: ""
+    };
   },
+  mounted() {},
   computed: {
     isOrderFinished() {
       return this.$props.item.status !== "finished";
-    },
+    }
   },
   methods: {
     onOrderClick() {
       this.$emit("orcerClick", this.item);
-    },
-  },
+    }
+  }
 };
 </script>
