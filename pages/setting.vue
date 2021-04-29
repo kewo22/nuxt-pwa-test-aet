@@ -4,6 +4,9 @@
       <v-flex>
         <v-layout>
           <v-flex xs6 sm6 md6 style="background-color: #23282c">
+            <v-alert v-model="isSavedSuccess" dismissible type="success"
+              >Settings data saved successfully</v-alert
+            >
             <v-container>
               <v-row>
                 <v-col align="left">
@@ -45,7 +48,7 @@
                               </v-row>
                             </v-flex>
                           </v-layout>
-                          <v-layout mt-9>
+                          <v-layout mt-3>
                             <v-flex xs12 sm12 md6>
                               <div>
                                 <v-row align="center" justify="center">
@@ -65,7 +68,7 @@
                                   ><v-select
                                     class="settingsDrop"
                                     :items="timeIntervals"
-                                    :label="selectedTimeInterval"
+                                    v-model="selectedTimeInterval"
                                     solo
                                     @input="setTimeIntervalDrop"
                                   ></v-select>
@@ -93,7 +96,7 @@
                                   ><v-select
                                     class="settingsDrop"
                                     :items="ticketFontSizes"
-                                    :label="selectedTicketFontSize"
+                                    v-model="selectedTicketFontSize"
                                     solo
                                     @input="setTicketFontSizesDrop"
                                   ></v-select>
@@ -121,7 +124,7 @@
                                   ><v-select
                                     class="settingsDrop"
                                     :items="orderStatus"
-                                    :label="selectedOrderStatus"
+                                    v-model="selectedOrderStatus"
                                     @input="setOrderStatusDrop"
                                     solo
                                   ></v-select>
@@ -149,7 +152,7 @@
                                   ><v-select
                                     class="settingsDrop"
                                     :items="ticketCounts"
-                                    :label="selectedTicketCount"
+                                    v-model="selectedTicketCount"
                                     @input="setTicketCountDrop"
                                     solo
                                   ></v-select>
@@ -177,7 +180,7 @@
                                   ><v-select
                                     class="settingsDrop"
                                     :items="reloadIntervals"
-                                    :label="selectedReloadInterval"
+                                    v-model="selectedReloadInterval"
                                     @input="setReloadIntervalDrop"
                                     solo
                                   ></v-select>
@@ -210,25 +213,32 @@
                               </v-row>
                             </v-flex>
                           </v-layout>
-                          <v-card-actions
-                            class="justify-center"
-                            style="margin-top:5%"
-                          >
+                          <v-layout mt-10>
+                            <v-flex xs12 sm12 md6>
+                              <div>
+                                <v-row align="center" justify="center">
+                                  <v-col
+                                    align="left"
+                                    justify="center"
+                                    class="fontweight"
+                                    style="color:#F09D00;text-decoration: underline;"
+                                  >
+                                    <p @click="isResetPopup = true">
+                                      Reset to default settings
+                                    </p>
+                                  </v-col>
+                                </v-row>
+                              </div>
+                            </v-flex>
+                          </v-layout>
+                          <v-card-actions mt-2 class="justify-center">
                             <v-btn
                               @click="saveSettings"
-                              style="text-transform:none; background-color:#509ad9;border-radius: 20px; width: 22%;"
+                              style="margin-top:4%;text-transform:none; background-color:#509ad9;border-radius: 20px; width: 22%;"
                             >
                               Save
                             </v-btn>
                           </v-card-actions>
-
-                          <!-- <v-btn
-                            color="primary"
-                            align="center"
-                            justify="center"
-                            style="text-transform:none"
-                            >Save</v-btn
-                          > -->
                         </div>
                       </v-flex>
                     </v-layout>
@@ -237,6 +247,30 @@
               </v-row>
             </v-container>
           </v-flex>
+          <v-dialog v-model="isResetPopup" width="500">
+            <v-card>
+              <v-card-title class="headline grey lighten-2">
+                Confirm Action
+              </v-card-title>
+
+              <v-card-text>
+                Please confirm that you wish to reset the settings back to it’s
+                default configuration.
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="isResetPopup = false">
+                  Close
+                </v-btn>
+                <v-btn color="primary" text @click="resetSettingData">
+                  Confirm
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
           <v-flex xs6 sm6 md6 style="background-color: #f6f8fa">
             <v-container fill-height fluid>
               <v-row align="center" justify="center">
@@ -267,7 +301,9 @@ export default {
     selectedTicketFontSize: "",
     selectedOrderStatus: "",
     selectedTicketCount: "",
-    selectedReloadInterval: ""
+    selectedReloadInterval: "",
+    isResetPopup: false,
+    isSavedSuccess: false
   }),
 
   mounted() {
@@ -276,9 +312,14 @@ export default {
   methods: {
     async loadSettingData() {
       this.settingData = (await this.$idb.get("settingData")) || [];
-      this.settingData.isPrintChecked
-        ? (this.isPrintChecked = true)
-        : (this.isPrintChecked = false);
+      if (this.settingData.length == 0) {
+        this.isPrintChecked = true;
+      } else {
+        this.settingData.isPrintChecked
+          ? (this.isPrintChecked = true)
+          : (this.isPrintChecked = false);
+      }
+
       this.selectedTimeInterval =
         this.settingData.selectedTimeInterval || "15 minutes";
       this.selectedTicketFontSize =
@@ -303,6 +344,7 @@ export default {
       };
 
       this.$idb.set("settingData", this.settingData);
+      this.isSavedSuccess = true;
     },
 
     changeIsPrintValue: function(e) {
@@ -323,7 +365,31 @@ export default {
     },
     setReloadIntervalDrop(value) {
       this.selectedReloadInterval = value;
+    },
+    resetSettingData() {
+      this.isPrintChecked = true;
+      this.selectedTimeInterval = "15 minutes";
+      this.selectedTicketFontSize = "8 pt";
+      this.selectedOrderStatus = "New";
+      this.selectedTicketCount = "1";
+      this.selectedReloadInterval = "Every 1 minute";
+      this.isResetPopup = false;
+
+      this.saveSettings();
     }
+    // resetSettingData: function(e) {
+    //   this.$nextTick(() => {
+    //     this.isPrintChecked = true;
+    //     this.selectedTimeInterval = "15 minutes";
+    //     this.selectedTicketFontSize = "1";
+    //     this.selectedOrderStatus = "New";
+    //     this.selectedTicketCount = "1";
+    //     this.selectedReloadInterval = "Every 1 minute";
+    //     this.isResetPopup = false;
+
+    //     this.saveSettings();
+    //   });
+    // }
   },
   computed: {}
 };
@@ -346,5 +412,8 @@ export default {
 <style>
 .settingsDrop .v-input__slot {
   background-color: #282e35 !important;
+}
+.settingsDrop .v-input__control {
+  min-height: 40px !important;
 }
 </style>
