@@ -19,9 +19,9 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab @click="onNewTabClick(0)"> New </v-tab>
-          <v-tab @click="onInProgressTabClick(1)"> In Progress </v-tab>
-          <v-tab @click="onFinishedTabClick(2)"> Finished </v-tab>
+          <v-tab @click="onNewTabClick(0)"> New ({{newOrders.length}})</v-tab>
+          <v-tab @click="onInProgressTabClick(1)"> In Progress ({{inProgressOrders.length}})</v-tab>
+          <v-tab @click="onFinishedTabClick(2)"> Finished ({{finishedOrders.length}})</v-tab>
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
