@@ -1,5 +1,6 @@
 <template>
   <v-btn
+    :class="item.cancelled && `cancelled-item`"
     style="
       width: 100%;
       background-color: #282e35;
@@ -83,5 +84,8 @@ export default {
 .cancelled {
   color: #f09d00;
   text-decoration: line-through 1px;
+}
+.cancelled-item {
+  border: 2px solid #f09d00;
 }
 </style>

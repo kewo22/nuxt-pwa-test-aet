@@ -30,8 +30,12 @@
               <v-card-text class="v-card-text">
                 <div v-if="newOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in newOrders"
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                      selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected new`
+                    }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -49,8 +53,12 @@
               <v-card-text class="v-card-text">
                 <div v-if="inProgressOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in inProgressOrders"
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                      selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected`
+                    }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -68,8 +76,12 @@
               <v-card-text class="v-card-text">
                 <div v-if="finishedOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in finishedOrders"
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                      selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected finished`
+                    }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -212,6 +224,18 @@ export default {
 <style scoped>
 .orders-wrapper {
   width: 100%;
+}
+.selected {
+  border: 2px #509ad9 solid;
+}
+.new {
+  border-color: #9d41b9;
+}
+.finished {
+  border-color: #62a073;
+}
+.cancelled-order {
+  border-color: #f09d00;
 }
 .section-1 {
   flex: 1 0 50%;
