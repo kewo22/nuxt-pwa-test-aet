@@ -21,7 +21,8 @@
 
       <div class="d-flex flex-column mb-1">
         <div class="d-flex flex-row justify-space-between mb-1">
-          <img src="~/assets/ubereats.png" width="10%" />
+          <!-- <img src="~/assets/ubereats.png" width="10%" /> -->
+          <img :src="getImage" width="10%" />
           <div>
             <Button @click="printOrder(order)" elevation="2" dark>
               Print Order
@@ -111,6 +112,19 @@ export default {
     };
   },
   computed: {
+    getImage() {
+      const { order } = this.$props;
+      switch (order.fulfilment_source) {
+        case "Uber Eats":
+          return require("~/assets/ubereats.png");
+        case "Delivery Hero":
+          return require("~/assets/deliveryHero.png");
+        case "Just Eat":
+          return require("~/assets/justEat.png");
+        default:
+          return "";
+      }
+    },
     isCancelled() {
       // return this.$props.order.status === "cancelled";
       // TODO: Need to figure out how to manage cancelled order
