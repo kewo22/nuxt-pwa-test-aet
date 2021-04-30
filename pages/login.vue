@@ -33,73 +33,56 @@
 
 <script>
 import { TokenAuthentication } from "@/constants";
+import jwt_decode from "jwt-decode";
 
 export default {
   options: {
     layout: "empty",
   },
-  data: () => ({
-    loginFail: false,
-    username: "",
-    password: "",
-    rules: {
-      usernameRequired: (value) => !!value || "Username is required",
-      passwordRequired: (value) => !!value || "Password is required",
-      emailValid: (value) => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern.test(value) || "Invalid e-mail.";
+  data() {
+    return {
+      loginFail: false,
+      username: "",
+      password: "",
+      rules: {
+        usernameRequired: (value) => !!value || "Username is required",
+        passwordRequired: (value) => !!value || "Password is required",
+        emailValid: (value) => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || "Invalid e-mail.";
+        },
       },
-    },
-  }),
+    };
+  },
   methods: {
-    login: async function ({ $axios }) {
-      const isValid = this.$refs.loginForm.validate();
+    async login() {
+      let formData = new FormData();
+      formData.append("username", this.username);
+      formData.append("password", this.password);
+      formData.append("grant_type", "password");
 
-        if (isValid) {
-      // try {
-      //   let response = await this.$auth.loginWith('customStrategy', {
-      //     username: this.username,
-      //     password: this.password,
-      //   });
-      //   console.log('============response/////////////', response);
-      // } catch (err) {
-      //   console.log('============err/////////////', err);
-      // }
+      const x = `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`;
 
-      // ref: https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth-ropc
-          const authData = {
-            url: TokenAuthentication.TokenUrl,
+      await this.$axios
+        .post(
+          `https://api-l10-idp-staging-neu.azurewebsites.net/connect/token`,
+          x,
+          {
             headers: {
-              'Authorization': TokenAuthentication.Authorization,
-              'Content-Type': 'application/x-www-form-urlencoded'
+              Authorization: "Basic c3RhZ2luZ19yZWNvbmNpbGlhdGlvbl93ZWI6",
+              "Content-Type": "application/x-www-form-urlencoded",
             },
-            dataString: `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`
           }
-
-        await this.$axios
-          .$post(authData.url, authData.dataString, {
-            headers: authData.headers,
-          })
-          .then((response) => {
-            this.loginFail = false;
-
-            const customUser = {
-              fullName: 'test user',
-              roles: ['user']
-            }
-            this.$auth.setUser(customUser);
-            this.$auth.setUserToken(`${response.token_type} ${response.access_token}`, response.refresh_token);
-
-            localStorage.setItem(
-              "user_token",
-              `${response.token_type} ${response.access_token}`
-            );
-            this.$router.push("/orders");
-          })
-          .catch((error) => {
-            this.loginFail = true;
-          });
-      }
+        )
+        .then((res) => {
+        //   console.log("from then --------- ", res);
+          var decoded = jwt_decode(res.data.access_token);
+          console.log(decoded);
+        })
+        .catch((err) => {
+          console.log("from err --------- ", err);
+        })
+        .finally(() => {});
     },
   },
 };
@@ -150,4 +133,8 @@ export default {
   font-size: 12px;
 }
 </style>
+
+
+
+
 
