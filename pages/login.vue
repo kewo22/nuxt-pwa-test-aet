@@ -88,7 +88,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container-main {
   margin: 0;
   min-height: 100vh;

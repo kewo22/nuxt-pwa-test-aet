@@ -19,9 +19,9 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab @click="onNewTabClick(0)"> New </v-tab>
-          <v-tab @click="onInProgressTabClick(1)"> In Progress </v-tab>
-          <v-tab @click="onFinishedTabClick(2)"> Finished </v-tab>
+          <v-tab @click="onNewTabClick(0)"> New ({{newOrders.length}})</v-tab>
+          <v-tab @click="onInProgressTabClick(1)"> In Progress ({{inProgressOrders.length}})</v-tab>
+          <v-tab @click="onFinishedTabClick(2)"> Finished ({{finishedOrders.length}})</v-tab>
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
@@ -30,8 +30,12 @@
               <v-card-text class="v-card-text">
                 <div v-if="newOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in newOrders"
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                      selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected new`
+                    }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -49,8 +53,12 @@
               <v-card-text class="v-card-text">
                 <div v-if="inProgressOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in inProgressOrders"
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                      selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected`
+                    }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -68,8 +76,12 @@
               <v-card-text class="v-card-text">
                 <div v-if="finishedOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in finishedOrders"
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                      selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected finished`
+                    }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -87,7 +99,11 @@
     </div>
 
     <div class="section-2 ml-2 pa-2">
-      <OrderDetails v-if="selectedOrder" :order="selectedOrder" />
+      <OrderDetails
+        v-if="selectedOrder"
+        :order="selectedOrder"
+        @orderStatusChange="orderStatusChange"
+      />
       <NoOrder v-else />
     </div>
   </div>
@@ -97,6 +113,7 @@
 import OrderDetails from "~/components/orders/OrderDetails.vue";
 import NoOrder from "~/components/orders/NoOrder.vue";
 import OrderQueueItem from "~/components/orders/OrderQueueItem.vue";
+import moment from "moment";
 
 export default {
   components: { OrderDetails, NoOrder, OrderQueueItem },
@@ -113,7 +130,7 @@ export default {
       allOrders: [],
       tempOrders: [],
       currentTab: 0,
-      searchVal: "",
+      searchVal: ""
     };
   },
   mounted() {
@@ -124,17 +141,21 @@ export default {
       const orders = await this.$axios.$get("http://localhost:3004/orders");
       this.allOrders = orders;
       this.tempOrders = orders;
-      const newOrders = orders.filter((order) => {
+      const newOrders = orders.filter(order => {
         return order.status === "new";
       });
       this.newOrders = newOrders;
+      this.newOrders = this.calculatePickupTime(newOrders);
+
       this.tempNewOrders = newOrders;
-      const inProgressOrders = orders.filter((order) => {
+      const inProgressOrders = orders.filter(order => {
         return order.status === "in progress";
       });
       this.inProgressOrders = inProgressOrders;
+      this.inProgressOrders = this.calculatePickupTime(inProgressOrders);
+
       this.tempInProgressOrders = inProgressOrders;
-      const finishedOrders = orders.filter((order) => {
+      const finishedOrders = orders.filter(order => {
         return order.status === "finished";
       });
       this.finishedOrders = finishedOrders;
@@ -160,7 +181,7 @@ export default {
       this.searchVal = e.target.value;
       if (this.currentTab === 0) {
         if (this.searchVal) {
-          const filteredNewOrders = this.tempNewOrders.filter((order) => {
+          const filteredNewOrders = this.tempNewOrders.filter(order => {
             // return order.order_id === searchVal;
             return order.order_id.includes(this.searchVal);
           });
@@ -175,7 +196,7 @@ export default {
       if (this.currentTab === 1) {
         if (this.searchVal) {
           const filteredInprogressOrders = this.tempInProgressOrders.filter(
-            (order) => {
+            order => {
               // return order.order_id === searchVal;
               return order.order_id.includes(this.searchVal);
             }
@@ -191,7 +212,7 @@ export default {
       if (this.currentTab === 2) {
         if (this.searchVal) {
           const filteredFinishedOrders = this.tempFinishedOrders.filter(
-            (order) => {
+            order => {
               // return order.order_id === searchVal;
               return order.order_id.includes(this.searchVal);
             }
@@ -205,13 +226,76 @@ export default {
         }
       }
     },
-  },
+    calculatePickupTime(orders) {
+      for (let i = 0; i < orders.length; i++) {
+        var pos_fulfilment_time = moment(orders[i].pos_fulfilment_time);
+        var today = moment();
+        var pickupTimeInMinutes = pos_fulfilment_time.diff(today, "minutes");
+
+        var pickupTime;
+        // var pickupTimeWithSeconds;
+
+        var h = Math.floor(pickupTimeInMinutes / 60);
+        var m = Math.floor(pickupTimeInMinutes % 60);
+        // var s = Math.floor(m / 60);
+
+        h != 0
+          ? (pickupTime = h + " hr " + m + " Min")
+          : (pickupTime = m + " Min");
+
+        // h != 0
+        //   ? (pickupTimeWithSeconds = h + " hr " + m + " Min " + s + " Seconds")
+        //   : (pickupTimeWithSeconds = m + " Min" + s + " Seconds");
+
+        orders[i].pickupTime = pickupTime;
+        // orders[i].pickupTimeWithSeconds = pickupTimeWithSeconds;
+      }
+      return orders;
+    },
+    findOrderArray(orderStatus) {
+      switch (orderStatus) {
+        case "in progress":
+          return "inProgressOrders";
+        case "finished":
+          return "finishedOrders";
+        default:
+          return "newOrders";
+      }
+    },
+    orderStatusChange(order, nextState) {
+      const { status } = order;
+      const fromOrderArrayName = this.findOrderArray(status);
+      const toOrderArrayName = this.findOrderArray(nextState);
+      // from
+      this[fromOrderArrayName] = this[fromOrderArrayName].filter(
+        (ord) => order.order_id !== ord.order_id
+      );
+      // to
+      this[toOrderArrayName] = [
+        { ...order, status: nextState },
+        ...this[toOrderArrayName],
+      ];
+      this.selectedOrder = this[fromOrderArrayName][0];
+    }
+  }
 };
 </script>
 
 <style scoped>
 .orders-wrapper {
   width: 100%;
+}
+.selected {
+  border: 2px #509ad9 solid;
+}
+.new {
+  border-color: #9d41b9;
+}
+.finished {
+  border-color: #62a073;
+}
+.cancelled-order {
+  border-color: #f09d00;
 }
 .section-1 {
   flex: 1 0 50%;
