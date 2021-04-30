@@ -341,9 +341,9 @@
                 "site_id": 2323
             },
             "order_paid": false,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
-            "delivery_fee": 4.00,
+            "delivery_fee": 0.00,
             "tax": 0.00,
             "total": 20.98,
             "customer": {
@@ -514,9 +514,9 @@
                 "site_id": 2323
             },
             "order_paid": true,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
-            "delivery_fee": 4.00,
+            "delivery_fee": 0.00,
             "tax": 0.00,
             "total": 21.98,
             "customer": {
@@ -607,9 +607,9 @@
                     "note": "Cheese",
                     "mapping_data": "internal mapping data",
                     "product": {
-                        "product_id": 10,
-                        "name": "Triple Cook Chips",
-                        "category": "category type 2"
+                        "product_id": 12,
+                        "name": "Triple Decker House Burger",
+                        "category": "category type 1"
                     }
                 },
                 {
@@ -632,32 +632,32 @@
         {
             "order_id": "114785",
             "order_ref": "External Order Reference",
-            "order_number": 6,
+            "order_number": 11,
             "order_ref_reversed": "External order reference reversed",
             "status": "in progress",
             "pos_state_updated_at": "2020-10-31 01:48:52",
             "pos_fulfilment_time": "2020-10-31 01:48:52",
             "client": {
-                "code": "232344wed",
-                "name": "Hulk Hogan"
+                "code": "23467wed",
+                "name": "Liam Noah"
             },
             "site": {
-                "code": "220ws",
-                "name": "London",
-                "reference": "site external reference",
-                "site_id": 2323
+                "code": "221ws",
+                "name": "Manchester",
+                "reference": "site external reference"
             },
-            "order_paid": false,
+            "order_paid": true,
+            "dp_id": 1,
             "fulfilment_type": "Delivery",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
             "total": 27.96,
             "customer": {
-                "firstname": "Hulk",
-                "lastname": "Hogan",
+                "firstname": "Liam",
+                "lastname": "Noah",
                 "phone_number": " +44 20 7234 3452",
-                "email": "hulkhogan@outlook.com",
+                "email": "liamnoah@outlook.com",
                 "address": {
                     "address1": "address1",
                     "address2": "address2",
@@ -1093,9 +1093,9 @@
                 "reference": "site external reference"
             },
             "order_paid": true,
-            "fulfilment_type": "Delivery",
+            "fulfilment_type": "Pickup",
             "notes": "any notes for the order",
-            "delivery_fee": 4.00,
+            "delivery_fee": 0.00,
             "tax": 0.00,
             "total": 9.98,
             "customer": {
