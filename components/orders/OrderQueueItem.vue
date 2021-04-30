@@ -1,6 +1,8 @@
 <template>
   <v-btn
-    :class="item.cancelled && `cancelled-item`"
+    :class="`${item.cancelled && `cancelled-item`} ${
+      isOverdue && `overdue-item`
+    }`"
     style="
       width: 100%;
       background-color: #282e35;
@@ -32,7 +34,11 @@
         </v-container>
         <v-container v-else-if="isOrderFinished" fill-height fluid>
           <v-row align="center" justify="center">
-            <v-col align="left" justify="center" style="color: #509ad8">
+            <v-col
+              align="left"
+              justify="center"
+              :class="`pickup-time ${isOverdue && `overdue`}`"
+            >
               <!-- TODO: NEED TO CALCULATE -->
               {{ item.pickupTime }}
               <!-- {{displayFromCountDownTimer(30)}} -->
@@ -88,10 +94,13 @@ export default {
       }
       return imgSrc;
     },
+    isOverdue() {
+      return this.$props.item.overdue;
+    },
   },
   methods: {
     onOrderClick() {
-      this.$emit("orcerClick", this.item);
+      this.$emit("orderClick", this.item);
     },
     displayFromCountDownTimer(s) {
       s = s - 1;
@@ -104,6 +113,15 @@ export default {
 .cancelled {
   color: #f09d00;
   text-decoration: line-through 1px;
+}
+.pickup-time {
+  color: #509ad8;
+}
+.overdue {
+  color: #e00000;
+}
+.overdue-item {
+  border: 2px solid #ff0000;
 }
 .cancelled-item {
   border: 2px solid #f09d00;

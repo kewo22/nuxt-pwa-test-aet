@@ -3,31 +3,29 @@
     <v-card elevation="2" class="login-container">
       <LogoLine10 class="logo" />
       <v-form ref="loginForm" class="login-form-container">
-        <v-container>
-          <v-row>
-            <v-text-field
-              v-model="username"
-              :rules="[rules.usernameRequired, rules.emailValid]"
-              label="username"
-              required
-              class="login-input"
-            ></v-text-field>
-          </v-row>
-          <v-row>
-            <v-text-field
-              v-model="password"
-              :type="'password'"
-              name="Password"
-              label="password"
-              :rules="[rules.passwordRequired]"
-              class="login-input"
-            ></v-text-field>
-          </v-row>
-          <v-btn class="login-button" @click="login"> Login </v-btn>
-          <v-alert color="red" dark class="login-error" v-if="loginFail">
-            If you can not login, Please contact ‘support@lineten.com.’
-          </v-alert>
-        </v-container>
+        <v-row>
+          <v-text-field
+            v-model="username"
+            :rules="[rules.usernameRequired, rules.emailValid]"
+            label="username"
+            required
+            class="login-input"
+          ></v-text-field>
+        </v-row>
+        <v-row>
+          <v-text-field
+            v-model="password"
+            :type="'password'"
+            name="Password"
+            label="password"
+            :rules="[rules.passwordRequired]"
+            class="login-input"
+          ></v-text-field>
+        </v-row>
+        <v-btn class="login-button" @click="login"> Login </v-btn>
+        <v-alert color="red" dark class="login-error" v-if="loginFail">
+          If you can not login, Please contact ‘support@lineten.com.’
+        </v-alert>
       </v-form>
     </v-card>
   </v-container>
@@ -35,54 +33,57 @@
 
 <script>
 import { TokenAuthentication } from "@/constants";
+import jwt_decode from "jwt-decode";
 
 export default {
   options: {
     layout: "empty",
   },
-  data: () => ({
-    loginFail: false,
-    username: "",
-    password: "",
-    rules: {
-      usernameRequired: (value) => !!value || "Username is required",
-      passwordRequired: (value) => !!value || "Password is required",
-      emailValid: (value) => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern.test(value) || "Invalid e-mail.";
+  data() {
+    return {
+      loginFail: false,
+      username: "",
+      password: "",
+      rules: {
+        usernameRequired: (value) => !!value || "Username is required",
+        passwordRequired: (value) => !!value || "Password is required",
+        emailValid: (value) => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || "Invalid e-mail.";
+        },
       },
-    },
-  }),
+    };
+  },
   methods: {
-    login: async function ({ $axios }) {
-      const isValid = this.$refs.loginForm.validate();
+    async login() {
+      let formData = new FormData();
+      formData.append("username", this.username);
+      formData.append("password", this.password);
+      formData.append("grant_type", "password");
 
-      if (isValid) {
-        const authData = {
-          url: TokenAuthentication.TokenUrl,
-          headers: {
-            Authorization: TokenAuthentication.Authorization,
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          dataString: `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`,
-        };
+      const x = `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`;
 
-        await this.$axios
-          .$post(authData.url, authData.dataString, {
-            headers: authData.headers,
-          })
-          .then((response) => {
-            this.loginFail = false;
-            localStorage.setItem(
-              "user_token",
-              `${response.token_type} ${response.access_token}`
-            );
-            this.$router.push("/orders");
-          })
-          .catch((error) => {
-            this.loginFail = true;
-          });
-      }
+      await this.$axios
+        .post(
+          `https://api-l10-idp-staging-neu.azurewebsites.net/connect/token`,
+          x,
+          {
+            headers: {
+              Authorization: "Basic c3RhZ2luZ19yZWNvbmNpbGlhdGlvbl93ZWI6",
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        )
+        .then((res) => {
+        //   console.log("from then --------- ", res);
+          var decoded = jwt_decode(res.data.access_token);
+          console.log(decoded);
+          this.$router.push('/orders')
+        })
+        .catch((err) => {
+          console.log("from err --------- ", err);
+        })
+        .finally(() => {});
     },
   },
 };
@@ -133,4 +134,8 @@ export default {
   font-size: 12px;
 }
 </style>
+
+
+
+
 

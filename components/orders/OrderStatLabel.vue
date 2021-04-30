@@ -1,7 +1,7 @@
 <template>
   <v-col class="order-stat right-border">
     <p class="stat-label">{{ label }}</p>
-    <p class="stat-value">{{ value }}</p>
+    <p :class="`stat-value ${valueStyle}`">{{ value }}</p>
   </v-col>
 </template>
 
@@ -39,10 +39,14 @@
   font-size: 25px;
   font-weight: bold;
 }
+
+.overdue {
+  color: #e00000;
+}
 </style>
 
 <script>
 export default {
-  props: ["label", "value"],
+  props: ["label", "value", "valueStyle"],
 };
 </script>
