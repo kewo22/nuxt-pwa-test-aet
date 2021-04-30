@@ -19,9 +19,13 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab @click="onNewTabClick(0)"> New ({{newOrders.length}})</v-tab>
-          <v-tab @click="onInProgressTabClick(1)"> In Progress ({{inProgressOrders.length}})</v-tab>
-          <v-tab @click="onFinishedTabClick(2)"> Finished ({{finishedOrders.length}})</v-tab>
+          <v-tab @click="onNewTabClick(0)"> New ({{ newOrders.length }})</v-tab>
+          <v-tab @click="onInProgressTabClick(1)">
+            In Progress ({{ inProgressOrders.length }})</v-tab
+          >
+          <v-tab @click="onFinishedTabClick(2)">
+            Finished ({{ finishedOrders.length }})</v-tab
+          >
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
@@ -54,7 +58,9 @@
                 <div v-if="inProgressOrders.length">
                   <OrderQueueItem
                     v-for="newOrder in inProgressOrders"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} 
+                    ${newOrder.overdue && `overdue-order`}
+                    ${
                       selectedOrder &&
                       selectedOrder.order_id === newOrder.order_id &&
                       `selected`
@@ -130,7 +136,7 @@ export default {
       allOrders: [],
       tempOrders: [],
       currentTab: 0,
-      searchVal: ""
+      searchVal: "",
     };
   },
   mounted() {
@@ -141,21 +147,21 @@ export default {
       const orders = await this.$axios.$get("http://localhost:3004/orders");
       this.allOrders = orders;
       this.tempOrders = orders;
-      const newOrders = orders.filter(order => {
+      const newOrders = orders.filter((order) => {
         return order.status === "new";
       });
       this.newOrders = newOrders;
       this.newOrders = this.calculatePickupTime(newOrders);
 
       this.tempNewOrders = newOrders;
-      const inProgressOrders = orders.filter(order => {
+      const inProgressOrders = orders.filter((order) => {
         return order.status === "in progress";
       });
       this.inProgressOrders = inProgressOrders;
       this.inProgressOrders = this.calculatePickupTime(inProgressOrders);
 
       this.tempInProgressOrders = inProgressOrders;
-      const finishedOrders = orders.filter(order => {
+      const finishedOrders = orders.filter((order) => {
         return order.status === "finished";
       });
       this.finishedOrders = finishedOrders;
@@ -181,7 +187,7 @@ export default {
       this.searchVal = e.target.value;
       if (this.currentTab === 0) {
         if (this.searchVal) {
-          const filteredNewOrders = this.tempNewOrders.filter(order => {
+          const filteredNewOrders = this.tempNewOrders.filter((order) => {
             // return order.order_id === searchVal;
             return order.order_id.includes(this.searchVal);
           });
@@ -196,7 +202,7 @@ export default {
       if (this.currentTab === 1) {
         if (this.searchVal) {
           const filteredInprogressOrders = this.tempInProgressOrders.filter(
-            order => {
+            (order) => {
               // return order.order_id === searchVal;
               return order.order_id.includes(this.searchVal);
             }
@@ -212,7 +218,7 @@ export default {
       if (this.currentTab === 2) {
         if (this.searchVal) {
           const filteredFinishedOrders = this.tempFinishedOrders.filter(
-            order => {
+            (order) => {
               // return order.order_id === searchVal;
               return order.order_id.includes(this.searchVal);
             }
@@ -276,8 +282,8 @@ export default {
         ...this[toOrderArrayName],
       ];
       this.selectedOrder = this[fromOrderArrayName][0];
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -296,6 +302,9 @@ export default {
 }
 .cancelled-order {
   border-color: #f09d00;
+}
+.overdue-order {
+  border-color: #FF0000;
 }
 .section-1 {
   flex: 1 0 50%;
