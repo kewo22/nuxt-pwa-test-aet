@@ -4,7 +4,11 @@
       <v-flex>
         <v-layout>
           <v-flex xs6 sm6 md6 style="background-color: #23282c">
-            <v-alert v-model="isSavedSuccess" dismissible type="success"
+            <v-alert
+              style="position:absolute;width:49%"
+              dismissible
+              type="success"
+              :value="isSavedSuccess"
               >Settings data saved successfully</v-alert
             >
             <v-container>
@@ -40,6 +44,7 @@
                                   <input
                                     type="checkbox"
                                     id="checkbox"
+                                    class="regular-checkbox"
                                     :checked="isPrintChecked"
                                     @click="changeIsPrintValue"
                                     style="width:40px;height:40px;"
@@ -251,13 +256,23 @@
           </v-flex>
           <v-dialog v-model="isResetPopup" width="500">
             <v-card style="background-color: #FFFFFF !important">
-              <v-card-title style="color:black">
-                Confirm Action
+              <v-card-title
+                style="color:black; border-bottom: 1px solid #CCCED0;"
+              >
+                <div>
+                  <font-awesome-icon
+                    :icon="['fa', 'question-circle']"
+                  ></font-awesome-icon>
+
+                  <span>Confirm Action</span>
+                </div>
               </v-card-title>
 
-              <v-card-text style="color:black">
-                Please confirm that you wish to reset the settings back to it’s
-                default configuration.
+              <v-card-text style="color:black;margin-top:2%">
+                <p>
+                  Please confirm that you wish to reset the settings back to
+                  it’s default configuration.
+                </p>
               </v-card-text>
 
               <v-divider></v-divider>
@@ -321,6 +336,16 @@ export default {
 
   mounted() {
     this.loadSettingData();
+  },
+
+  watch: {
+    isSavedSuccess(new_val) {
+      if (new_val) {
+        setTimeout(() => {
+          this.isSavedSuccess = false;
+        }, 3000);
+      }
+    }
   },
   methods: {
     async loadSettingData() {
@@ -414,6 +439,39 @@ export default {
   border-radius: 15px;
   text-transform: none;
 }
+
+.regular-checkbox {
+  background-color: #ffffff;
+  -webkit-appearance: none;
+  border: 1px solid #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 9px;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+}
+.regular-checkbox:active,
+.regular-checkbox:checked:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.regular-checkbox:checked {
+  background-color: #23282c;
+  border: 1px solid #509ad9;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05),
+    inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+}
+.regular-checkbox:checked:after {
+  content: "\2714";
+  font-size: 20px;
+  position: absolute;
+  color: #509ad9;
+  text-align: center;
+  top: 6px;
+}
 </style>
 <style>
 .settingsDrop .v-input__slot {
@@ -421,5 +479,9 @@ export default {
 }
 .settingsDrop .v-input__control {
   min-height: 40px !important;
+}
+#checkbox input[type="checkbox"]:checked {
+  background-color: #a77e2d !important;
+  color: #ffffff !important;
 }
 </style>
