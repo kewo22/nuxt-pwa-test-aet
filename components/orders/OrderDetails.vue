@@ -84,6 +84,7 @@ export default {
       // newwin.close();
       // window.open("https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif");
       window.document.write(printdata.outerHTML);
+      window.close();
       window.print();
       location.reload();
       // newwin.close();

@@ -461,7 +461,7 @@
                 "site_id": 2323
             },
             "order_paid": false,
-            "fulfilment_type": "Pickup",
+            "fulfilment_type": "collection",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -735,7 +735,7 @@
                 "site_id": 2323
             },
             "order_paid": true,
-            "fulfilment_type": "Pickup",
+            "fulfilment_type": "walk-in",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -841,7 +841,7 @@
                 "site_id": 2323
             },
             "order_paid": true,
-            "fulfilment_type": "Pickup",
+            "fulfilment_type": "collection",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -961,7 +961,7 @@
             },
             "order_paid": true,
             "dp_id": 1,
-            "fulfilment_type": "Pickup",
+            "fulfilment_type": "walk-in",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
@@ -1027,7 +1027,7 @@
                 "reference": "site external reference"
             },
             "order_paid": true,
-            "fulfilment_type": "Pickup",
+            "fulfilment_type": "collection",
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,

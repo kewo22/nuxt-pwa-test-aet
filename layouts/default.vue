@@ -203,9 +203,16 @@ export default {
         let channel = localStorage.getItem("filterChannels");
         if (filterType !== undefined ) {
           if (type !== "Both") {
-            orderTypeData = orders.filter((order) => {
-              return order.fulfilment_type === type;
-            });
+            if (type === "Delivery") {
+              orderTypeData = orders.filter((order) => {
+                return order.fulfilment_type === type;
+              });  
+            } else {
+              orderTypeData = orders.filter((order) => {
+                return order.fulfilment_type ===  "walk-in" || order.fulfilment_type ===  "collection";
+              });
+            }
+            
           }
           if (channel !== "All Channels") {
             channelDataArray = [];
@@ -263,7 +270,7 @@ export default {
         this.deliveryOL= true;
         localStorage.setItem("filterOrderType", type);
         this.getOrders( "OrderType");
-      }else{
+      } else {
         this.BothOL = true;
         this.pickupOL= true;
         this.deliveryOL= false;
