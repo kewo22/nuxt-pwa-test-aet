@@ -18,7 +18,8 @@
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
               <!-- <v-img :aspect-ratio="16 / 9" width="100" :src="item.src"></v-img> -->
-              <img src="~/assets/ubereats.png" width="70%" />
+              <!-- <img src="~/assets/justEat.png" width="70%" /> -->
+              <img :src="getImage" width="70%" />
             </v-col>
           </v-row>
         </v-container>
@@ -76,6 +77,22 @@ export default {
     },
     isCancelled() {
       return this.$props.item.cancelled;
+    },
+    getImage() {
+      const { item } = this.$props;
+      let fulfilment_source = item.fulfilment_source;
+      let imgSrc;
+      switch (fulfilment_source) {
+        case "Uber Eats":
+          return require("~/assets/ubereats.png");
+        case "Delivery Hero":
+          return require("~/assets/deliveryHero.png");
+        case "Just Eat":
+          return require("~/assets/justEat.png");
+        default:
+          imgSrc = "";
+      }
+      return imgSrc;
     },
     isOverdue() {
       return this.$props.item.overdue;
