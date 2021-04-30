@@ -66,7 +66,7 @@ export default {
           route: "/orders",
         },
         { title: "Filters", icon: "mdi-filter", route: "/order" },
-        { title: "Settings", icon: "mdi-cog", route: "/order" },
+        { title: "Settings", icon: "mdi-cog", route: "/setting" },
       ],
       clipped: true,
     };

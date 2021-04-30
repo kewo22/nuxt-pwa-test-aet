@@ -33,8 +33,8 @@
           <v-row align="center" justify="center">
             <v-col align="left" justify="center" style="color: #509ad8">
               <!-- TODO: NEED TO CALCULATE -->
-              20Min
-              <!-- {{ item.pos_fulfilment_time }} -->
+              {{ item.pickupTime }}
+              <!-- {{displayFromCountDownTimer(30)}} -->
             </v-col>
           </v-row>
         </v-container>
@@ -52,7 +52,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              {{ item.order_lines.length }}
+              {{ item.order_lines.length }} items
             </v-col>
           </v-row>
         </v-container>
@@ -76,7 +76,10 @@ export default {
     onOrderClick() {
       this.$emit("orcerClick", this.item);
     },
-  },
+    displayFromCountDownTimer(s) {
+      s = s - 1;
+    }
+  }
 };
 </script>
 
