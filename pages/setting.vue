@@ -480,8 +480,4 @@ export default {
 .settingsDrop .v-input__control {
   min-height: 40px !important;
 }
-#checkbox input[type="checkbox"]:checked {
-  background-color: #a77e2d !important;
-  color: #ffffff !important;
-}
 </style>

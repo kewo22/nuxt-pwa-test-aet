@@ -26,6 +26,7 @@
             <v-col align="left" justify="center" style="color: #509ad8">
               <!-- TODO: NEED TO CALCULATE -->
               {{ item.pickupTime }}
+              <!-- {{displayFromCountDownTimer(30)}} -->
             </v-col>
           </v-row>
         </v-container>
@@ -43,7 +44,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              {{ item.order_lines.length }}
+              {{ item.order_lines.length }} items
             </v-col>
           </v-row>
         </v-container>
@@ -60,7 +61,9 @@ export default {
       pickupTime: ""
     };
   },
-  mounted() {},
+  mounted() {
+    console.log("time", this.$props.item);
+  },
   computed: {
     isOrderFinished() {
       return this.$props.item.status !== "finished";
@@ -69,6 +72,9 @@ export default {
   methods: {
     onOrderClick() {
       this.$emit("orcerClick", this.item);
+    },
+    displayFromCountDownTimer(s) {
+      s = s - 1;
     }
   }
 };
