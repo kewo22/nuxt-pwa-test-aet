@@ -54,9 +54,10 @@
           </div>
         </div>
         <div
-          :class="`order-status ${order.status} ${isCancelled && `cancelled`}`"
+          :class="`order-status ${order.status} ${isOverDue && `overdue`} 
+          ${isCancelled && `cancelled`}`"
         >
-          <p>{{ isCancelled ? `Cancelled!` : order.status }}</p>
+          <p>{{ orderStatus }}</p>
         </div>
       </div>
 
@@ -75,6 +76,7 @@
         <OrderStatLabel
           v-if="isInProgressStatus"
           label="Predicted prep time:"
+          :valueStyle="isOverDue && `overdue`"
           value="20 Mins"
         />
       </div>
@@ -111,6 +113,19 @@ export default {
     };
   },
   computed: {
+    orderStatus() {
+      if (this.isCancelled) {
+        return `Cancelled!`;
+      } else if (this.isOverDue) {
+        return `Overdue`;
+      }
+      return this.$props.order.status;
+    },
+    isOverDue() {
+      // TODO: Compute order overdue
+      const { order } = this.$props;
+      return order.overdue;
+    },
     isCancelled() {
       // return this.$props.order.status === "cancelled";
       // TODO: Need to figure out how to manage cancelled order
@@ -135,7 +150,7 @@ export default {
   },
   methods: {
     printOrder(order) {
-      console.log("Print order " + order.order_id);
+      alert("Printing order : " + order.order_id);
     },
     changeOrderStatus(nextState) {
       const currentState = this.$props.order.status;
@@ -173,6 +188,9 @@ export default {
 }
 .finished {
   color: #4aa36f;
+}
+.overdue {
+  color: #e00000;
 }
 .cancelled {
   color: #f09d00;
