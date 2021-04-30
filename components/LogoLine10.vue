@@ -1,7 +1,6 @@
 <template>
   <div class="line10-logo">
-    <img src="../assets/line10-logo.png" class="responsive-image" />
-    ORDER PRO
+    <img src="../assets/image/line10-logo.png" class="responsive-image" />
   </div>
 </template>
 

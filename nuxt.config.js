@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import colors from 'vuetify/es5/util/colors'
+// import { TokenAuthentication } from './constants';
 
 export default {
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -38,6 +39,56 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [],
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    '@nuxtjs/vuetify',
+    '@nuxtjs/pwa',
+    '@nuxtjs/fontawesome'
+  ],
+
+  fontawesome: {
+    icons: {
+      solid: true,
+      brands: true
+    }
+  },
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    '@nuxtjs/pwa',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+  ],
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'https://api-l10-idp-staging-neu.azurewebsites.net/connect/token', method: 'post' },
+          // user: { url: 'me', method: 'get', propertyName: 'data' },
+          logout: false
+        }
+      }
+      //   customStrategy: {
+      //     scheme: '~/schemes/customScheme',
+      //     endpoints: {
+      //       login: { url: TokenAuthentication.TokenUrl, method: 'post' },
+      //       user: { url: 'user/1', method: 'get', propertyName: 'auth_token' } // Mock (/api/users/{userId} will be correct endpoint)
+      //     },
+      //   }
+    }
+  },
+
+  router: {
+    // middleware: ['auth']
+  },
+
+  axios: {
+    // proxy: true
+  },
 
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
     buildModules: [
@@ -62,15 +113,6 @@ export default {
         port: 8000 // default: 3000
     },
 
-    server: {
-        port: 3001, // default: 3000
-        // host: '0.0.0.0', // default: localhost,
-        // timing: false,
-        // https: {
-        //   key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-        //   cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
-        // }
-    },
     publicRuntimeConfig: {
         axios: {
             baseURL: 'http://localhost:3004/'

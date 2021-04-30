@@ -19,9 +19,13 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab @click="onNewTabClick(0)"> New </v-tab>
-          <v-tab @click="onInProgressTabClick(1)"> In Progress </v-tab>
-          <v-tab @click="onFinishedTabClick(2)"> Finished </v-tab>
+          <v-tab @click="onNewTabClick(0)"> New ({{ newOrders.length }})</v-tab>
+          <v-tab @click="onInProgressTabClick(1)">
+            In Progress ({{ inProgressOrders.length }})</v-tab
+          >
+          <v-tab @click="onFinishedTabClick(2)">
+            Finished ({{ finishedOrders.length }})</v-tab
+          >
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
@@ -32,6 +36,12 @@
                   <OrderQueueItem
                     class="mb-2"
                     v-for="newOrder in newOrders"
+                    :class="
+                      `mb-2 ${newOrder.cancelled &&
+                        `cancelled-order`} ${selectedOrder &&
+                        selectedOrder.order_id === newOrder.order_id &&
+                        `selected new`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -51,6 +61,12 @@
                   <OrderQueueItem
                     class="mb-2"
                     v-for="newOrder in inProgressOrders"
+                    :class="
+                      `mb-2 ${newOrder.cancelled &&
+                        `cancelled-order`} ${selectedOrder &&
+                        selectedOrder.order_id === newOrder.order_id &&
+                        `selected`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -70,6 +86,12 @@
                   <OrderQueueItem
                     class="mb-2"
                     v-for="newOrder in finishedOrders"
+                    :class="
+                      `mb-2 ${newOrder.cancelled &&
+                        `cancelled-order`} ${selectedOrder &&
+                        selectedOrder.order_id === newOrder.order_id &&
+                        `selected finished`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orcerClick="onNewOrderClick(newOrder)"
@@ -205,7 +227,70 @@ export default {
         }
       }
     },
-  },
+    calculatePickupTime(orders) {
+      for (let i = 0; i < orders.length; i++) {
+        var pos_fulfilment_time = moment(orders[i].pos_fulfilment_time);
+        var today = moment();
+        var pickupTimeInMinutes = pos_fulfilment_time.diff(today, "minutes");
+
+        var pickupTime;
+        // var pickupTimeWithSeconds;
+
+        var h = Math.floor(pickupTimeInMinutes / 60);
+        var m = Math.floor(pickupTimeInMinutes % 60);
+        // var s = Math.floor(m / 60);
+
+        if (h != 0) {
+          if (h < 0) {
+            h++;
+            if (h == 0) {
+              pickupTime = m + " Min";
+            } else {
+              pickupTime = h + " hr " + m + " Min";
+            }
+          } else {
+            pickupTime = h + " hr " + m + " Min";
+          }
+        } else {
+          pickupTime = m + " Min";
+        }
+
+
+        // h != 0
+        //   ? (pickupTimeWithSeconds = h + " hr " + m + " Min " + s + " Seconds")
+        //   : (pickupTimeWithSeconds = m + " Min" + s + " Seconds");
+
+        orders[i].pickupTime = pickupTime;
+        // orders[i].pickupTimeWithSeconds = pickupTimeWithSeconds;
+      }
+      return orders;
+    },
+    findOrderArray(orderStatus) {
+      switch (orderStatus) {
+        case "in progress":
+          return "inProgressOrders";
+        case "finished":
+          return "finishedOrders";
+        default:
+          return "newOrders";
+      }
+    },
+    orderStatusChange(order, nextState) {
+      const { status } = order;
+      const fromOrderArrayName = this.findOrderArray(status);
+      const toOrderArrayName = this.findOrderArray(nextState);
+      // from
+      this[fromOrderArrayName] = this[fromOrderArrayName].filter(
+        ord => order.order_id !== ord.order_id
+      );
+      // to
+      this[toOrderArrayName] = [
+        { ...order, status: nextState },
+        ...this[toOrderArrayName]
+      ];
+      this.selectedOrder = this[fromOrderArrayName][0];
+    }
+  }
 };
 </script>
 
