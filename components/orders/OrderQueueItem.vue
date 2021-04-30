@@ -78,20 +78,16 @@ export default {
       let imgSrc;
       switch (fulfilment_source) {
         case "Uber Eats":
-          imgSrc = "/_nuxt/assets/ubereats.png";
-          break;
+          return require("~/assets/ubereats.png");
         case "Delivery Hero":
-          imgSrc = "/_nuxt/assets/deliveryHero.png";
-          break;
+          return require("~/assets/deliveryHero.png");
         case "Just Eat":
-          imgSrc = "/_nuxt/assets/justEat.png";
-          break;
+          return require("~/assets/justEat.png");
         default:
           imgSrc = "";
       }
       return imgSrc;
-      // let itemImage = moment();
-    }
+    },
   },
   methods: {
     onOrderClick() {
@@ -99,8 +95,8 @@ export default {
     },
     displayFromCountDownTimer(s) {
       s = s - 1;
-    }
-  }
+    },
+  },
 };
 </script>
 
