@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     onOrderClick() {
-      this.$emit("orcerClick", this.item);
+      this.$emit("orderClick", this.item);
     },
     displayFromCountDownTimer(s) {
       s = s - 1;

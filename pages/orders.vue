@@ -19,13 +19,13 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab @click="onNewTabClick(0)"> New ({{ newOrders.length }})</v-tab>
+          <v-tab @click="onNewTabClick(0)">New ({{ newOrders.length }})</v-tab>
           <v-tab @click="onInProgressTabClick(1)">
-            In Progress ({{ inProgressOrders.length }})</v-tab
-          >
+            In Progress ({{ inProgressOrders.length }})
+          </v-tab>
           <v-tab @click="onFinishedTabClick(2)">
-            Finished ({{ finishedOrders.length }})</v-tab
-          >
+            Finished ({{ finishedOrders.length }})
+          </v-tab>
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
@@ -35,14 +35,15 @@
                 <div v-if="newOrders.length">
                   <OrderQueueItem
                     v-for="newOrder in newOrders"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} 
+                    ${
                       selectedOrder &&
                       selectedOrder.order_id === newOrder.order_id &&
                       `selected new`
                     }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
-                    @orcerClick="onNewOrderClick(newOrder)"
+                    @orderClick="onNewOrderClick(newOrder)"
                   />
                 </div>
                 <div class="no-search-result" v-else>
@@ -67,7 +68,7 @@
                     }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
-                    @orcerClick="onNewOrderClick(newOrder)"
+                    @orderClick="onNewOrderClick(newOrder)"
                   />
                 </div>
                 <div class="no-search-result" v-else>
@@ -90,7 +91,7 @@
                     }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
-                    @orcerClick="onNewOrderClick(newOrder)"
+                    @orderClick="onNewOrderClick(newOrder)"
                   />
                 </div>
                 <div class="no-search-result" v-else>
@@ -269,8 +270,7 @@ export default {
       }
     },
     orderStatusChange(order, nextState) {
-      const { status } = order;
-      const fromOrderArrayName = this.findOrderArray(status);
+      const fromOrderArrayName = this.findOrderArray(order.status);
       const toOrderArrayName = this.findOrderArray(nextState);
       // from
       this[fromOrderArrayName] = this[fromOrderArrayName].filter(
@@ -304,7 +304,7 @@ export default {
   border-color: #f09d00;
 }
 .overdue-order {
-  border-color: #FF0000;
+  border-color: #ff0000;
 }
 .section-1 {
   flex: 1 0 50%;
