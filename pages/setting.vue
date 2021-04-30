@@ -320,7 +320,7 @@ export default {
   data: () => ({
     timeIntervals: ["15 minutes", "30 minutes", "45 minutes"],
     ticketFontSizes: ["8 pt", "10 pt", "12 pt"],
-    orderStatus: ["New", "In progress", "Finished"],
+    orderStatus: ["In progress", "New", "Finished"],
     ticketCounts: ["1", "2", "3"],
     reloadIntervals: ["Every 1 minute", "Every 5 minutes", "Every 10 minutes"],
     settingData: {},
@@ -362,7 +362,7 @@ export default {
         this.settingData.selectedTimeInterval || "15 minutes";
       this.selectedTicketFontSize =
         this.settingData.selectedTicketFontSize || "8 pt";
-      this.selectedOrderStatus = this.settingData.selectedOrderStatus || "New";
+      this.selectedOrderStatus = this.settingData.selectedOrderStatus || "In progress";
       this.selectedTicketCount = this.settingData.selectedTicketCount || "1";
       this.selectedReloadInterval =
         this.settingData.selectedReloadInterval || "Every 1 minute";
@@ -408,7 +408,7 @@ export default {
       this.isPrintChecked = true;
       this.selectedTimeInterval = "15 minutes";
       this.selectedTicketFontSize = "8 pt";
-      this.selectedOrderStatus = "New";
+      this.selectedOrderStatus = "In progress";
       this.selectedTicketCount = "1";
       this.selectedReloadInterval = "Every 1 minute";
       this.isResetPopup = false;
