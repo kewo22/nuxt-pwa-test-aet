@@ -84,11 +84,12 @@
                 <div v-if="finishedOrders.length">
                   <OrderQueueItem
                     v-for="newOrder in finishedOrders"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
-                      selectedOrder &&
-                      selectedOrder.order_id === newOrder.order_id &&
-                      `selected finished`
-                    }`"
+                    :class="
+                      `mb-2 ${newOrder.cancelled &&
+                        `cancelled-order`} ${selectedOrder &&
+                        selectedOrder.order_id === newOrder.order_id &&
+                        `selected finished`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
@@ -246,9 +247,21 @@ export default {
         var m = Math.floor(pickupTimeInMinutes % 60);
         // var s = Math.floor(m / 60);
 
-        h != 0
-          ? (pickupTime = h + " hr " + m + " Min")
-          : (pickupTime = m + " Min");
+        if (h != 0) {
+          if (h < 0) {
+            h++;
+            if (h == 0) {
+              pickupTime = m + " Min";
+            } else {
+              pickupTime = h + " hr " + m + " Min";
+            }
+          } else {
+            pickupTime = h + " hr " + m + " Min";
+          }
+        } else {
+          pickupTime = m + " Min";
+        }
+
 
         // h != 0
         //   ? (pickupTimeWithSeconds = h + " hr " + m + " Min " + s + " Seconds")
@@ -274,12 +287,12 @@ export default {
       const toOrderArrayName = this.findOrderArray(nextState);
       // from
       this[fromOrderArrayName] = this[fromOrderArrayName].filter(
-        (ord) => order.order_id !== ord.order_id
+        ord => order.order_id !== ord.order_id
       );
       // to
       this[toOrderArrayName] = [
         { ...order, status: nextState },
-        ...this[toOrderArrayName],
+        ...this[toOrderArrayName]
       ];
       this.selectedOrder = this[fromOrderArrayName][0];
     },

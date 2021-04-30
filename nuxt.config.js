@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+// import { TokenAuthentication } from './constants';
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -44,10 +45,10 @@ export default {
     '@nuxtjs/fontawesome'
   ],
 
-  fontawesome:{
-    icons:{
-      solid:true,
-      brands:true
+  fontawesome: {
+    icons: {
+      solid: true,
+      brands: true
     }
   },
 
@@ -55,7 +56,31 @@ export default {
   modules: [
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'https://api-l10-idp-staging-neu.azurewebsites.net/connect/token', method: 'post' },
+          // user: { url: 'me', method: 'get', propertyName: 'data' },
+          logout: false
+        }
+      }
+      //   customStrategy: {
+      //     scheme: '~/schemes/customScheme',
+      //     endpoints: {
+      //       login: { url: TokenAuthentication.TokenUrl, method: 'post' },
+      //       user: { url: 'user/1', method: 'get', propertyName: 'auth_token' } // Mock (/api/users/{userId} will be correct endpoint)
+      //     },
+      //   }
+    }
+  },
+
+  router: {
+    // middleware: ['auth']
+  },
 
   axios: {
     // proxy: true
