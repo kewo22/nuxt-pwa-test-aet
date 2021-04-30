@@ -84,12 +84,11 @@
                 <div v-if="finishedOrders.length">
                   <OrderQueueItem
                     v-for="newOrder in finishedOrders"
-                    :class="
-                      `mb-2 ${newOrder.cancelled &&
-                        `cancelled-order`} ${selectedOrder &&
-                        selectedOrder.order_id === newOrder.order_id &&
-                        `selected finished`}`
-                    "
+                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
+                      selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected finished`
+                    }`"
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
@@ -262,7 +261,6 @@ export default {
           pickupTime = m + " Min";
         }
 
-
         // h != 0
         //   ? (pickupTimeWithSeconds = h + " hr " + m + " Min " + s + " Seconds")
         //   : (pickupTimeWithSeconds = m + " Min" + s + " Seconds");
@@ -275,25 +273,32 @@ export default {
     findOrderArray(orderStatus) {
       switch (orderStatus) {
         case "in progress":
-          return "inProgressOrders";
+          return ["inProgressOrders", "tempInProgressOrders"];
         case "finished":
-          return "finishedOrders";
+          return ["finishedOrders", "tempFinishedOrders"];
         default:
-          return "newOrders";
+          return ["newOrders", "tempNewOrders"];
       }
     },
     orderStatusChange(order, nextState) {
-      const fromOrderArrayName = this.findOrderArray(order.status);
-      const toOrderArrayName = this.findOrderArray(nextState);
+      const [fromOrderArrayName, tmpFromArray] = this.findOrderArray(
+        order.status
+      );
+      const [toOrderArrayName, tmpToArray] = this.findOrderArray(nextState);
       // from
       this[fromOrderArrayName] = this[fromOrderArrayName].filter(
-        ord => order.order_id !== ord.order_id
+        (ord) => order.order_id !== ord.order_id
+      );
+      this[tmpFromArray] = this[tmpFromArray].filter(
+        (ord) => order.order_id !== ord.order_id
       );
       // to
       this[toOrderArrayName] = [
         { ...order, status: nextState },
-        ...this[toOrderArrayName]
+        ...this[toOrderArrayName],
       ];
+      this[tmpToArray] = [{ ...order, status: nextState }, ...this[tmpToArray]];
+      // show first order
       this.selectedOrder = this[fromOrderArrayName][0];
     },
   },
