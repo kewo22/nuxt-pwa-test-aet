@@ -78,6 +78,7 @@ export default {
         //   console.log("from then --------- ", res);
           var decoded = jwt_decode(res.data.access_token);
           console.log(decoded);
+          this.$router.push('/orders')
         })
         .catch((err) => {
           console.log("from err --------- ", err);

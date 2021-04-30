@@ -1,5 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
-import { TokenAuthentication } from './constants';
+// import { TokenAuthentication } from './constants';
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -45,10 +45,10 @@ export default {
     '@nuxtjs/fontawesome'
   ],
 
-  fontawesome:{
-    icons:{
-      solid:true,
-      brands:true
+  fontawesome: {
+    icons: {
+      solid: true,
+      brands: true
     }
   },
 
@@ -75,83 +75,82 @@ export default {
       //       user: { url: 'user/1', method: 'get', propertyName: 'auth_token' } // Mock (/api/users/{userId} will be correct endpoint)
       //     },
       //   }
-      // }
-    },
+    }
+  },
 
-    router: {
-      middleware: ['auth']
-    },
+  router: {
+    // middleware: ['auth']
+  },
 
+  axios: {
+    // proxy: true
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {
+  },
+
+  server: {
+    port: 8000 // default: 3000
+  },
+
+  publicRuntimeConfig: {
     axios: {
-      // proxy: true
-    },
+      baseURL: 'http://localhost:3004/'
+    }
+  },
 
-    // Build Configuration: https://go.nuxtjs.dev/config-build
-    build: {
-    },
-
-    server: {
-      port: 8000 // default: 3000
-    },
-
-    publicRuntimeConfig: {
-      axios: {
-        baseURL: 'http://localhost:3004/'
-      }
-    },
-
-    // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
-    vuetify: {
-      // customVariables: ['~/assets/variables.scss'],
-      theme: {
-        dark: true,
-        themes: {
-          dark: {
-            primary: colors.blue.darken2,
-            accent: colors.grey.darken3,
-            secondary: colors.amber.darken3,
-            info: colors.teal.lighten1,
-            warning: colors.amber.base,
-            error: colors.deepOrange.accent4,
-            success: colors.green.accent3,
-          },
+  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
+  vuetify: {
+    // customVariables: ['~/assets/variables.scss'],
+    theme: {
+      dark: true,
+      themes: {
+        dark: {
+          primary: colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3,
         },
       },
     },
+  },
 
-    pwa: {
-      manifest: {
-        name: 'Order Pro | Line Ten',
-        short_name: 'Order Pro | L10',
-        lang: 'en',
-        start_ur: "/",
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
-        display: "standalone",
-        orientation: "landscape"
-      },
-      workbox: {
-        importScripts: [
-          'idb-sw.client.js',
-          'workers/custom.sw.js'
-        ],
-        runtimeCaching: [
-          {
-            urlPattern: 'https://jsonplaceholder.typicode.com/.*',
-            strategyOptions: {
-              cacheName: 'test-cache-v2',
-            },
-            strategyPlugins: [{
-              use: 'BackgroundSync',
-              config: {
-                maxEntries: 10,
-                maxAgeSeconds: 3000
-              }
-            }]
-          }
-        ]
-      }
+  pwa: {
+    manifest: {
+      name: 'Order Pro | Line Ten',
+      short_name: 'Order Pro | L10',
+      lang: 'en',
+      start_ur: "/",
+      theme_color: "#ffffff",
+      background_color: "#ffffff",
+      display: "standalone",
+      orientation: "landscape"
+    },
+    workbox: {
+      importScripts: [
+        'idb-sw.client.js',
+        'workers/custom.sw.js'
+      ],
+      runtimeCaching: [
+        {
+          urlPattern: 'https://jsonplaceholder.typicode.com/.*',
+          strategyOptions: {
+            cacheName: 'test-cache-v2',
+          },
+          strategyPlugins: [{
+            use: 'BackgroundSync',
+            config: {
+              maxEntries: 10,
+              maxAgeSeconds: 3000
+            }
+          }]
+        }
+      ]
     }
-
   }
+
 }
