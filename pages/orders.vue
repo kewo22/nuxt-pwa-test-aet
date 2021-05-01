@@ -266,6 +266,7 @@ export default {
         //   : (pickupTimeWithSeconds = m + " Min" + s + " Seconds");
 
         orders[i].pickupTime = pickupTime;
+        orders[i].pickupTimeInMinutes = pickupTimeInMinutes;
         // orders[i].pickupTimeWithSeconds = pickupTimeWithSeconds;
       }
       return orders;
