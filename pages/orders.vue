@@ -35,12 +35,12 @@
                 <div v-if="newOrders.length">
                   <OrderQueueItem
                     v-for="newOrder in newOrders"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} 
-                    ${
-                      selectedOrder &&
+                    :class="
+                      `mb-2 ${newOrder.cancelled && `cancelled-order`} 
+                    ${selectedOrder &&
                       selectedOrder.order_id === newOrder.order_id &&
-                      `selected new`
-                    }`"
+                      `selected new`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
@@ -59,13 +59,13 @@
                 <div v-if="inProgressOrders.length">
                   <OrderQueueItem
                     v-for="newOrder in inProgressOrders"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} 
+                    :class="
+                      `mb-2 ${newOrder.cancelled && `cancelled-order`} 
                     ${newOrder.overdue && `overdue-order`}
-                    ${
-                      selectedOrder &&
+                    ${selectedOrder &&
                       selectedOrder.order_id === newOrder.order_id &&
-                      `selected`
-                    }`"
+                      `selected`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
@@ -84,11 +84,12 @@
                 <div v-if="finishedOrders.length">
                   <OrderQueueItem
                     v-for="newOrder in finishedOrders"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
-                      selectedOrder &&
-                      selectedOrder.order_id === newOrder.order_id &&
-                      `selected finished`
-                    }`"
+                    :class="
+                      `mb-2 ${newOrder.cancelled &&
+                        `cancelled-order`} ${selectedOrder &&
+                        selectedOrder.order_id === newOrder.order_id &&
+                        `selected finished`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
@@ -138,6 +139,8 @@ export default {
       tempOrders: [],
       currentTab: 0,
       searchVal: "",
+      leadTime: "",
+      orders: []
     };
   },
   mounted() {
@@ -145,24 +148,29 @@ export default {
   },
   methods: {
     async getOrders() {
-      const orders = await this.$axios.$get("http://localhost:3004/orders");
-      this.allOrders = orders;
-      this.tempOrders = orders;
-      const newOrders = orders.filter((order) => {
+      this.orders = await this.$axios.$get("http://localhost:3004/orders");
+      let settingData = (await this.$idb.get("settingData")) || [];
+      this.leadTime = settingData.selectedTimeInterval || "15";
+
+      this.allOrders = this.orders;
+      this.tempOrders = this.orders;
+      const newOrders = this.orders.filter(order => {
         return order.status === "new";
       });
       this.newOrders = newOrders;
       this.newOrders = this.calculatePickupTime(newOrders);
 
-      this.tempNewOrders = newOrders;
-      const inProgressOrders = orders.filter((order) => {
+      this.newOrders = this.moveOrdersToInProgress(this.newOrders);
+
+      this.tempNewOrders = this.newOrders;
+      const inProgressOrders = this.orders.filter(order => {
         return order.status === "in progress";
       });
       this.inProgressOrders = inProgressOrders;
       this.inProgressOrders = this.calculatePickupTime(inProgressOrders);
 
       this.tempInProgressOrders = inProgressOrders;
-      const finishedOrders = orders.filter((order) => {
+      const finishedOrders = this.orders.filter(order => {
         return order.status === "finished";
       });
       this.finishedOrders = finishedOrders;
@@ -188,7 +196,7 @@ export default {
       this.searchVal = e.target.value;
       if (this.currentTab === 0) {
         if (this.searchVal) {
-          const filteredNewOrders = this.tempNewOrders.filter((order) => {
+          const filteredNewOrders = this.tempNewOrders.filter(order => {
             // return order.order_id === searchVal;
             return order.order_id.includes(this.searchVal);
           });
@@ -203,7 +211,7 @@ export default {
       if (this.currentTab === 1) {
         if (this.searchVal) {
           const filteredInprogressOrders = this.tempInProgressOrders.filter(
-            (order) => {
+            order => {
               // return order.order_id === searchVal;
               return order.order_id.includes(this.searchVal);
             }
@@ -219,7 +227,7 @@ export default {
       if (this.currentTab === 2) {
         if (this.searchVal) {
           const filteredFinishedOrders = this.tempFinishedOrders.filter(
-            (order) => {
+            order => {
               // return order.order_id === searchVal;
               return order.order_id.includes(this.searchVal);
             }
@@ -288,21 +296,44 @@ export default {
       const [toOrderArrayName, tmpToArray] = this.findOrderArray(nextState);
       // from
       this[fromOrderArrayName] = this[fromOrderArrayName].filter(
-        (ord) => order.order_id !== ord.order_id
+        ord => order.order_id !== ord.order_id
       );
       this[tmpFromArray] = this[tmpFromArray].filter(
-        (ord) => order.order_id !== ord.order_id
+        ord => order.order_id !== ord.order_id
       );
       // to
       this[toOrderArrayName] = [
         { ...order, status: nextState },
-        ...this[toOrderArrayName],
+        ...this[toOrderArrayName]
       ];
       this[tmpToArray] = [{ ...order, status: nextState }, ...this[tmpToArray]];
       // show first order
       this.selectedOrder = this[fromOrderArrayName][0];
     },
-  },
+    moveOrdersToInProgress(orders) {
+      let leadTimeInMinutes = parseInt(this.leadTime.split(" ")[0]);
+      var isMoved = false;
+      for (let i = 0; i < orders.length; i++) {
+        if (orders[i].pickupTimeInMinutes <= leadTimeInMinutes) {
+          for (let j = 0; j < this.orders.length; j++) {
+            if (this.orders[j].order_id == orders[i].order_id) {
+              this.orders[j].status = "in progress";
+              orders[i].status = "in progress";
+              isMoved = true;
+              break;
+            }
+          }
+        }
+      }
+      if (isMoved) {
+        return orders.filter(order => {
+          return order.status === "new";
+        });
+      } else {
+        return orders;
+      }
+    }
+  }
 };
 </script>
 
