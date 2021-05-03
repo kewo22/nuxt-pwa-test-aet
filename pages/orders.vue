@@ -114,6 +114,9 @@
       />
       <NoOrder v-else />
     </div>
+    <div style="display:none">
+      {{posts}}
+    </div>
   </div>
 </template>
 
@@ -144,7 +147,14 @@ export default {
     };
   },
   mounted() {
+    this.$store.dispatch("orders/getOrders");
     this.getOrders();
+  },
+  computed: {
+    posts() {
+      console.log("value", this.$store.state.orders.allorders);
+      return this.$store.state.orders.allorders;
+    }
   },
   methods: {
     async getOrders() {
