@@ -1,0 +1,3 @@
+{
+    "/client/:cid/site/:id/orders/today": "/orders?client.client_id=:cid&site.site_id=:id"
+}
