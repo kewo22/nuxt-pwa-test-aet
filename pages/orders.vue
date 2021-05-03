@@ -115,7 +115,7 @@
       <NoOrder v-else />
     </div>
     <div style="display:none">
-      {{posts}}
+      {{ posts }}
     </div>
   </div>
 </template>
@@ -168,7 +168,8 @@ export default {
         return order.status === "new";
       });
       this.newOrders = newOrders;
-      this.newOrders = this.calculatePickupTime(newOrders);
+      this.moveCancelOrdersToFinished();
+      this.newOrders = this.calculatePickupTime(this.newOrders);
 
       this.newOrders = this.moveOrdersToInProgress(this.newOrders);
       this.sortNewOrders();
@@ -344,6 +345,13 @@ export default {
         });
       } else {
         return orders;
+      }
+    },
+    moveCancelOrdersToFinished() {
+      for (let i = 0; i < this.newOrders.length; i++) {
+        if (this.newOrders[i].cancelled) {
+          this.newOrders[i].status = "finished";
+        }
       }
     },
     sortNewOrders() {
