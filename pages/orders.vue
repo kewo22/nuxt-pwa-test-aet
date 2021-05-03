@@ -161,6 +161,7 @@ export default {
       this.newOrders = this.calculatePickupTime(newOrders);
 
       this.newOrders = this.moveOrdersToInProgress(this.newOrders);
+      this.sortNewOrders();
 
       this.tempNewOrders = this.newOrders;
       const inProgressOrders = this.orders.filter(order => {
@@ -168,8 +169,10 @@ export default {
       });
       this.inProgressOrders = inProgressOrders;
       this.inProgressOrders = this.calculatePickupTime(inProgressOrders);
+      this.sortInProgressOrders();
 
-      this.tempInProgressOrders = inProgressOrders;
+      this.tempInProgressOrders = this.inProgressOrders;
+
       const finishedOrders = this.orders.filter(order => {
         return order.status === "finished";
       });
@@ -332,6 +335,16 @@ export default {
       } else {
         return orders;
       }
+    },
+    sortNewOrders() {
+      this.newOrders.sort(function(a, b) {
+        return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+      });
+    },
+    sortInProgressOrders() {
+      this.inProgressOrders.sort(function(a, b) {
+        return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+      });
     }
   }
 };
