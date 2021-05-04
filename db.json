@@ -77,7 +77,7 @@
             "cancelled": true,
             "status": "finished",
             "pos_state_updated_at": "2020-10-31 01:20:52",
-            "pos_fulfilment_time": "2021-04-30 22:30:52",
+            "pos_fulfilment_time": "2021-05-01 22:30:52",
             "client": {
                 "code": "224wed",
                 "name": "John Cena"
@@ -200,7 +200,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "in progress",
             "pos_state_updated_at": "2020-10-31 01:48:52",
-            "pos_fulfilment_time": "2021-04-30 22:10:52",
+            "pos_fulfilment_time": "2021-05-04 16:50:52",
             "client": {
                 "code": "222340ws",
                 "name": "Candice Michelle"
@@ -249,14 +249,13 @@
             "prep-time": 30
         },
         {
-            "overdue": true,
             "order_id": "114791",
             "order_ref": "External Order Reference",
             "order_number": 4,
             "order_ref_reversed": "External order reference reversed",
-            "status": "in progress",
+            "status": "new",
             "pos_state_updated_at": "2020-10-31 02:05:52",
-            "pos_fulfilment_time": "2021-04-30 14:00:52",
+            "pos_fulfilment_time": "2021-05-04 16:00:52",
             "client": {
                 "code": "220ws",
                 "name": "Daniel Bryan"
@@ -324,7 +323,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
             "pos_state_updated_at": "2020-10-31 01:48:52",
-            "pos_fulfilment_time": "2021-05-01 01:48:52",
+            "pos_fulfilment_time": "2021-05-04 16:48:52",
             "client": {
                 "code": "22430ws",
                 "name": "Enzo Amore"
@@ -392,7 +391,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
             "pos_state_updated_at": "2020-10-31 01:48:52",
-            "pos_fulfilment_time": "2021-05-04 12:50:52",
+            "pos_fulfilment_time": "2021-05-04 14:50:00",
             "client": {
                 "code": "232344wed",
                 "name": "Hulk Hogan"
@@ -646,7 +645,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "in progress",
             "pos_state_updated_at": "2020-10-31 03:50:52",
-            "pos_fulfilment_time": "2021-04-30 04:04:52",
+            "pos_fulfilment_time": "2021-05-04 16:04:52",
             "client": {
                 "code": "234678wed",
                 "name": "Henry Alexander"
@@ -714,7 +713,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
             "pos_state_updated_at": "2020-10-31 03:55:52",
-            "pos_fulfilment_time": "2021-04-30 13:08:52",
+            "pos_fulfilment_time": "2021-05-04 17:08:52",
             "client": {
                 "code": "23467wed",
                 "name": "Liam Noah"
@@ -782,7 +781,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
             "pos_state_updated_at": "2020-10-31 04:00:52",
-            "pos_fulfilment_time": "2021-04-30 22:15:52",
+            "pos_fulfilment_time": "2021-05-04 22:15:52",
             "client": {
                 "code": "23454wed",
                 "name": "James William"
@@ -849,7 +848,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
             "pos_state_updated_at": "2020-10-31 04:10:52",
-            "pos_fulfilment_time": "2021-04-30 23:20:52",
+            "pos_fulfilment_time": "2021-05-04 15:20:52",
             "client": {
                 "code": "234wed",
                 "name": "Benjamin Lucas"
