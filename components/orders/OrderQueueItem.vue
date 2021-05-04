@@ -8,9 +8,9 @@
         left: () => swipe('left'),
         right: () => swipe('right'),
       }"
-      :class="`${item.cancelled && `cancelled-item`} ${
-        isOverdue && `overdue-item`
-      }`"
+      :class="
+      `${item.cancelled && `cancelled-item`} ${isOverdue && `overdue-item`}`
+      "
       style="
         width: 100%;
         background-color: #282e35;
@@ -21,58 +21,55 @@
       @click="onOrderClick()"
     >
       <v-layout>
-        <v-flex xs4 sm4 md2>
-          <v-container fill-height fluid>
-            <v-row align="center" justify="center">
-              <v-col align="center" justify="center">
-                <!-- <v-img :aspect-ratio="16 / 9" width="100" :src="item.src"></v-img> -->
-                <!-- <img src="~/assets/justEat.png" width="70%" /> -->
-                <img :src="getImage" width="70%" />
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-flex>
-        <v-flex xs4 sm4 md6>
-          <v-container v-if="isCancelled" fill-height fluid>
-            <v-row align="center" justify="center">
-              <v-col align="left" justify="center" class="cancelled">
-                Cancelled
-              </v-col>
-            </v-row>
-          </v-container>
-          <v-container v-else-if="isOrderFinished" fill-height fluid>
-            <v-row align="center" justify="center">
-              <v-col
-                align="left"
-                justify="center"
-                :class="`pickup-time ${isOverdue && `overdue`}`"
-              >
-                <!-- TODO: NEED TO CALCULATE -->
-                {{ item.pickupTime }}
-                <!-- {{displayFromCountDownTimer(30)}} -->
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-flex>
-        <v-flex xs4 sm4 md2>
-          <v-container fill-height fluid>
-            <v-row align="center" justify="center">
-              <v-col align="center" justify="center">
-                {{ item.order_id }}
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-flex>
-        <v-flex xs4 sm4 md2>
-          <v-container fill-height fluid>
-            <v-row align="center" justify="center">
-              <v-col align="center" justify="center">
-                {{ item.order_lines.length }} items
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-flex>
-      </v-layout>
+      <v-flex xs4 sm4 md2>
+        <v-container fill-height fluid>
+          <v-row align="center" justify="center">
+            <v-col align="center" justify="center">
+              <img :src="getImage" width="70%" />
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-flex>
+      <v-flex xs4 sm4 md6>
+        <v-container v-if="isCancelled" fill-height fluid>
+          <v-row align="center" justify="center">
+            <v-col align="left" justify="center" class="cancelled">
+              Cancelled
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-container v-else-if="isOrderFinished" fill-height fluid>
+          <v-row align="center" justify="center">
+            <v-col
+              align="left"
+              justify="center"
+              v-model="pickTimeCountDown"
+              :class="`pickup-time ${isOverdue && `overdue`}`"
+            >
+              {{ pickupTime }}
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-flex>
+      <v-flex xs4 sm4 md2>
+        <v-container fill-height fluid>
+          <v-row align="center" justify="center">
+            <v-col align="center" justify="center">
+              #{{ item.order_id }}
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-flex>
+      <v-flex xs4 sm4 md2>
+        <v-container fill-height fluid>
+          <v-row align="center" justify="center">
+            <v-col align="center" justify="center">
+              {{ item.order_lines.length }} items
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-flex>
+    </v-layout>
     </v-btn>
     <div v-if="showSwipe.left">Moving to Finished</div>
   </div>
@@ -80,6 +77,12 @@
 
 <script>
 export default {
+  data() {
+    return {
+      pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
+      pickupTime: this.$props.item.pickupTime
+    };
+  },
   props: ["item"],
   data() {
     return {
@@ -113,8 +116,42 @@ export default {
       return imgSrc;
     },
     isOverdue() {
-      return this.$props.item.overdue;
+      const { item } = this.$props;
+      if (item.status === `finished`) {
+        return false;
+      }
+      return item.overdue;
     },
+  },
+  watch: {
+    pickTimeCountDown: {
+      handler(value) {
+        setTimeout(() => {
+          this.pickTimeCountDown--;
+          let pickupTime;
+
+          let h = Math.floor(value / 60);
+          let m = Math.floor(value % 60);
+
+          if (h != 0) {
+            if (h < 0) {
+              h++;
+              if (h == 0) {
+                pickupTime = m + " Min";
+              } else {
+                pickupTime = h + " hr " + m + " Min";
+              }
+            } else {
+              pickupTime = h + " hr " + m + " Min";
+            }
+          } else {
+            pickupTime = m + " Min";
+          }
+          this.pickupTime = pickupTime;
+        }, 60000);
+      },
+      immediate: true // This ensures the watcher is triggered upon creation
+    }
   },
   methods: {
     onOrderClick() {
