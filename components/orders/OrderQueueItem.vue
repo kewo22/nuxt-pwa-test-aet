@@ -1,76 +1,92 @@
 <template>
-  <v-btn
-    :class="`${item.cancelled && `cancelled-item`} ${
-      isOverdue && `overdue-item`
-    }`"
-    style="
-      width: 100%;
-      background-color: #282e35;
-      color: #babdbf;
-      text-transform: none;
-      height: 75px;
-    "
-    @click="onOrderClick()"
-  >
-    <v-layout>
-      <v-flex xs4 sm4 md2>
-        <v-container fill-height fluid>
-          <v-row align="center" justify="center">
-            <v-col align="center" justify="center">
-              <!-- <v-img :aspect-ratio="16 / 9" width="100" :src="item.src"></v-img> -->
-              <!-- <img src="~/assets/justEat.png" width="70%" /> -->
-              <img :src="getImage" width="70%" />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-flex>
-      <v-flex xs4 sm4 md6>
-        <v-container v-if="isCancelled" fill-height fluid>
-          <v-row align="center" justify="center">
-            <v-col align="left" justify="center" class="cancelled">
-              Cancelled
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-container v-else-if="isOrderFinished" fill-height fluid>
-          <v-row align="center" justify="center">
-            <v-col
-              align="left"
-              justify="center"
-              :class="`pickup-time ${isOverdue && `overdue`}`"
-            >
-              <!-- TODO: NEED TO CALCULATE -->
-              {{ item.pickupTime }}
-              <!-- {{displayFromCountDownTimer(30)}} -->
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-flex>
-      <v-flex xs4 sm4 md2>
-        <v-container fill-height fluid>
-          <v-row align="center" justify="center">
-            <v-col align="center" justify="center">
-              {{ item.order_id }}
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-flex>
-      <v-flex xs4 sm4 md2>
-        <v-container fill-height fluid>
-          <v-row align="center" justify="center">
-            <v-col align="center" justify="center">
-              {{ item.order_lines.length }} items
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-flex>
-    </v-layout>
-  </v-btn>
+  <div class="swipeable-stack">
+    <div v-if="showSwipe.right">Swipe to in progress</div>
+    <v-btn
+      v-touch="{
+        left: () => swipe('left'),
+        right: () => swipe('right'),
+      }"
+      :class="`${item.cancelled && `cancelled-item`} ${
+        isOverdue && `overdue-item`
+      }`"
+      style="
+        width: 100%;
+        background-color: #282e35;
+        color: #babdbf;
+        text-transform: none;
+        height: 75px;
+      "
+      @click="onOrderClick()"
+    >
+      <v-layout>
+        <v-flex xs4 sm4 md2>
+          <v-container fill-height fluid>
+            <v-row align="center" justify="center">
+              <v-col align="center" justify="center">
+                <!-- <v-img :aspect-ratio="16 / 9" width="100" :src="item.src"></v-img> -->
+                <!-- <img src="~/assets/justEat.png" width="70%" /> -->
+                <img :src="getImage" width="70%" />
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-flex>
+        <v-flex xs4 sm4 md6>
+          <v-container v-if="isCancelled" fill-height fluid>
+            <v-row align="center" justify="center">
+              <v-col align="left" justify="center" class="cancelled">
+                Cancelled
+              </v-col>
+            </v-row>
+          </v-container>
+          <v-container v-else-if="isOrderFinished" fill-height fluid>
+            <v-row align="center" justify="center">
+              <v-col
+                align="left"
+                justify="center"
+                :class="`pickup-time ${isOverdue && `overdue`}`"
+              >
+                <!-- TODO: NEED TO CALCULATE -->
+                {{ item.pickupTime }}
+                <!-- {{displayFromCountDownTimer(30)}} -->
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-flex>
+        <v-flex xs4 sm4 md2>
+          <v-container fill-height fluid>
+            <v-row align="center" justify="center">
+              <v-col align="center" justify="center">
+                {{ item.order_id }}
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-flex>
+        <v-flex xs4 sm4 md2>
+          <v-container fill-height fluid>
+            <v-row align="center" justify="center">
+              <v-col align="center" justify="center">
+                {{ item.order_lines.length }} items
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-flex>
+      </v-layout>
+    </v-btn>
+    <div v-if="showSwipe.left">Swipe to Finished</div>
+  </div>
 </template>
 
 <script>
 export default {
   props: ["item"],
+  data() {
+    return {
+      showSwipe: {
+        left: false,
+        right: false,
+      },
+    };
+  },
   computed: {
     isOrderFinished() {
       return this.$props.item.status !== "finished";
@@ -105,6 +121,14 @@ export default {
     displayFromCountDownTimer(s) {
       s = s - 1;
     },
+    swipe(direction) {
+      console.log("SWIPE", direction);
+      this.showSwipe[direction] = true;
+      setTimeout(() => {
+        this.showSwipe[direction] = false;
+        console.log("SWIPE", this.item, this.showSwipe[direction]);
+      }, 5000);
+    },
   },
 };
 </script>
@@ -125,5 +149,9 @@ export default {
 }
 .cancelled-item {
   border: 2px solid #f09d00;
+}
+.swipeable-stack {
+  flex-direction: row;
+  display: flex;
 }
 </style>
