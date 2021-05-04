@@ -24,7 +24,7 @@
           <!-- <img src="~/assets/ubereats.png" width="10%" /> -->
           <img :src="getImage" width="10%" />
           <div>
-            <Button @click="printOrder(order)" elevation="2" dark>
+            <Button @click="printOrder()" elevation="2" dark>
               Print Order
             </Button>
             <v-menu offset-y rounded="lg" nudge-top="-10">
@@ -82,6 +82,7 @@
       </div>
 
       <OrderItemList :items="order.order_lines" :amount="order_amount" />
+      <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt="">
     </v-container>
     <Dialog
       :show="showDialog"
@@ -110,6 +111,15 @@ export default {
   data() {
     return {
       showDialog: false,
+      settingData: {
+        isPrintChecked: true,
+        selectedOrderStatus: "in progress",
+        selectedReloadInterval: "Every 1 minute",
+        selectedTicketCount: "1",
+        selectedTicketFontSize: "8 pt",
+        selectedTimeInterval: "15 minutes"
+      },
+      isPrintAuto: true
     };
   },
   computed: {
@@ -164,9 +174,33 @@ export default {
       return this.$props.order.status === "in progress";
     },
   },
+  mounted() {
+    this.loadSettingData();
+  },
   methods: {
-    printOrder(order) {
-      alert("Printing order : " + order.order_id);
+    async loadSettingData() {
+      // alert();
+      this.settingData = (await this.$idb.get("settingData"));
+      console.log(this.settingData);
+      if (this.settingData.length == 0) {
+        this.isPrintAuto = true;
+      } else {
+        this.settingData.isPrintChecked
+          ? (this.isPrintAuto = true)
+          : (this.isPrintAuto = false);
+      }
+    },
+    printOrder() {
+      let noOfcopy = this.settingData.selectedTicketCount;
+      let count = 0;
+      let printdata = document.getElementById('ticket');
+      window.document.write(printdata.outerHTML);
+      console.log("setting",this.settingData);
+      while (count < noOfcopy){
+        window.print(0);
+        count++;
+      }
+      // window.close();
     },
     changeOrderStatus(nextState) {
       const currentState = this.$props.order.status;
@@ -175,6 +209,9 @@ export default {
         this.showDialog = true;
       } else {
         this.$emit("orderStatusChange", this.$props.order, nextState);
+        if (nextState == this.settingData.selectedOrderStatus && this.isPrintAuto){
+          this.printOrder();
+        }
       }
     },
     closeDialog() {
@@ -189,6 +226,10 @@ export default {
 </script>
 
 <style>
+#ticket {
+  display: none;
+  height: 50%;
+}
 .order-detail-root {
   height: 100%;
   /* padding: 50px 80px; */
