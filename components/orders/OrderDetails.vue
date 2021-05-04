@@ -73,12 +73,11 @@
         <OrderStatLabel label="Order Number:" :value="order.order_id" />
         <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
         <OrderStatLabel label="Items:" :value="order_item_count" />
-        <!-- TODO: NEED TO CALCULATE -->
         <OrderStatLabel
           v-if="isInProgressStatus"
           label="Predicted prep time:"
           :valueStyle="isOverDue && `overdue`"
-          value="20 Mins"
+          :value="order.pickupTime"
         />
       </div>
 
@@ -138,6 +137,9 @@ export default {
     isOverDue() {
       // TODO: Compute order overdue
       const { order } = this.$props;
+      if (order.status === `finished`) {
+        return false;
+      }
       return order.overdue;
     },
     isCancelled() {
