@@ -1,6 +1,8 @@
 <template>
   <div class="swipeable-stack">
-    <div v-if="showSwipe.right">Swipe to in progress</div>
+    <div v-if="showSwipe.right" class="swipe-bg swipe-left-area">
+      Moving to in progress
+    </div>
     <v-btn
       v-touch="{
         left: () => swipe('left'),
@@ -72,7 +74,7 @@
         </v-flex>
       </v-layout>
     </v-btn>
-    <div v-if="showSwipe.left">Swipe to Finished</div>
+    <div v-if="showSwipe.left">Moving to Finished</div>
   </div>
 </template>
 
@@ -122,12 +124,10 @@ export default {
       s = s - 1;
     },
     swipe(direction) {
-      console.log("SWIPE", direction);
       this.showSwipe[direction] = true;
       setTimeout(() => {
         this.showSwipe[direction] = false;
-        console.log("SWIPE", this.item, this.showSwipe[direction]);
-      }, 5000);
+      }, 900);
     },
   },
 };
@@ -150,8 +150,19 @@ export default {
 .cancelled-item {
   border: 2px solid #f09d00;
 }
+
+.swipe-bg {
+  background: #f6f8fa 0% 0% no-repeat padding-box;
+  padding: 5px 30px;
+  border-radius: 16px 0 0 16px;
+  text-transform: uppercase;
+}
+.swipe-left-area {
+}
 .swipeable-stack {
   flex-direction: row;
   display: flex;
+  border-radius: 16px;
+  line-height: 1;
 }
 </style>
