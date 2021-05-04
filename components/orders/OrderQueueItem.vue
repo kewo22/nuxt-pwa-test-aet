@@ -1,8 +1,8 @@
 <template>
   <v-btn
-    :class="`${item.cancelled && `cancelled-item`} ${
-      isOverdue && `overdue-item`
-    }`"
+    :class="
+      `${item.cancelled && `cancelled-item`} ${isOverdue && `overdue-item`}`
+    "
     style="
       width: 100%;
       background-color: #282e35;
@@ -17,8 +17,6 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              <!-- <v-img :aspect-ratio="16 / 9" width="100" :src="item.src"></v-img> -->
-              <!-- <img src="~/assets/justEat.png" width="70%" /> -->
               <img :src="getImage" width="70%" />
             </v-col>
           </v-row>
@@ -37,11 +35,10 @@
             <v-col
               align="left"
               justify="center"
+              v-model="pickTimeCountDown"
               :class="`pickup-time ${isOverdue && `overdue`}`"
             >
-              <!-- TODO: NEED TO CALCULATE -->
-              {{ item.pickupTime }}
-              <!-- {{displayFromCountDownTimer(30)}} -->
+              {{ pickupTime }}
             </v-col>
           </v-row>
         </v-container>
@@ -50,7 +47,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              {{ item.order_id }}
+              #{{ item.order_id }}
             </v-col>
           </v-row>
         </v-container>
@@ -70,6 +67,12 @@
 
 <script>
 export default {
+  data() {
+    return {
+      pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
+      pickupTime: this.$props.item.pickupTime
+    };
+  },
   props: ["item"],
   computed: {
     isOrderFinished() {
@@ -96,16 +99,43 @@ export default {
     },
     isOverdue() {
       return this.$props.item.overdue;
-    },
+    }
+  },
+  watch: {
+    pickTimeCountDown: {
+      handler(value) {
+        setTimeout(() => {
+          this.pickTimeCountDown--;
+          let pickupTime;
+
+          let h = Math.floor(value / 60);
+          let m = Math.floor(value % 60);
+
+          if (h != 0) {
+            if (h < 0) {
+              h++;
+              if (h == 0) {
+                pickupTime = m + " Min";
+              } else {
+                pickupTime = h + " hr " + m + " Min";
+              }
+            } else {
+              pickupTime = h + " hr " + m + " Min";
+            }
+          } else {
+            pickupTime = m + " Min";
+          }
+          this.pickupTime = pickupTime;
+        }, 60000);
+      },
+      immediate: true // This ensures the watcher is triggered upon creation
+    }
   },
   methods: {
     onOrderClick() {
       this.$emit("orderClick", this.item);
-    },
-    displayFromCountDownTimer(s) {
-      s = s - 1;
-    },
-  },
+    }
+  }
 };
 </script>
 
