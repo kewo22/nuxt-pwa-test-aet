@@ -114,9 +114,6 @@
       />
       <NoOrder v-else />
     </div>
-    <div style="display:none">
-      {{ posts }}
-    </div>
   </div>
 </template>
 
@@ -149,12 +146,6 @@ export default {
   mounted() {
     this.$store.dispatch("orders/getOrders");
     this.getOrders();
-  },
-  computed: {
-    posts() {
-      console.log("value", this.$store.state.orders.allorders);
-      return this.$store.state.orders.allorders;
-    }
   },
   methods: {
     async getOrders() {
@@ -257,15 +248,15 @@ export default {
     },
     calculatePickupTime(orders) {
       for (let i = 0; i < orders.length; i++) {
-        var pos_fulfilment_time = moment(orders[i].pos_fulfilment_time);
-        var today = moment();
-        var pickupTimeInMinutes = pos_fulfilment_time.diff(today, "minutes");
+        const pos_fulfilment_time = moment(orders[i].pos_fulfilment_time);
+        const today = moment();
+        const pickupTimeInMinutes = pos_fulfilment_time.diff(today, "minutes");
 
-        var pickupTime;
+        let pickupTime;
         // var pickupTimeWithSeconds;
 
-        var h = Math.floor(pickupTimeInMinutes / 60);
-        var m = Math.floor(pickupTimeInMinutes % 60);
+        let h = Math.floor(pickupTimeInMinutes / 60);
+        let m = Math.floor(pickupTimeInMinutes % 60);
         // var s = Math.floor(m / 60);
 
         if (h != 0) {
