@@ -392,7 +392,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "new",
             "pos_state_updated_at": "2020-10-31 01:48:52",
-            "pos_fulfilment_time": "2021-04-30 10:48:52",
+            "pos_fulfilment_time": "2021-05-04 12:50:52",
             "client": {
                 "code": "232344wed",
                 "name": "Hulk Hogan"
@@ -591,7 +591,7 @@
             "order_ref_reversed": "External order reference reversed",
             "status": "in progress",
             "pos_state_updated_at": "2020-10-31 03:40:52",
-            "pos_fulfilment_time": "2021-05-01 23:55:52",
+            "pos_fulfilment_time": "2021-05-04 23:55:52",
             "client": {
                 "code": "23344wed",
                 "name": "Rey Mysterio"
