@@ -73,12 +73,11 @@
         <OrderStatLabel label="Order Number:" :value="order.order_id" />
         <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
         <OrderStatLabel label="Items:" :value="order_item_count" />
-        <!-- TODO: NEED TO CALCULATE -->
         <OrderStatLabel
           v-if="isInProgressStatus"
           label="Predicted prep time:"
           :valueStyle="isOverDue && `overdue`"
-          value="20 Mins"
+          :value="predictedPrepTime"
         />
       </div>
 
@@ -114,6 +113,27 @@ export default {
     };
   },
   computed: {
+    predictedPrepTime() {
+      const { pickupTimeInMinutes } = this.$props.order;
+
+      let h = Math.floor(pickupTimeInMinutes / 60);
+      let m = Math.floor(pickupTimeInMinutes % 60);
+
+      if (h != 0) {
+        if (h < 0) {
+          h++;
+          if (h == 0) {
+            return m + " Min";
+          } else {
+            return h + " hr " + m + " Min";
+          }
+        } else {
+          return h + " hr " + m + " Min";
+        }
+      } else {
+        return m + " Min";
+      }
+    },
     getImage() {
       const { order } = this.$props;
       switch (order.fulfilment_source) {
