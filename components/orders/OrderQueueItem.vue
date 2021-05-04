@@ -98,8 +98,12 @@ export default {
       return imgSrc;
     },
     isOverdue() {
-      return this.$props.item.overdue;
-    }
+      const { item } = this.$props;
+      if (item.status === `finished`) {
+        return false;
+      }
+      return item.overdue;
+    },
   },
   watch: {
     pickTimeCountDown: {

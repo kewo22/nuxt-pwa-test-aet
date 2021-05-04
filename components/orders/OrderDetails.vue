@@ -158,6 +158,9 @@ export default {
     isOverDue() {
       // TODO: Compute order overdue
       const { order } = this.$props;
+      if (order.status === `finished`) {
+        return false;
+      }
       return order.overdue;
     },
     isCancelled() {
