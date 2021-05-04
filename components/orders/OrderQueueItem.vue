@@ -17,6 +17,7 @@
         color: #babdbf;
         text-transform: none;
         height: 75px;
+        border-radius: 16px;
       "
       @click="onOrderClick()"
     >
@@ -77,12 +78,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
-      pickupTime: this.$props.item.pickupTime
-    };
-  },
   props: ["item"],
   data() {
     return {
@@ -90,6 +85,8 @@ export default {
         left: false,
         right: false,
       },
+      pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
+      pickupTime: this.$props.item.pickupTime
     };
   },
   computed: {
