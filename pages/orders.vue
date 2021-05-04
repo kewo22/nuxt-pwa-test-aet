@@ -283,6 +283,10 @@ export default {
           pickupTime = m + " Min";
         }
 
+        if (pickupTimeInMinutes < 0) {
+          orders[i].overdue = true;
+        }
+
         // h != 0
         //   ? (pickupTimeWithSeconds = h + " hr " + m + " Min " + s + " Seconds")
         //   : (pickupTimeWithSeconds = m + " Min" + s + " Seconds");
