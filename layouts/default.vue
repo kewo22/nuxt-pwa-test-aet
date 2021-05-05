@@ -3,22 +3,22 @@
     <Nuxt />
   </v-app> -->
 
-  <v-app>
-    <!-- <v-navigation-drawer
+  <v-app dark>
+    <v-navigation-drawer
       v-model="drawer"
       app
       absolute
       expand-on-hover
-    > -->
-    <v-navigation-drawer
+    >
+    <!-- <v-navigation-drawer
       v-model="drawer"
       app
       :mini-variant.sync="mini"
-    >
+    > -->
       <v-list dense>
-        <div  class="px-2">
+        <!-- <div  class="px-2">
           <v-app-bar-nav-icon @click.stop="mini = !mini , isFilter = false"></v-app-bar-nav-icon>
-        </div>
+        </div> -->
         <v-list-item v-for="item in items" :key="item.title" @click="showTab(item.title)" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -31,7 +31,9 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <div v-if="isFilter">
+      <!-- Below line commented to avoid rendering filter section -->
+      <!-- <div v-if="isFilter"> -->
+      <div v-if="false">
         <v-list dense>
           <v-list-item>
             <div class="w-100">
@@ -114,7 +116,7 @@
           </v-list-item>
         </v-list>
         <div id="line10Logo" class="d-flex justify-center align-center mt-4">
-          <img src="../assets/LineTen Logo Standard.png" alt="">
+          <img src="~/assets/LineTen Logo Standard.png" alt="">
         </div>
       </div>
     </v-navigation-drawer>
@@ -146,13 +148,13 @@ export default {
     return {
       drawer: true,
       items: [
-        // {
-        //   title: "Orders",
-        //   icon: "mdi-format-list-bulleted-square",
-        //   route: "/orders",
-        // },
-        { title: "Filters", icon: "mdi-filter", route: "" },
-        { title: "Settings", icon: "mdi-cog", route: "/order" },
+        {
+          title: "Orders",
+          icon: "mdi-format-list-bulleted-square",
+          route: "/orders",
+        },
+        { title: "Filters", icon: "mdi-filter", route: "/order" },
+        { title: "Settings", icon: "mdi-cog", route: "/setting" },
       ],
       channels:[],
       orders:[],
