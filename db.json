@@ -555,7 +555,7 @@
                     }
                 }
             ],
-            "fulfilment_source": "ubereats",
+            "fulfilment_source": "justeat",
             "prep-time": 30
         },
         {
@@ -1020,7 +1020,7 @@
                     }
                 }
             ],
-            "fulfilment_source": "ubereats",
+            "fulfilment_source": "deliveroo",
             "prep-time": 54
         },
         {

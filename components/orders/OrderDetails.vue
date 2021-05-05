@@ -22,7 +22,7 @@
       <div class="d-flex flex-column mb-1">
         <div class="d-flex flex-row justify-space-between mb-1">
           <!-- <img src="~/assets/ubereats.png" width="10%" /> -->
-          <img :src="getImage" width="10%" />
+          <img :src="getImage" width="30%" />
           <div>
             <Button @click="printOrder(order)" elevation="2" dark>
               Print Order

@@ -2,28 +2,28 @@ export const Marketplaces = {
     default: {
         name: "Default Marketplace",
         images: {
-            full: require("~/assets/deliveryHero.png"),
+            full: require("~/assets/deliverooHeroFull.svg"),
             thumbnail: require("~/assets/deliveryHero.png"),
         }
     },
     deliveroo: {
         name: "Deliveroo",
         images: {
-            full: require("~/assets/deliveryHero.png"),
+            full: require("~/assets/deliverooHeroFull.svg"),
             thumbnail: require("~/assets/deliveryHero.png"),
         }
     },
     ubereats: {
         name: "Uber Eats",
         images: {
-            full: require("~/assets/ubereats.png"),
+            full: require("~/assets/ubereateFull.png"),
             thumbnail: require("~/assets/ubereats.png"),
         }
     },
     justeat: {
         name: "Just Eat",
         images: {
-            full: require("~/assets/justEat.png"),
+            full: require("~/assets/justEatFull.svg"),
             thumbnail: require("~/assets/justEat.png"),
         }
     },
