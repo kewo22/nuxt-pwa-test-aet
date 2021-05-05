@@ -1,5 +1,5 @@
 <template>
-  <SwipeableStack :item="item">
+  <SwipeableStack :item="item" v-on="$listeners">
     <v-btn
       :class="`${item.cancelled && `cancelled-item`} ${
         isOverdue && `overdue-item`

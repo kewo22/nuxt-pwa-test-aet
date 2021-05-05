@@ -44,6 +44,7 @@
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
+                    @orderStatusChange="orderStatusChange"
                   />
                 </div>
                 <div class="no-search-result" v-else>

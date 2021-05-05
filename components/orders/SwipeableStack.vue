@@ -48,6 +48,7 @@ export default {
       this.showSwipe[direction] = true;
       setTimeout(() => {
         this.showSwipe[direction] = false;
+        this.$emit("orderStatusChange", this.item, "in progress");
       }, 4000);
     },
   },
@@ -61,7 +62,7 @@ export default {
   display: flex;
   border-radius: 16px;
   line-height: 1;
-  overflow: hidden;
+  /* overflow: hidden; */
   height: 90px;
 }
 .swipe-bg {
