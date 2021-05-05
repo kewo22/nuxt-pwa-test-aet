@@ -50,6 +50,7 @@
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
               {{ item.order_lines.length }}
+              {{ item.order_lines.length > 1 ? `items` : `item` }}
             </v-col>
           </v-row>
         </v-container>
