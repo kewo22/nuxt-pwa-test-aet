@@ -141,17 +141,17 @@ export const mutations = {
     state.leadTime = leadTime;
   },
   sortNewOrders(state) {
-    state.newOrders.sort(function(a, b) {
+    state.newOrders.sort(function (a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
   sortInProgressOrders(state) {
-    state.inProgressOrders.sort(function(a, b) {
+    state.inProgressOrders.sort(function (a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
   sortFinishedOrders(state) {
-    state.finishedOrders.sort(function(a, b) {
+    state.finishedOrders.sort(function (a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
@@ -175,13 +175,11 @@ export const getters = {
     return state.allorders;
   },
   getNewStateOrders: state => {
-    console.log("state.allorders", state.allorders);
-    const newOrders = state.allorders.filter(order => {
+    return state.allorders.filter(order => {
       return order.status === "submitted";
+    }).sort(function (a, b) {
+      return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
-    console.log("newOrders", newOrders);
-
-    return newOrders;
   },
   getInProgressOrders: state => {
     return state.inProgressOrders;
@@ -216,7 +214,7 @@ export const actions = {
     commit("calculatePickupTime");
     commit("moveOrdersToInProgress");
     commit("sortNewOrders");
-    commit("setTempNewOrders");  
+    commit("setTempNewOrders");
 
     dispatch("filterInProgressOrders");
     // commit("calculatePickupTime");
