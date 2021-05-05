@@ -440,7 +440,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 01:25:52",
-            "pos_fulfilment_time": "2021-04-30 21:40:52",
+            "pos_fulfilment_time": "2021-05-05 16:40:52",
             "client": {
                 "code": "23as4wed",
                 "name": "Deliveroo",
@@ -559,13 +559,14 @@
             "prep-time": 30
         },
         {
+            "cancelled": true,
             "order_id": 4,
             "order_ref": "FK98708193-test",
-            "order_number": 114783,
+            "order_number": 114083,
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 02:05:52",
-            "pos_fulfilment_time": "2021-05-04 16:00:52",
+            "pos_fulfilment_time": "2021-05-06 16:00:52",
             "client": {
                 "code": "220ws",
                 "name": "Just Eat",
@@ -1363,7 +1364,7 @@
         {
             "order_id": 2,
             "order_ref": "FK98708191-test",
-            "order_number": 114781,
+            "order_number": 11498211,
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 01:25:52",
@@ -1432,7 +1433,7 @@
         {
             "order_id": 3,
             "order_ref": "FK98708192-test",
-            "order_number": 114782,
+            "order_number": 114182,
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 01:48:52",

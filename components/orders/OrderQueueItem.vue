@@ -23,6 +23,13 @@
         </v-container>
       </v-flex>
       <v-flex xs4 sm4 md6>
+        <v-container v-if="isCancelled" fill-height fluid>
+          <v-row align="center" justify="center">
+            <v-col align="left" justify="center" class="cancelled">
+              Cancelled
+            </v-col>
+          </v-row>
+        </v-container>
         <v-container v-if="isOrderFinished" fill-height fluid>
           <v-row align="center" justify="center">
             <v-col
@@ -140,6 +147,6 @@ export default {
   border: 2px solid #ff0000;
 }
 .cancelled-item {
-  border: 2px solid #f09d00;
+  border: 2px solid #f09d00 !important;
 }
 </style>
