@@ -34,7 +34,6 @@
               <v-card-text class="v-card-text">
                 <div v-if="newOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in newOrders"
                     :class="
                       `mb-2 ${newOrder.cancelled && `cancelled-order`} 
@@ -59,7 +58,6 @@
               <v-card-text class="v-card-text">
                 <div v-if="inProgressOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in inProgressOrders"
                     :class="
                       `mb-2 ${newOrder.cancelled && `cancelled-order`} 
@@ -85,7 +83,6 @@
               <v-card-text class="v-card-text">
                 <div v-if="finishedOrders.length">
                   <OrderQueueItem
-                    class="mb-2"
                     v-for="newOrder in finishedOrders"
                     :class="
                       `mb-2 ${newOrder.cancelled &&
@@ -110,7 +107,11 @@
     </div>
 
     <div class="section-2 ml-2 pa-2">
-      <OrderDetails v-if="selectedOrder" :order="selectedOrder" />
+      <OrderDetails
+        v-if="selectedOrder"
+        :order="selectedOrder"
+        @orderStatusChange="orderStatusChange"
+      />
       <NoOrder v-else />
     </div>
   </div>
@@ -120,6 +121,7 @@
 import OrderDetails from "~/components/orders/OrderDetails.vue";
 import NoOrder from "~/components/orders/NoOrder.vue";
 import OrderQueueItem from "~/components/orders/OrderQueueItem.vue";
+import moment from "moment";
 
 export default {
   components: { OrderDetails, NoOrder, OrderQueueItem },
@@ -154,7 +156,7 @@ export default {
       this.allOrders = this.orders;
       this.tempOrders = this.orders;
       const newOrders = this.orders.filter(order => {
-        return order.status === "new";
+        return order.status === "submitted";
       });
       this.newOrders = newOrders;
       this.moveCancelOrdersToFinished();
