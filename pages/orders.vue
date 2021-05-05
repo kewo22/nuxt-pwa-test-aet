@@ -240,6 +240,8 @@ export default {
           this.tempNewOrders = filteredNewOrders;
           if (filteredNewOrders.length > 0) {
             this.selectedOrder = filteredNewOrders[0];
+          } else {
+            this.selectedOrder = null;
           }
         } else {
           this.tempNewOrders = [];
