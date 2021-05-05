@@ -136,7 +136,7 @@ export default {
   data() {
     return {
       tabs: null,
-      // selectedOrder: null,
+      selectedOrder: null,
       newOrders: [],
       inProgressOrders: [],
       finishedOrders: [],
@@ -153,45 +153,25 @@ export default {
     };
   },
   created() {
-    // this.$store.subscribe((mutation, state) => {
-    //   console.log("mutation.type",mutation.type);
-    //   console.log("state",state);
-    //   if (mutation.type === "orders/setSelectedOrders") {
-    //     this.selectedOrder = state.orders.selectedOrder;
-    //   }
-    // });
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === "orders/setSelectedOrders") {
+        this.selectedOrder = this.$store.getters["orders/getNewStateOrders"][0];
+      }
+    });
   },
   mounted() {
     this.$store.dispatch("orders/getOrdersNew");
-    // this.setInitialData();
-    // this.getOrders();
   },
 
   computed: {
-    // newOrdersD() {
-    //   this.newOrders = this.getNewStateOrders;
-    //   return this.getNewStateOrders;
-    // },
-    // getSelectedOrders1() {
-    //   this.selectedOrder = this.getSelectedOrders;
-    //   console.log(" this.selectedOrder ", this.selectedOrder )
-    //   return this.getSelectedOrders;
-    // },
     ...mapGetters({
       getAllOrders: "orders/getAllOrders",
       getNewStateOrders: "orders/getNewStateOrders",
       getInProgressOrders: "orders/getInProgressOrders",
       getFinishedOrders: "orders/getFinishedOrders",
-      selectedOrder: "orders/getSelectedOrders"
     })
   },
   methods: {
-    setInitialData() {
-      this.$store.commit("orders/setSelectedOrders");
-
-      this.selectedOrder = this.getSelectedOrders;
-      console.log("this.selectedOrder", this.getSelectedOrders);
-    },
     async getOrders() {
       this.orders = await this.$axios.$get("http://localhost:3004/orders");
       let settingData = (await this.$idb.get("settingData")) || [];
