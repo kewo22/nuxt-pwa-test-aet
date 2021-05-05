@@ -167,7 +167,6 @@ export const mutations = {
   },
   setSelectedOrders(state) {
     state.selectedOrder = state.newOrders[0];
-    console.log("state.selectedOrder",state.selectedOrder)
   }
 };
 
@@ -196,7 +195,7 @@ export const getters = {
 };
 
 export const actions = {
-  async getOrdersNew({ commit, state, getters, dispatch }) {
+  async getOrdersNew({ commit, state, dispatch }) {
     let settingData = (await this.$idb.get("settingData")) || [];
     let leadTime = settingData.selectedTimeInterval || "15";
 
@@ -231,9 +230,6 @@ export const actions = {
     commit("setTempFinishedOrders");
     commit("setSelectedOrders");
 
-    console.log("filterallOrders", state.allorders);
-
-    // console.log("newOrders",newOrders)
     return state.allorders;
   },
   filterNewOrders({ state, commit }) {
