@@ -102,15 +102,15 @@
 <script>
 import OrderStatLabel from "./OrderStatLabel";
 import OrderItemList from "./OrderItemList";
-// import OrderActionContent from "./OrderActionContent";
-// import Button from "../common/Button";
-// import Dialog from "../common/Dialog";
+import OrderActionContent from "./OrderActionContent";
+import Button from "../common/Button";
+import Dialog from "../common/Dialog";
 
 export default {
   components: {
-    // Button,
-    // Dialog,
-    // OrderActionContent,
+    Button,
+    Dialog,
+    OrderActionContent,
     OrderStatLabel,
     OrderItemList,
   },
