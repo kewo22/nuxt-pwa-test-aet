@@ -1,14 +1,6 @@
 <template>
-  <div class="swipeable-stack">
-    <div v-if="showSwipe.right" class="swipe-bg swipe-left-area">
-      <p class="ma-0">Moving to</p>
-      <p class="ma-0">in progress</p>
-    </div>
+  <SwipeableStack :item="item">
     <v-btn
-      v-touch="{
-        left: () => swipe('left'),
-        right: () => swipe('right'),
-      }"
       :class="`${item.cancelled && `cancelled-item`} ${
         isOverdue && `overdue-item`
       }`"
@@ -73,22 +65,16 @@
         </v-flex>
       </v-layout>
     </v-btn>
-    <div v-if="showSwipe.left" class="swipe-bg swipe-right-area">
-      <p>Moving to</p>
-      <p>Finished</p>
-    </div>
-  </div>
+  </SwipeableStack>
 </template>
 
 <script>
+import SwipeableStack from "./SwipeableStack";
 export default {
+  components: { SwipeableStack },
   props: ["item"],
   data() {
     return {
-      showSwipe: {
-        left: false,
-        right: false,
-      },
       pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
       pickupTime: this.$props.item.pickupTime,
     };
@@ -159,12 +145,6 @@ export default {
     displayFromCountDownTimer(s) {
       s = s - 1;
     },
-    swipe(direction) {
-      this.showSwipe[direction] = true;
-      setTimeout(() => {
-        this.showSwipe[direction] = false;
-      }, 1500);
-    },
   },
 };
 </script>
@@ -185,37 +165,5 @@ export default {
 }
 .cancelled-item {
   border: 2px solid #f09d00;
-}
-
-.swipe-bg {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  padding: 0px 20px;
-  border-radius: 16px 0 0 16px;
-  text-transform: uppercase;
-}
-.swipe-left-area,
-.swipe-right-area {
-  color: black;
-}
-.swipe-right-area {
-  text-align: left;
-}
-.swipe-left-area p {
-  width: 130%;
-}
-.swipe-left-area {
-  text-align: right;
-}
-.swipeable-stack {
-  background: #f6f8fa 0% 0% no-repeat padding-box;
-  display: flex;
-  border-radius: 16px;
-  line-height: 1;
-  overflow: hidden;
-  height: 90px;
 }
 </style>
