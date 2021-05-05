@@ -55,12 +55,14 @@
           </div>
         </div>
         <div
-          :class="`order-status ${order.status} ${isOverDue && `overdue`} 
+          :class="`order-status 
+          ${order.status.toLowerCase().replace(` `, `-`)} 
+          ${isOverDue && `overdue`} 
           ${isCancelled && `cancelled`}`"
         >
           <p>{{ orderStatus }}</p>
+        </div>
       </div>
-    </div>
 
       <!-- <v-row class="pb-5">
       <OrderStatLabel label="Order Number:" :value="order.order_id" />
@@ -134,7 +136,7 @@ export default {
     orderStatus() {
       if (this.isCancelled) {
         return `Cancelled!`;
-      } 
+      }
       if (this.isOverDue) {
         return `Overdue`;
       }
@@ -176,7 +178,7 @@ export default {
   methods: {
     printOrder(order) {
       // alert("Printing order : " + order.order_id);
-      var printdata = document.getElementById('ticket');
+      var printdata = document.getElementById("ticket");
       // let newwin = window.open("");
       // newwin.document.write(printdata.outerHTML);
       // newwin.print();
@@ -221,7 +223,8 @@ export default {
 .in-progress {
   color: #509ad9;
 }
-.submitted, .new {
+.submitted,
+.new {
   color: #aa33bf;
 }
 .finished {
