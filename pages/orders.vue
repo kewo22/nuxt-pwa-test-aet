@@ -23,10 +23,10 @@
             New ({{ newOrderQueue.length }})
           </v-tab>
           <v-tab @click="onInProgressTabClick(1)">
-            In Progress ({{ getInProgressOrders.length }})
+            In Progress ({{ inProgressQueue.length }})
           </v-tab>
           <v-tab @click="onFinishedTabClick(2)">
-            Finished ({{ getFinishedOrders.length }})
+            Finished ({{ finishedQueue.length }})
           </v-tab>
         </v-tabs>
 
@@ -58,9 +58,9 @@
           <v-tab-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <div v-if="getInProgressOrders.length">
+                <div v-if="inProgressQueue.length">
                   <OrderQueueItem
-                    v-for="newOrder in getInProgressOrders"
+                    v-for="newOrder in inProgressQueue"
                     :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} 
                     ${newOrder.overdue && `overdue-order`}
                     ${
@@ -83,9 +83,9 @@
           <v-tab-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <div v-if="getFinishedOrders.length">
+                <div v-if="finishedQueue.length">
                   <OrderQueueItem
-                    v-for="newOrder in getFinishedOrders"
+                    v-for="newOrder in finishedQueue"
                     :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
                       selectedOrder &&
                       selectedOrder.order_id === newOrder.order_id &&
@@ -167,10 +167,28 @@ export default {
       if (!!this.tempNewOrders.length) {
         return this.tempNewOrders;
       }
-      if (!!this.searchVal && !this.tempNewOrders.length ) {
+      if (!!this.searchVal && !this.tempNewOrders.length) {
         return this.tempNewOrders;
       }
       return this.getNewStateOrders;
+    },
+    inProgressQueue() {
+      if (!!this.tempInProgressOrders.length) {
+        return this.tempInProgressOrders;
+      }
+      if (!!this.searchVal && !this.tempInProgressOrders.length) {
+        return this.tempInProgressOrders;
+      }
+      return this.getInProgressOrders;
+    },
+    finishedQueue() {
+      if (!!this.tempFinishedOrders.length) {
+        return this.tempFinishedOrders;
+      }
+      if (!!this.searchVal && !this.tempFinishedOrders.length) {
+        return this.tempFinishedOrders;
+      }
+      return this.getFinishedOrders;
     },
     ...mapGetters({
       getAllOrders: "orders/getAllOrders",
@@ -250,18 +268,21 @@ export default {
       }
       if (this.currentTab === 1) {
         if (this.searchVal) {
-          const filteredInprogressOrders = this.tempInProgressOrders.filter(
+          const filteredInprogressOrders = this.getInProgressOrders.filter(
             (order) => {
               // return order.order_id === searchVal;
-              return order.order_number.includes(this.searchVal);
+              return String(order.order_number).includes(this.searchVal);
             }
           );
-          this.inProgressOrders = filteredInprogressOrders;
-          if (filteredInprogressOrders.length === 1)
+          this.tempInProgressOrders = filteredInprogressOrders;
+          if (filteredInprogressOrders.length > 0) {
             this.selectedOrder = filteredInprogressOrders[0];
+          } else {
+            this.selectedOrder = null;
+          }
         } else {
-          this.inProgressOrders = this.tempInProgressOrders;
-          this.selectedOrder = this.inProgressOrders[0];
+          this.tempInProgressOrders = [];
+          this.selectedOrder = this.getInProgressOrders[0];
         }
       }
       if (this.currentTab === 2) {
@@ -269,7 +290,7 @@ export default {
           const filteredFinishedOrders = this.tempFinishedOrders.filter(
             (order) => {
               // return order.order_id === searchVal;
-              return order.order_number.includes(this.searchVal);
+              return String(order.order_number).includes(this.searchVal);
             }
           );
           this.finishedOrders = filteredFinishedOrders;
