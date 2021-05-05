@@ -2,7 +2,7 @@
   <v-dialog v-model="show" width="500">
     <v-card light>
       <v-card-title>
-        <v-icon filled>mdi-progress-question</v-icon>
+        <font-awesome-icon :icon="['fa', 'question-circle']" />
         &nbsp;Confirm Action
       </v-card-title>
       <v-divider></v-divider>
