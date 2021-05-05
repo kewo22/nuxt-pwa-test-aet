@@ -19,12 +19,14 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab @click="onNewTabClick(0)">New ({{ newOrders.length }})</v-tab>
+          <v-tab @click="onNewTabClick(0)"
+            >New ({{ getNewStateOrders.length }})</v-tab
+          >
           <v-tab @click="onInProgressTabClick(1)">
-            In Progress ({{ inProgressOrders.length }})
+            In Progress ({{ getInProgressOrders.length }})
           </v-tab>
           <v-tab @click="onFinishedTabClick(2)">
-            Finished ({{ finishedOrders.length }})
+            Finished ({{ getFinishedOrders.length }})
           </v-tab>
         </v-tabs>
 
@@ -32,9 +34,9 @@
           <v-tab-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <div v-if="newOrders.length">
+                <div v-if="getNewStateOrders.length">
                   <OrderQueueItem
-                    v-for="newOrder in newOrders"
+                    v-for="newOrder in getNewStateOrders"
                     :class="
                       `mb-2 ${newOrder.cancelled && `cancelled-order`} 
                     ${selectedOrder &&
@@ -56,9 +58,9 @@
           <v-tab-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <div v-if="inProgressOrders.length">
+                <div v-if="getInProgressOrders.length">
                   <OrderQueueItem
-                    v-for="newOrder in inProgressOrders"
+                    v-for="newOrder in getInProgressOrders"
                     :class="
                       `mb-2 ${newOrder.cancelled && `cancelled-order`} 
                     ${newOrder.overdue && `overdue-order`}
@@ -81,9 +83,9 @@
           <v-tab-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <div v-if="finishedOrders.length">
+                <div v-if="getFinishedOrders.length">
                   <OrderQueueItem
-                    v-for="newOrder in finishedOrders"
+                    v-for="newOrder in getFinishedOrders"
                     :class="
                       `mb-2 ${newOrder.cancelled &&
                         `cancelled-order`} ${selectedOrder &&
@@ -114,9 +116,12 @@
       />
       <NoOrder v-else />
     </div>
-    <div style="display:none">
-      {{ posts }}
-    </div>
+    <!-- <div style="display:none">
+      {{ newOrdersD }}
+    </div> -->
+    <!-- <div style="display:none">
+      {{ getSelectedOrders1 }}
+    </div> -->
   </div>
 </template>
 
@@ -143,23 +148,40 @@ export default {
       currentTab: 0,
       searchVal: "",
       leadTime: "",
-      orders: []
+      orders: [],
+      settingData: ""
     };
   },
   mounted() {
     this.$store.dispatch("orders/getOrdersNew");
-    this.getOrders();
+    this.setInitialData();
+    // this.getOrders();
   },
   computed: {
-    posts() {
-      console.log("value", this.getAllOrders);
-      return this.$store.state.orders.allorders;
-    },
+    // newOrdersD() {
+    //   this.newOrders = this.getNewStateOrders;
+    //   return this.getNewStateOrders;
+    // },
+    // getSelectedOrders1() {
+    //   this.selectedOrder = this.getSelectedOrders;
+    //   console.log(" this.selectedOrder ", this.selectedOrder )
+    //   return this.getSelectedOrders;
+    // },
     ...mapGetters({
-      getAllOrders: "orders/getAllOrders"
+      getAllOrders: "orders/getAllOrders",
+      getNewStateOrders: "orders/getNewStateOrders",
+      getInProgressOrders: "orders/getInProgressOrders",
+      getFinishedOrders: "orders/getFinishedOrders",
+      getSelectedOrders: "orders/getSelectedOrders"
     })
   },
   methods: {
+    setInitialData() {
+      this.$store.commit("orders/setSelectedOrders");
+
+      this.selectedOrder = this.getSelectedOrders;
+      console.log("this.selectedOrder", this.getSelectedOrders);
+    },
     async getOrders() {
       this.orders = await this.$axios.$get("http://localhost:3004/orders");
       let settingData = (await this.$idb.get("settingData")) || [];
