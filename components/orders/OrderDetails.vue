@@ -128,8 +128,12 @@ export default {
     orderStatus() {
       if (this.isCancelled) {
         return `Cancelled!`;
-      } else if (this.isOverDue) {
+      } 
+      if (this.isOverDue) {
         return `Overdue`;
+      }
+      if (String(this.$props.order.status).toLowerCase() === "submitted") {
+        return `New`;
       }
       return this.$props.order.status;
     },
@@ -165,7 +169,7 @@ export default {
   },
   methods: {
     printOrder(order) {
-      alert("Printing order : " + order.order_id);
+      // alert("Printing order : " + order.order_id);
       var printdata = document.getElementById('ticket');
       // let newwin = window.open("");
       // newwin.document.write(printdata.outerHTML);
@@ -211,7 +215,7 @@ export default {
 .in-progress {
   color: #509ad9;
 }
-.new {
+.submitted, .new {
   color: #aa33bf;
 }
 .finished {
