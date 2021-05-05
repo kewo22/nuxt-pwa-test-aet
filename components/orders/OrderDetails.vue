@@ -123,16 +123,7 @@ export default {
   computed: {
     getImage() {
       const { order } = this.$props;
-      switch (order.fulfilment_source) {
-        case "Uber Eats":
-          return require("~/assets/ubereats.png");
-        case "Delivery Hero":
-          return require("~/assets/deliveryHero.png");
-        case "Just Eat":
-          return require("~/assets/justEat.png");
-        default:
-          return "";
-      }
+      return this.$getMarketplaceImages(order.fulfilment_source, "full");
     },
     orderStatus() {
       if (this.isCancelled) {

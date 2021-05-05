@@ -67,8 +67,6 @@ export default {
     };
   },
   props: ["item"],
-  mounted() {
-  },
   computed: {
     isOrderFinished() {
       return this.$props.item.status !== "finished";
@@ -78,19 +76,7 @@ export default {
     },
     getImage() {
       const { item } = this.$props;
-      let fulfilment_source = item.fulfilment_source;
-      let imgSrc;
-      switch (fulfilment_source) {
-        case "Uber Eats":
-          return require("~/assets/ubereats.png");
-        case "Delivery Hero":
-          return require("~/assets/deliveryHero.png");
-        case "Just Eat":
-          return require("~/assets/justEat.png");
-        default:
-          imgSrc = "";
-      }
-      return imgSrc;
+      return this.$getMarketplaceImages(item.fulfilment_source, "thumbnail");
     },
     isOverdue() {
       const { item } = this.$props;

@@ -34,7 +34,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/currencyFormatter.client.js',
-    '~/plugins/idb.client.js'
+    '~/plugins/idb.client.js',
+    '~/plugins/utils.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
