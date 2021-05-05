@@ -12,7 +12,7 @@
     >
       <div>
         <p class="ma-0">Moving to</p>
-        <p class="ma-0">in progress</p>
+        <p class="ma-0">{{ nextOrderState }}</p>
       </div>
       <v-icon :color="leftArrowColor"
         >mdi-arrow-right-bold-circle-outline</v-icon
@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  props: ["item"],
+  props: ["item", "nextOrderState"],
   data() {
     return {
       showSwipe: {
@@ -48,7 +48,11 @@ export default {
       this.showSwipe[direction] = true;
       setTimeout(() => {
         this.showSwipe[direction] = false;
-        this.$emit("orderStatusChange", this.item, "in progress");
+        this.$emit(
+          "orderStatusChange",
+          this.item,
+          this.nextOrderState.toLowerCase()
+        );
       }, 4000);
     },
   },

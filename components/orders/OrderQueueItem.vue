@@ -1,5 +1,5 @@
 <template>
-  <SwipeableStack :item="item" v-on="$listeners">
+  <SwipeableStack :item="item" v-on="$listeners" :nextOrderState="nextOrderState">
     <v-btn
       :class="`${item.cancelled && `cancelled-item`} ${
         isOverdue && `overdue-item`
@@ -106,6 +106,18 @@ export default {
         return false;
       }
       return item.overdue;
+    },
+    nextOrderState() {
+      switch (this.item.status) {
+        case "new":
+          return "In progress";
+        case "in progress":
+          return "Finished";
+        case "finished":
+          return "In Progress";
+        default:
+          return "Move back to";
+      }
     },
   },
   watch: {
