@@ -125,7 +125,7 @@ import OrderDetails from "~/components/orders/OrderDetails.vue";
 import NoOrder from "~/components/orders/NoOrder.vue";
 import OrderQueueItem from "~/components/orders/OrderQueueItem.vue";
 import moment from "moment";
-
+import { mapGetters } from "vuex";
 export default {
   components: { OrderDetails, NoOrder, OrderQueueItem },
   data() {
@@ -147,14 +147,17 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("orders/getOrders");
+    this.$store.dispatch("orders/getOrdersNew");
     this.getOrders();
   },
   computed: {
     posts() {
-      console.log("value", this.$store.state.orders.allorders);
+      console.log("value", this.getAllOrders);
       return this.$store.state.orders.allorders;
-    }
+    },
+    ...mapGetters({
+      getAllOrders: "orders/getAllOrders"
+    })
   },
   methods: {
     async getOrders() {
