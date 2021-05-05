@@ -1,9 +1,10 @@
 <template>
-  <v-container class="order-detail-root pa-10">
-    <!-- <v-row class="pb-5">
+  <div>
+    <v-container class="order-detail-root pa-10">
+      <!-- <v-row class="pb-5">
       <v-col md="7"> -->
-    <!-- <v-img max-width="200" max-height="65" :src="order.src" /> -->
-    <!-- <img src="~/assets/ubereats.png" width="20%" />
+      <!-- <v-img max-width="200" max-height="65" :src="order.src" /> -->
+      <!-- <img src="~/assets/ubereats.png" width="20%" />
       </v-col>
       <v-col md="4">
         <v-btn elevation="2" rounded dark>Print Order</v-btn>
@@ -61,7 +62,7 @@
       </div>
     </div>
 
-    <!-- <v-row class="pb-5">
+      <!-- <v-row class="pb-5">
       <OrderStatLabel label="Order Number:" :value="order.order_id" />
       <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
       <OrderStatLabel label="Items:" :value="order_item_count" />
@@ -69,7 +70,10 @@
     </v-row> -->
 
       <div class="d-flex flex-row justify-space-between mb-3">
-        <OrderStatLabel label="Order Number:" :value="order.order_id" />
+        <OrderStatLabel
+          label="Order Number:"
+          :value="`#${order.order_number}`"
+        />
         <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
         <OrderStatLabel label="Items:" :value="order_item_count" />
         <OrderStatLabel
@@ -80,30 +84,46 @@
         />
       </div>
 
-    <OrderItemList :items="order.order_lines" :amount="order_amount" />
-    <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt="">
-  </v-container>
+      <OrderItemList :items="order.order_lines" :amount="order_amount" />
+      <img
+        src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif"
+        id="ticket"
+        alt=""
+      />
+    </v-container>
+    <Dialog
+      :show="showDialog"
+      @closeDialog="closeDialog"
+      @clickConfirm="confirmOrderStateChange"
+    />
+  </div>
 </template>
 
 <script>
 import OrderStatLabel from "./OrderStatLabel";
 import OrderItemList from "./OrderItemList";
+import OrderActionContent from "./OrderActionContent";
+import Button from "../common/Button";
+import Dialog from "../common/Dialog";
+
 export default {
-  components: { OrderStatLabel, OrderItemList },
+  components: {
+    Button,
+    Dialog,
+    OrderActionContent,
+    OrderStatLabel,
+    OrderItemList,
+  },
   props: ["order"],
+  data() {
+    return {
+      showDialog: false,
+    };
+  },
   computed: {
     getImage() {
       const { order } = this.$props;
-      switch (order.fulfilment_source) {
-        case "Uber Eats":
-          return require("~/assets/ubereats.png");
-        case "Delivery Hero":
-          return require("~/assets/deliveryHero.png");
-        case "Just Eat":
-          return require("~/assets/justEat.png");
-        default:
-          return "";
-      }
+      return this.$getMarketplaceImages(order.fulfilment_source, "full");
     },
     orderStatus() {
       if (this.isCancelled) {
@@ -133,7 +153,7 @@ export default {
       return order.status === "finished" && order.cancelled;
     },
     order_amount() {
-      // return this.$currency(this.$props.order.total);
+      return this.$currency(this.$props.order.total);
     },
     order_item_count() {
       const { order } = this.$props;
@@ -184,6 +204,7 @@ export default {
   /* padding: 50px 80px; */
 }
 .order-status {
+  font-size: 25px;
   font-weight: bold;
   text-transform: capitalize;
 }

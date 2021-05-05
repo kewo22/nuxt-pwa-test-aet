@@ -40,7 +40,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              #{{ item.order_id }}
+              #{{ item.order_number }}
             </v-col>
           </v-row>
         </v-container>
@@ -50,6 +50,7 @@
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
               {{ item.order_lines.length }}
+              {{ item.order_lines.length > 1 ? `items` : `item` }}
             </v-col>
           </v-row>
         </v-container>
@@ -67,8 +68,6 @@ export default {
     };
   },
   props: ["item"],
-  mounted() {
-  },
   computed: {
     isOrderFinished() {
       return this.$props.item.status !== "finished";
@@ -78,19 +77,7 @@ export default {
     },
     getImage() {
       const { item } = this.$props;
-      let fulfilment_source = item.fulfilment_source;
-      let imgSrc;
-      switch (fulfilment_source) {
-        case "Uber Eats":
-          return require("~/assets/ubereats.png");
-        case "Delivery Hero":
-          return require("~/assets/deliveryHero.png");
-        case "Just Eat":
-          return require("~/assets/justEat.png");
-        default:
-          imgSrc = "";
-      }
-      return imgSrc;
+      return this.$getMarketplaceImages(item.fulfilment_source, "thumbnail");
     },
     isOverdue() {
       const { item } = this.$props;
