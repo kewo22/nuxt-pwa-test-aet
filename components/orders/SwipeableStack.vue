@@ -14,9 +14,9 @@
         <p class="ma-0">Moving to</p>
         <p class="ma-0">{{ nextOrderState }}</p>
       </div>
-      <v-icon :color="leftArrowColor"
-        >mdi-arrow-right-bold-circle-outline</v-icon
-      >
+      <v-icon :color="leftArrowColor">
+        mdi-arrow-right-bold-circle-outline
+      </v-icon>
     </div>
     <slot />
     <div v-if="showSwipe.left" class="swipe-bg swipe-right-area">
@@ -40,7 +40,14 @@ export default {
   },
   computed: {
     leftArrowColor() {
-      return "blue";
+      switch (this.item.status) {
+        case "new":
+          return "#509AD9";
+        case "in progress":
+          return "#4AA36F";
+        default:
+          return "";
+      }
     },
   },
   methods: {
@@ -101,5 +108,8 @@ export default {
 }
 .swipe-new {
   color: #509ad9;
+}
+.swipe-in-progress {
+  color: #4aa36f;
 }
 </style>
