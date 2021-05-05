@@ -32,7 +32,7 @@ export default {
   props: ["item"],
   computed: {
     itemAmount() {
-      // return this.$currency(this.$props.item.total);
+      return this.$currency(this.$props.item.total);
     },
   },
 };
