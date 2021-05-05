@@ -15,7 +15,39 @@ $ npm run start
 
 # generate static project
 $ npm run generate
+```
 
+For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Local Mock data API
+
+Start local mock API using the following command.
+
+`npm run dev:data`
+
+> Local server will be running on the `http://localhost:3004`.
+
+### Available Mock API endpoints
+
+|API name|HTTP VERB|Endpoint format|
+|-|-|-|
+|List of Marketplaces for specific site of client|GET|/client/{id}/site/{id}/marketplaces <br> ex: http://localhost:3004/client/1/site/1/marketplaces|
+|List of orders for today for specific site of client|GET|/client/{id}/site/{id}/orders/today <br> ex: http://localhost:3004/client/1/site/2323/orders/today|
+|List of orders for after given time period for specific site of client|GET|/client/{id}/orders/site/{id}/recent/{timestamp} <br> ex: http://localhost:3004/client/1/orders/site/2323/recent/2021-08-21
+
+*Default API endpoints*
+
+|API NAME|HTTP VERB|URL|
+|-|-|-|
+|All Sites/locations|GET|http://localhost:3004/location|
+|Specific Site/location|GET|http://localhost:3004/location/{id}|
+|All marketplaces|GET|http://localhost:3004/marketplaces|
+|Specific marketplace|GET|http://localhost:3004/marketplaces/{id}|
+|All orders|GET|http://localhost:3004/orders|
+|Specific order|GET|http://localhost:3004/orders/{id}|
+
+
+```bash
 # mock data running in port - 3004 - 
 $ npm run dev:data
 # or
@@ -24,12 +56,9 @@ $ json-server --watch db.json --port 3004
 * Example
   * http://localhost:3004/location/{id} - location API
   * http://localhost:3004/marketplaces/{id} - marketplace API
-  * http://localhost:3004/orders/{id} - orders API
+  * http://localhost:3004/orders - orders API
   * id = 1 0r 2
-
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
 ## Testing with Service Worker on localhost (local dev environment)
 

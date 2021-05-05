@@ -23,14 +23,7 @@
         </v-container>
       </v-flex>
       <v-flex xs4 sm4 md6>
-        <v-container v-if="isCancelled" fill-height fluid>
-          <v-row align="center" justify="center">
-            <v-col align="left" justify="center" class="cancelled">
-              Cancelled
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-container v-else-if="isOrderFinished" fill-height fluid>
+        <v-container v-if="isOrderFinished" fill-height fluid>
           <v-row align="center" justify="center">
             <v-col
               align="left"
@@ -56,7 +49,7 @@
         <v-container fill-height fluid>
           <v-row align="center" justify="center">
             <v-col align="center" justify="center">
-              {{ item.order_lines.length }} items
+              {{ item.order_lines.length }}
             </v-col>
           </v-row>
         </v-container>
@@ -74,6 +67,8 @@ export default {
     };
   },
   props: ["item"],
+  mounted() {
+  },
   computed: {
     isOrderFinished() {
       return this.$props.item.status !== "finished";

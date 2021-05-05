@@ -1,10 +1,9 @@
 <template>
-  <div>
-    <v-container class="order-detail-root pa-10">
-      <!-- <v-row class="pb-5">
+  <v-container class="order-detail-root pa-10">
+    <!-- <v-row class="pb-5">
       <v-col md="7"> -->
-      <!-- <v-img max-width="200" max-height="65" :src="order.src" /> -->
-      <!-- <img src="~/assets/ubereats.png" width="20%" />
+    <!-- <v-img max-width="200" max-height="65" :src="order.src" /> -->
+    <!-- <img src="~/assets/ubereats.png" width="20%" />
       </v-col>
       <v-col md="4">
         <v-btn elevation="2" rounded dark>Print Order</v-btn>
@@ -59,10 +58,10 @@
           ${isCancelled && `cancelled`}`"
         >
           <p>{{ orderStatus }}</p>
-        </div>
       </div>
+    </div>
 
-      <!-- <v-row class="pb-5">
+    <!-- <v-row class="pb-5">
       <OrderStatLabel label="Order Number:" :value="order.order_id" />
       <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
       <OrderStatLabel label="Items:" :value="order_item_count" />
@@ -81,37 +80,17 @@
         />
       </div>
 
-      <OrderItemList :items="order.order_lines" :amount="order_amount" />
-    </v-container>
-    <Dialog
-      :show="showDialog"
-      @closeDialog="closeDialog"
-      @clickConfirm="confirmOrderStateChange"
-    />
-  </div>
+    <OrderItemList :items="order.order_lines" :amount="order_amount" />
+    <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt="">
+  </v-container>
 </template>
 
 <script>
 import OrderStatLabel from "./OrderStatLabel";
 import OrderItemList from "./OrderItemList";
-import OrderActionContent from "./OrderActionContent";
-import Button from "../common/Button";
-import Dialog from "../common/Dialog";
-
 export default {
-  components: {
-    Button,
-    Dialog,
-    OrderActionContent,
-    OrderStatLabel,
-    OrderItemList,
-  },
+  components: { OrderStatLabel, OrderItemList },
   props: ["order"],
-  data() {
-    return {
-      showDialog: false,
-    };
-  },
   computed: {
     getImage() {
       const { order } = this.$props;
@@ -154,7 +133,7 @@ export default {
       return order.status === "finished" && order.cancelled;
     },
     order_amount() {
-      return this.$currency(this.$props.order.total);
+      // return this.$currency(this.$props.order.total);
     },
     order_item_count() {
       const { order } = this.$props;
@@ -167,6 +146,17 @@ export default {
   methods: {
     printOrder(order) {
       alert("Printing order : " + order.order_id);
+      var printdata = document.getElementById('ticket');
+      // let newwin = window.open("");
+      // newwin.document.write(printdata.outerHTML);
+      // newwin.print();
+      // newwin.close();
+      // window.open("https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif");
+      window.document.write(printdata.outerHTML);
+      window.close();
+      window.print();
+      location.reload();
+      // newwin.close();
     },
     changeOrderStatus(nextState) {
       const currentState = this.$props.order.status;
@@ -194,9 +184,10 @@ export default {
   /* padding: 50px 80px; */
 }
 .order-status {
-  font-size: 25px;
   font-weight: bold;
   text-transform: capitalize;
+}
+.in-progress {
   color: #509ad9;
 }
 .new {
@@ -211,5 +202,9 @@ export default {
 .cancelled {
   color: #f09d00;
   text-decoration: line-through 2px;
+}
+#ticket {
+  display: none;
+  height: 50%;
 }
 </style>
