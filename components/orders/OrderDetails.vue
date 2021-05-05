@@ -18,18 +18,46 @@
       </p>
     </v-row> -->
 
-    <div class="d-flex flex-column mb-3">
-      <div class="d-flex flex-row justify-space-between mb-1">
-        <img src="~/assets/ubereats.png" width="10%" />
-        <div>
-          <v-btn elevation="2" rounded dark @click="printTicket()">Print Order</v-btn>
-          <v-btn rounded fab elevation="2" small dark>
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
+      <div class="d-flex flex-column mb-1">
+        <div class="d-flex flex-row justify-space-between mb-1">
+          <!-- <img src="~/assets/ubereats.png" width="10%" /> -->
+          <img :src="getImage" width="10%" />
+          <div>
+            <Button @click="printOrder(order)" elevation="2" dark>
+              Print Order
+            </Button>
+            <v-menu offset-y rounded="lg" nudge-top="-10">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  rounded
+                  fab
+                  elevation="2"
+                  small
+                  dark
+                  :disabled="isActionsCancelled"
+                  :style="
+                    isActionsCancelled
+                      ? { backgroundColor: 'grey !important' }
+                      : {}
+                  "
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <OrderActionContent
+                :state="order.status"
+                @orderStatusChange="changeOrderStatus"
+              />
+            </v-menu>
+          </div>
         </div>
-      </div>
-      <div :class="`order-status in-progress ${order.status}`">
-        <p>{{ order.status }}</p>
+        <div
+          :class="`order-status ${order.status} ${isOverDue && `overdue`} 
+          ${isCancelled && `cancelled`}`"
+        >
+          <p>{{ orderStatus }}</p>
       </div>
     </div>
 
@@ -40,17 +68,17 @@
       <OrderStatLabel label="Predicted prep time:" value="20 Mins" />
     </v-row> -->
 
-    <div class="d-flex flex-row justify-space-between mb-3">
-      <OrderStatLabel label="Order Number:" :value="order.order_id" />
-      <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
-      <OrderStatLabel label="Items:" :value="order_item_count" />
-      <!-- TODO: NEED TO CALCULATE -->
-      <OrderStatLabel
-        v-if="isInProgressStatus"
-        label="Predicted prep time:"
-        value="20 Mins"
-      />
-    </div>
+      <div class="d-flex flex-row justify-space-between mb-3">
+        <OrderStatLabel label="Order Number:" :value="order.order_id" />
+        <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
+        <OrderStatLabel label="Items:" :value="order_item_count" />
+        <OrderStatLabel
+          v-if="isInProgressStatus"
+          label="Predicted prep time:"
+          :valueStyle="isOverDue && `overdue`"
+          :value="order.pickupTime"
+        />
+      </div>
 
     <OrderItemList :items="order.order_lines" :amount="order_amount" />
     <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt="">
@@ -64,6 +92,46 @@ export default {
   components: { OrderStatLabel, OrderItemList },
   props: ["order"],
   computed: {
+    getImage() {
+      const { order } = this.$props;
+      switch (order.fulfilment_source) {
+        case "Uber Eats":
+          return require("~/assets/ubereats.png");
+        case "Delivery Hero":
+          return require("~/assets/deliveryHero.png");
+        case "Just Eat":
+          return require("~/assets/justEat.png");
+        default:
+          return "";
+      }
+    },
+    orderStatus() {
+      if (this.isCancelled) {
+        return `Cancelled!`;
+      } else if (this.isOverDue) {
+        return `Overdue`;
+      }
+      return this.$props.order.status;
+    },
+    isOverDue() {
+      // TODO: Compute order overdue
+      const { order } = this.$props;
+      if (order.status === `finished`) {
+        return false;
+      }
+      return order.overdue;
+    },
+    isCancelled() {
+      // return this.$props.order.status === "cancelled";
+      // TODO: Need to figure out how to manage cancelled order
+      //       in the dataset while it is on the in-progress queue
+      const { order } = this.$props;
+      return order.cancelled;
+    },
+    isActionsCancelled() {
+      const { order } = this.$props;
+      return order.status === "finished" && order.cancelled;
+    },
     order_amount() {
       // return this.$currency(this.$props.order.total);
     },
@@ -75,8 +143,9 @@ export default {
       return this.$props.order.status === "in progress";
     },
   },
-  methods:{
-    async printTicket() {
+  methods: {
+    printOrder(order) {
+      // alert("Printing order : " + order.order_id);
       var printdata = document.getElementById('ticket');
       // let newwin = window.open("");
       // newwin.document.write(printdata.outerHTML);
@@ -88,8 +157,24 @@ export default {
       window.print();
       location.reload();
       // newwin.close();
-    }
-  }
+    },
+    changeOrderStatus(nextState) {
+      const currentState = this.$props.order.status;
+      if (currentState === "finished" && nextState === "in progress") {
+        // show prompt to confirm
+        this.showDialog = true;
+      } else {
+        this.$emit("orderStatusChange", this.$props.order, nextState);
+      }
+    },
+    closeDialog() {
+      this.showDialog = false;
+    },
+    confirmOrderStateChange() {
+      this.closeDialog();
+      this.$emit("orderStatusChange", this.$props.order, "in progress");
+    },
+  },
 };
 </script>
 
@@ -115,5 +200,12 @@ export default {
 #ticket {
   display: none;
   height: 50%;
+}
+.overdue {
+  color: #e00000;
+}
+.cancelled {
+  color: #f09d00;
+  text-decoration: line-through 2px;
 }
 </style>

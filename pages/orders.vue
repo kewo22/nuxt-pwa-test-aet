@@ -19,13 +19,13 @@
           class="tab-header"
           v-model="tabs"
         >
-          <v-tab @click="onNewTabClick(0)"> New ({{ newOrders.length }})</v-tab>
+          <v-tab @click="onNewTabClick(0)">New ({{ newOrders.length }})</v-tab>
           <v-tab @click="onInProgressTabClick(1)">
-            In Progress ({{ inProgressOrders.length }})</v-tab
-          >
+            In Progress ({{ inProgressOrders.length }})
+          </v-tab>
           <v-tab @click="onFinishedTabClick(2)">
-            Finished ({{ finishedOrders.length }})</v-tab
-          >
+            Finished ({{ finishedOrders.length }})
+          </v-tab>
         </v-tabs>
 
         <v-tabs-items class="tab-items" v-model="tabs">
@@ -37,14 +37,14 @@
                     class="mb-2"
                     v-for="newOrder in newOrders"
                     :class="
-                      `mb-2 ${newOrder.cancelled &&
-                        `cancelled-order`} ${selectedOrder &&
-                        selectedOrder.order_id === newOrder.order_id &&
-                        `selected new`}`
+                      `mb-2 ${newOrder.cancelled && `cancelled-order`} 
+                    ${selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected new`}`
                     "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
-                    @orcerClick="onNewOrderClick(newOrder)"
+                    @orderClick="onNewOrderClick(newOrder)"
                   />
                 </div>
                 <div class="no-search-result" v-else>
@@ -62,14 +62,15 @@
                     class="mb-2"
                     v-for="newOrder in inProgressOrders"
                     :class="
-                      `mb-2 ${newOrder.cancelled &&
-                        `cancelled-order`} ${selectedOrder &&
-                        selectedOrder.order_id === newOrder.order_id &&
-                        `selected`}`
+                      `mb-2 ${newOrder.cancelled && `cancelled-order`} 
+                    ${newOrder.overdue && `overdue-order`}
+                    ${selectedOrder &&
+                      selectedOrder.order_id === newOrder.order_id &&
+                      `selected`}`
                     "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
-                    @orcerClick="onNewOrderClick(newOrder)"
+                    @orderClick="onNewOrderClick(newOrder)"
                   />
                 </div>
                 <div class="no-search-result" v-else>
@@ -94,7 +95,7 @@
                     "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
-                    @orcerClick="onNewOrderClick(newOrder)"
+                    @orderClick="onNewOrderClick(newOrder)"
                   />
                 </div>
                 <div class="no-search-result" v-else>
@@ -136,27 +137,43 @@ export default {
       tempOrders: [],
       currentTab: 0,
       searchVal: "",
+      leadTime: "",
+      orders: []
     };
   },
   mounted() {
+    this.$store.dispatch("orders/getOrders");
     this.getOrders();
   },
   methods: {
     async getOrders() {
-      const orders = await this.$axios.$get("http://localhost:3004/orders");
-      this.allOrders = orders;
-      this.tempOrders = orders;
-      const newOrders = orders.filter((order) => {
+      this.orders = await this.$axios.$get("http://localhost:3004/orders");
+      let settingData = (await this.$idb.get("settingData")) || [];
+      this.leadTime = settingData.selectedTimeInterval || "15";
+
+      this.allOrders = this.orders;
+      this.tempOrders = this.orders;
+      const newOrders = this.orders.filter(order => {
         return order.status === "new";
       });
       this.newOrders = newOrders;
-      this.tempNewOrders = newOrders;
-      const inProgressOrders = orders.filter((order) => {
+      this.moveCancelOrdersToFinished();
+      this.newOrders = this.calculatePickupTime(this.newOrders);
+
+      this.newOrders = this.moveOrdersToInProgress(this.newOrders);
+      this.sortNewOrders();
+
+      this.tempNewOrders = this.newOrders;
+      const inProgressOrders = this.orders.filter(order => {
         return order.status === "in progress";
       });
       this.inProgressOrders = inProgressOrders;
-      this.tempInProgressOrders = inProgressOrders;
-      const finishedOrders = orders.filter((order) => {
+      this.inProgressOrders = this.calculatePickupTime(inProgressOrders);
+      this.sortInProgressOrders();
+
+      this.tempInProgressOrders = this.inProgressOrders;
+
+      const finishedOrders = this.orders.filter(order => {
         return order.status === "finished";
       });
       this.finishedOrders = finishedOrders;
@@ -229,15 +246,15 @@ export default {
     },
     calculatePickupTime(orders) {
       for (let i = 0; i < orders.length; i++) {
-        var pos_fulfilment_time = moment(orders[i].pos_fulfilment_time);
-        var today = moment();
-        var pickupTimeInMinutes = pos_fulfilment_time.diff(today, "minutes");
+        const pos_fulfilment_time = moment(orders[i].pos_fulfilment_time);
+        const today = moment();
+        const pickupTimeInMinutes = pos_fulfilment_time.diff(today, "minutes");
 
-        var pickupTime;
+        let pickupTime;
         // var pickupTimeWithSeconds;
 
-        var h = Math.floor(pickupTimeInMinutes / 60);
-        var m = Math.floor(pickupTimeInMinutes % 60);
+        let h = Math.floor(pickupTimeInMinutes / 60);
+        let m = Math.floor(pickupTimeInMinutes % 60);
         // var s = Math.floor(m / 60);
 
         if (h != 0) {
@@ -255,12 +272,16 @@ export default {
           pickupTime = m + " Min";
         }
 
+        if (pickupTimeInMinutes < 0) {
+          orders[i].overdue = true;
+        }
 
         // h != 0
         //   ? (pickupTimeWithSeconds = h + " hr " + m + " Min " + s + " Seconds")
         //   : (pickupTimeWithSeconds = m + " Min" + s + " Seconds");
 
         orders[i].pickupTime = pickupTime;
+        orders[i].pickupTimeInMinutes = pickupTimeInMinutes;
         // orders[i].pickupTimeWithSeconds = pickupTimeWithSeconds;
       }
       return orders;
@@ -268,19 +289,23 @@ export default {
     findOrderArray(orderStatus) {
       switch (orderStatus) {
         case "in progress":
-          return "inProgressOrders";
+          return ["inProgressOrders", "tempInProgressOrders"];
         case "finished":
-          return "finishedOrders";
+          return ["finishedOrders", "tempFinishedOrders"];
         default:
-          return "newOrders";
+          return ["newOrders", "tempNewOrders"];
       }
     },
     orderStatusChange(order, nextState) {
-      const { status } = order;
-      const fromOrderArrayName = this.findOrderArray(status);
-      const toOrderArrayName = this.findOrderArray(nextState);
+      const [fromOrderArrayName, tmpFromArray] = this.findOrderArray(
+        order.status
+      );
+      const [toOrderArrayName, tmpToArray] = this.findOrderArray(nextState);
       // from
       this[fromOrderArrayName] = this[fromOrderArrayName].filter(
+        ord => order.order_id !== ord.order_id
+      );
+      this[tmpFromArray] = this[tmpFromArray].filter(
         ord => order.order_id !== ord.order_id
       );
       // to
@@ -288,7 +313,49 @@ export default {
         { ...order, status: nextState },
         ...this[toOrderArrayName]
       ];
+      this[tmpToArray] = [{ ...order, status: nextState }, ...this[tmpToArray]];
+      // show first order
       this.selectedOrder = this[fromOrderArrayName][0];
+    },
+    moveOrdersToInProgress(orders) {
+      let leadTimeInMinutes = parseInt(this.leadTime.split(" ")[0]);
+      var isMoved = false;
+      for (let i = 0; i < orders.length; i++) {
+        if (orders[i].pickupTimeInMinutes <= leadTimeInMinutes) {
+          for (let j = 0; j < this.orders.length; j++) {
+            if (this.orders[j].order_id == orders[i].order_id) {
+              this.orders[j].status = "in progress";
+              orders[i].status = "in progress";
+              isMoved = true;
+              break;
+            }
+          }
+        }
+      }
+      if (isMoved) {
+        return orders.filter(order => {
+          return order.status === "new";
+        });
+      } else {
+        return orders;
+      }
+    },
+    moveCancelOrdersToFinished() {
+      for (let i = 0; i < this.newOrders.length; i++) {
+        if (this.newOrders[i].cancelled) {
+          this.newOrders[i].status = "finished";
+        }
+      }
+    },
+    sortNewOrders() {
+      this.newOrders.sort(function(a, b) {
+        return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+      });
+    },
+    sortInProgressOrders() {
+      this.inProgressOrders.sort(function(a, b) {
+        return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+      });
     }
   }
 };
@@ -297,6 +364,21 @@ export default {
 <style scoped>
 .orders-wrapper {
   width: 100%;
+}
+.selected {
+  border: 2px #509ad9 solid;
+}
+.new {
+  border-color: #9d41b9;
+}
+.finished {
+  border-color: #62a073;
+}
+.cancelled-order {
+  border-color: #f09d00;
+}
+.overdue-order {
+  border-color: #ff0000;
 }
 .section-1 {
   flex: 1 0 50%;
