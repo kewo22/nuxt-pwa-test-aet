@@ -136,7 +136,7 @@ export default {
   data() {
     return {
       tabs: null,
-      selectedOrder: null,
+      // selectedOrder: null,
       newOrders: [],
       inProgressOrders: [],
       finishedOrders: [],
@@ -152,11 +152,21 @@ export default {
       settingData: ""
     };
   },
+  created() {
+    // this.$store.subscribe((mutation, state) => {
+    //   console.log("mutation.type",mutation.type);
+    //   console.log("state",state);
+    //   if (mutation.type === "orders/setSelectedOrders") {
+    //     this.selectedOrder = state.orders.selectedOrder;
+    //   }
+    // });
+  },
   mounted() {
     this.$store.dispatch("orders/getOrdersNew");
-    this.setInitialData();
+    // this.setInitialData();
     // this.getOrders();
   },
+
   computed: {
     // newOrdersD() {
     //   this.newOrders = this.getNewStateOrders;
@@ -172,7 +182,7 @@ export default {
       getNewStateOrders: "orders/getNewStateOrders",
       getInProgressOrders: "orders/getInProgressOrders",
       getFinishedOrders: "orders/getFinishedOrders",
-      getSelectedOrders: "orders/getSelectedOrders"
+      selectedOrder: "orders/getSelectedOrders"
     })
   },
   methods: {
@@ -235,7 +245,7 @@ export default {
       this.searchVal = e.target.value;
       if (this.currentTab === 0) {
         if (this.searchVal) {
-          const filteredNewOrders = this.tempNewOrders.filter((order) => {
+          const filteredNewOrders = this.tempNewOrders.filter(order => {
             // return order.order_id === searchVal;
             return order.order_id.includes(this.searchVal);
           });
@@ -250,7 +260,7 @@ export default {
       if (this.currentTab === 1) {
         if (this.searchVal) {
           const filteredInprogressOrders = this.tempInProgressOrders.filter(
-            (order) => {
+            order => {
               // return order.order_id === searchVal;
               return order.order_id.includes(this.searchVal);
             }
@@ -266,7 +276,7 @@ export default {
       if (this.currentTab === 2) {
         if (this.searchVal) {
           const filteredFinishedOrders = this.tempFinishedOrders.filter(
-            (order) => {
+            order => {
               // return order.order_id === searchVal;
               return order.order_id.includes(this.searchVal);
             }
@@ -310,6 +320,8 @@ export default {
 
         if (pickupTimeInMinutes < 0) {
           orders[i].overdue = true;
+        } else {
+          orders[i].overdue = false;
         }
 
         // h != 0

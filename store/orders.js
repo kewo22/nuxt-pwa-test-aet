@@ -18,10 +18,10 @@ export const mutations = {
     if (state.allorders && state.allorders.length != 0) {
       let i = 0;
       state.allorders.forEach(item => {
-        if (item.status == "in progress" && item.cancelled) {
+        if (item.status == "in progress" && item.cancelled) { //Todo: item.cancelled should map with api new response value
           item.isInProgressCancelled = true;
         }
-        if (item.status != "new") {
+        if (item.status != "submitted") {
           // console.log("orders[i]",orders[i])
           orders[i].status = item.status; //keep latest status even new request coming old status
         }
@@ -98,6 +98,8 @@ export const mutations = {
 
       if (pickupTimeInMinutes < 0) {
         state.allorders[i].overdue = true;
+      } else {
+        state.allorders[i].overdue = false;
       }
 
       // h != 0
@@ -176,7 +178,7 @@ export const getters = {
   getNewStateOrders: state => {
     console.log("state.allorders", state.allorders);
     const newOrders = state.allorders.filter(order => {
-      return order.status === "new";
+      return order.status === "submitted";
     });
     console.log("newOrders", newOrders);
 
@@ -203,7 +205,9 @@ export const actions = {
 
     let ordersFromIndexedDb = await this.$idb.get("allorders");
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
-    var orders = await this.$axios.$get("http://localhost:3004/orders");
+    let clientId = 1;
+    let siteId = 2323;
+    var orders = await this.$axios.$get(`http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`);
     commit("setOrdersFromVuexStore", ordersFromIndexedDb);
     commit("setOrdersData", orders);
     //call method to filter new order
@@ -213,7 +217,7 @@ export const actions = {
     commit("calculatePickupTime");
     commit("moveOrdersToInProgress");
     commit("sortNewOrders");
-    commit("setTempNewOrders");
+    commit("setTempNewOrders");  
 
     dispatch("filterInProgressOrders");
     // commit("calculatePickupTime");
@@ -234,7 +238,7 @@ export const actions = {
   },
   filterNewOrders({ state, commit }) {
     const newOrders = state.allorders.filter(order => {
-      return order.status === "new";
+      return order.status === "submitted";
     });
     commit("setNewOrdersData", newOrders);
 
