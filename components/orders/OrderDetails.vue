@@ -82,7 +82,8 @@
       </div>
 
       <OrderItemList :items="order.order_lines" :amount="order_amount" />
-      <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt="">
+      <PosBill id="ticket" :item="order" />
+      <!-- <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt=""> -->
     </v-container>
     <Dialog
       :show="showDialog"
@@ -96,6 +97,7 @@
 import OrderStatLabel from "./OrderStatLabel";
 import OrderItemList from "./OrderItemList";
 import OrderActionContent from "./OrderActionContent";
+import PosBill from "./PosBill";
 import Button from "../common/Button";
 import Dialog from "../common/Dialog";
 
@@ -106,6 +108,7 @@ export default {
     OrderActionContent,
     OrderStatLabel,
     OrderItemList,
+    PosBill
   },
   props: ["order"],
   data() {
@@ -195,12 +198,12 @@ export default {
       let count = 0;
       let printdata = document.getElementById('ticket');
       window.document.write(printdata.outerHTML);
-      console.log("setting",this.settingData);
       while (count < noOfcopy){
         window.print(0);
+        window.close(0);
         count++;
       }
-      // window.close();
+      location.reload();
     },
     changeOrderStatus(nextState) {
       const currentState = this.$props.order.status;
@@ -228,7 +231,7 @@ export default {
 <style>
 #ticket {
   display: none;
-  height: 50%;
+  width: 238px;
 }
 .order-detail-root {
   height: 100%;
