@@ -219,7 +219,7 @@ export default {
     },
     onNewTabClick(e) {
       this.currentTab = 0;
-      this.selectedOrder = this.newOrders[0];
+      this.selectedOrder = this.getNewStateOrders[0];
     },
     onInProgressTabClick(e) {
       this.currentTab = 1;
