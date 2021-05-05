@@ -115,12 +115,6 @@
       />
       <NoOrder v-else />
     </div>
-    <!-- <div style="display:none">
-      {{ newOrdersD }}
-    </div> -->
-    <!-- <div style="display:none">
-      {{ getSelectedOrders1 }}
-    </div> -->
   </div>
 </template>
 
@@ -287,18 +281,21 @@ export default {
       }
       if (this.currentTab === 2) {
         if (this.searchVal) {
-          const filteredFinishedOrders = this.tempFinishedOrders.filter(
+          const filteredFinishedOrders = this.getFinishedOrders.filter(
             (order) => {
               // return order.order_id === searchVal;
               return String(order.order_number).includes(this.searchVal);
             }
           );
-          this.finishedOrders = filteredFinishedOrders;
-          if (filteredFinishedOrders.length === 1)
+          this.tempFinishedOrders = filteredFinishedOrders;
+          if (filteredFinishedOrders.length > 0) {
             this.selectedOrder = filteredFinishedOrders[0];
+          } else {
+            this.selectedOrder = null;
+          }
         } else {
-          this.finishedOrders = this.tempFinishedOrders;
-          this.selectedOrder = this.finishedOrders[0];
+          this.finishedOrders = [];
+          this.selectedOrder = this.getFinishedOrders[0];
         }
       }
     },
