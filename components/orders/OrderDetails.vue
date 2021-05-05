@@ -74,7 +74,7 @@
           label="Order Number:"
           :value="`#${order.order_number}`"
         />
-        <OrderStatLabel label="Type:" :value="order.fulfilment_type" />
+        <OrderStatLabel label="Type:" :value="fulfilmentType" />
         <OrderStatLabel label="Items:" :value="order_item_count" />
         <OrderStatLabel
           v-if="isInProgressStatus"
@@ -121,6 +121,12 @@ export default {
     };
   },
   computed: {
+    fulfilmentType() {
+      if ([`collection`, `walk-in`].includes(this.order.fulfilment_type)) {
+        return "pickup";
+      }
+      return this.order.fulfilment_type;
+    },
     getImage() {
       const { order } = this.$props;
       return this.$getMarketplaceImages(order.fulfilment_source, "full");
