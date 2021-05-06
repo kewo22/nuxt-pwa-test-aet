@@ -82,7 +82,6 @@ export default {
           // console.log(res.data.access_token);
           // console.log(decoded);
           this.userId = decoded.sub;
-          this.$router.push("/orders");
         })
         .catch((err) => {
           console.log("from err --------- ", err);
@@ -101,6 +100,7 @@ export default {
             .then((res) => {
               // console.log(res.data);
               this.$store.dispatch("setUser", res.data);
+              this.$router.push("/orders");
             })
             .catch((err) => {
               console.log(err);
