@@ -66,6 +66,7 @@ export const mutations = {
       if (state.allorders[i].status == "cancelled") {
         state.allorders[i].status = "finished";
         state.allorders[i].cancelled = true;
+        state.allorders[i].timeStampForOrders = moment().format();
       }
     }
   },
