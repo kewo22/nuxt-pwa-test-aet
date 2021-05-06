@@ -65,6 +65,7 @@ export const mutations = {
     for (let i = 0; i < state.allorders.length; i++) {
       if (state.allorders[i].status == "cancelled") {
         state.allorders[i].status = "finished";
+        state.allorders[i].cancelled = true;
       }
     }
   },
@@ -116,11 +117,14 @@ export const mutations = {
     let leadTimeInMinutes = parseInt(state.leadTime.split(" ")[0]);
     var isMoved = false;
     for (let i = 0; i < state.newOrders.length; i++) {
+      // console.log("state.newOrders[i].pickupTimeInMinutes",state.newOrders[i].pickupTimeInMinutes)
+      // console.log("leadTimeInMinutes",leadTimeInMinutes);
       if (state.newOrders[i].pickupTimeInMinutes <= leadTimeInMinutes) {
         for (let j = 0; j < state.allorders.length; j++) {
           if (state.allorders[j].order_id == state.newOrders[i].order_id) {
             state.allorders[j].status = "in progress";
             state.newOrders[i].status = "in progress";
+            // console.log("fe")
             isMoved = true;
             break;
           }
