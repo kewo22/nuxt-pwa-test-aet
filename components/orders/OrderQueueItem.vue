@@ -30,7 +30,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-container v-if="isOrderFinished" fill-height fluid>
+        <v-container v-else-if="isOrderFinished" fill-height fluid>
           <v-row align="center" justify="center">
             <v-col
               align="left"

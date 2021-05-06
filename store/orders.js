@@ -18,8 +18,8 @@ export const mutations = {
     if (state.allorders && state.allorders.length != 0) {
       let i = 0;
       state.allorders.forEach(item => {
-        if (item.status == "in progress" && item.cancelled) { //Todo: item.cancelled should map with api new response value
-          item.isInProgressCancelled = true;
+        if (item.status == "in progress" && orders[i].status == "cancelled") {
+          item.cancelled = true;
         }
         if (item.status != "submitted") {
           // console.log("orders[i]",orders[i])
@@ -141,17 +141,17 @@ export const mutations = {
     state.leadTime = leadTime;
   },
   sortNewOrders(state) {
-    state.newOrders.sort(function (a, b) {
+    state.newOrders.sort(function(a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
   sortInProgressOrders(state) {
-    state.inProgressOrders.sort(function (a, b) {
+    state.inProgressOrders.sort(function(a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
   sortFinishedOrders(state) {
-    state.finishedOrders.sort(function (a, b) {
+    state.finishedOrders.sort(function(a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
@@ -175,11 +175,13 @@ export const getters = {
     return state.allorders;
   },
   getNewStateOrders: state => {
-    return state.allorders.filter(order => {
-      return order.status === "submitted";
-    }).sort(function (a, b) {
-      return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
-    });
+    return state.allorders
+      .filter(order => {
+        return order.status === "submitted";
+      })
+      .sort(function(a, b) {
+        return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+      });
   },
   getInProgressOrders: state => {
     return state.inProgressOrders;
@@ -204,7 +206,9 @@ export const actions = {
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
     let clientId = 1;
     let siteId = 2323;
-    var orders = await this.$axios.$get(`http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`);
+    var orders = await this.$axios.$get(
+      `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
+    );
     commit("setOrdersFromVuexStore", ordersFromIndexedDb);
     commit("setOrdersData", orders);
     //call method to filter new order
