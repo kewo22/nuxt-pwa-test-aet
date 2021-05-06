@@ -359,88 +359,13 @@
     ],
     "orders": [
         {
-            "order_id": 1,
-            "order_ref": "FK98708190-test",
-            "order_number": 114780,
-            "order_ref_reversed": "test-09180789KF",
-            "status": "submitted",
-            "pos_state_updated_at": "2020-10-31 01:20:52",
-            "pos_fulfilment_time": "2021-05-06 19:00:52",
-            "client": {
-                "code": "224wed",
-                "name": "Uber Eats",
-                "client_id": 1
-            },
-            "site": {
-                "code": "221ws",
-                "name": "London",
-                "reference": "site external reference",
-                "site_id": 2323
-            },
-            "order_paid": false,
-            "fulfilment_type": "delivery",
-            "notes": "any notes for the order",
-            "delivery_fee": 0.00,
-            "tax": 0.00,
-            "total": 20.98,
-            "customer": {
-                "firstname": "John",
-                "lastname": "Cena",
-                "phone_number": " +44 20 7234 3456",
-                "email": "johncena@outlook.com",
-                "address": {
-                    "address1": "address1",
-                    "address2": "address2",
-                    "city": "city",
-                    "state": "state",
-                    "postcode": "221321"
-                }
-            },
-            "order_lines": [
-                {
-                    "sku": "321312",
-                    "quantity": 2,
-                    "tax": 0.00,
-                    "total": 16.98,
-                    "note": "Ketchup,lettuce,Mustard",
-                    "mapping_data": "internal mapping data",
-                    "product": {
-                        "product_id": 12,
-                        "name": "Triple Decker House Burger",
-                        "category": "category type 1"
-                    },
-                    "options": {
-                        "quantity": 1,
-                        "option": "string",
-                        "value": "string",
-                        "tax": 0.00,
-                        "total": 1.00,
-                        "mapping_data": {
-                            "mapping_option_value_id": "1",
-                            "option_id": "1",
-                            "option": "string",
-                            "option_value": "string",
-                            "description": "string",
-                            "mapping_data": {
-                                "positemid": 1,
-                                "description": "string",
-                                "quantity": 1
-                            }
-                        }
-                    }
-                }
-            ],
-            "fulfilment_source": "ubereats",
-            "prep-time": 10
-        },
-        {
             "order_id": 151,
             "order_ref": "FK98708190-test",
             "order_number": 114802,
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 01:20:52",
-            "pos_fulfilment_time": "2021-05-06 18:40:52",
+            "pos_fulfilment_time": "2021-05-06 19:25:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
@@ -457,7 +382,7 @@
             "notes": "any notes for the order",
             "delivery_fee": 0.00,
             "tax": 0.00,
-            "total": 20.98,
+            "total": 15.98,
             "customer": {
                 "firstname": "John",
                 "lastname": "Cena",
@@ -476,8 +401,8 @@
                     "sku": "321312",
                     "quantity": 2,
                     "tax": 0.00,
-                    "total": 16.98,
-                    "note": "Ketchup,lettuce,Mustard",
+                    "total": 15.98,
+                    "note": "Mustard",
                     "mapping_data": "internal mapping data",
                     "product": {
                         "product_id": 12,
@@ -584,7 +509,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 01:48:52",
-            "pos_fulfilment_time": "2021-05-06 18:45:52",
+            "pos_fulfilment_time": "2021-05-06 19:15:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
@@ -601,7 +526,7 @@
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
-            "total": 20.98,
+            "total": 25.98,
             "customer": {
                 "firstname": "Candice",
                 "lastname": "Michelle",
@@ -618,9 +543,9 @@
             "order_lines": [
                 {
                     "sku": "321312",
-                    "quantity": 5,
+                    "quantity": 2,
                     "tax": 0.00,
-                    "total": 16.98,
+                    "total": 25.98,
                     "note": "Ketchup,lettuce,Mustard",
                     "mapping_data": "internal mapping data",
                     "product": {
@@ -640,7 +565,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 01:48:52",
-            "pos_fulfilment_time": "2021-05-06 18:35:52",
+            "pos_fulfilment_time": "2021-05-06 19:20:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
@@ -657,7 +582,7 @@
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
-            "total": 20.98,
+            "total": 16.98,
             "customer": {
                 "firstname": "Candice",
                 "lastname": "Michelle",
@@ -1105,7 +1030,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 03:40:52",
-            "pos_fulfilment_time": "2021-05-06 19:05:52",
+            "pos_fulfilment_time": "2021-05-06 19:37:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
@@ -1161,7 +1086,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 03:40:52",
-            "pos_fulfilment_time": "2021-05-06 18:55:52",
+            "pos_fulfilment_time": "2021-05-06 19:55:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
@@ -1178,7 +1103,7 @@
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
-            "total": 20.98,
+            "total": 16.98,
             "customer": {
                 "firstname": "Candice",
                 "lastname": "Michelle",
@@ -1478,7 +1403,114 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 01:20:52",
-            "pos_fulfilment_time": "2021-05-06 19:00:52",
+            "pos_fulfilment_time": "2021-05-06 19:15:52",
+            "client": {
+                "code": "224wed",
+                "name": "Uber Eats",
+                "client_id": 1
+            },
+            "site": {
+                "code": "221ws",
+                "name": "London",
+                "reference": "site external reference",
+                "site_id": 2323
+            },
+            "order_paid": false,
+            "fulfilment_type": "delivery",
+            "notes": "any notes for the order",
+            "delivery_fee": 0.00,
+            "tax": 0.00,
+            "total": 100.00,
+            "customer": {
+                "firstname": "John",
+                "lastname": "Cena",
+                "phone_number": " +44 20 7234 3456",
+                "email": "johncena@outlook.com",
+                "address": {
+                    "address1": "address1",
+                    "address2": "address2",
+                    "city": "city",
+                    "state": "state",
+                    "postcode": "221321"
+                }
+            },
+            "order_lines": [
+                {
+                    "sku": "321312",
+                    "quantity": 5,
+                    "tax": 0.00,
+                    "total": 50.00,
+                    "note": "Ketchup,lettuce,Mustard",
+                    "mapping_data": "internal mapping data",
+                    "product": {
+                        "product_id": 12,
+                        "name": "Triple Decker House Burger",
+                        "category": "category type 1"
+                    },
+                    "options": {
+                        "quantity": 1,
+                        "option": "string",
+                        "value": "string",
+                        "tax": 0.00,
+                        "total": 1.00,
+                        "mapping_data": {
+                            "mapping_option_value_id": "1",
+                            "option_id": "1",
+                            "option": "string",
+                            "option_value": "string",
+                            "description": "string",
+                            "mapping_data": {
+                                "positemid": 1,
+                                "description": "string",
+                                "quantity": 1
+                            }
+                        }
+                    }
+                },
+                {
+                    "sku": "321312",
+                    "quantity": 5,
+                    "tax": 0.00,
+                    "total": 50.00,
+                    "note": "Ketchup,lettuce,Mustard",
+                    "mapping_data": "internal mapping data",
+                    "product": {
+                        "product_id": 12,
+                        "name": "Triple Decker House Burger",
+                        "category": "category type 1"
+                    },
+                    "options": {
+                        "quantity": 1,
+                        "option": "string",
+                        "value": "string",
+                        "tax": 0.00,
+                        "total": 1.00,
+                        "mapping_data": {
+                            "mapping_option_value_id": "1",
+                            "option_id": "1",
+                            "option": "string",
+                            "option_value": "string",
+                            "description": "string",
+                            "mapping_data": {
+                                "positemid": 1,
+                                "description": "string",
+                                "quantity": 1
+                            }
+                        }
+                    }
+                }
+            ],
+            "fulfilment_source": "deliveryhero",
+            "prep-time": 10
+        },
+        {
+            "order_id": 150,
+            "order_ref": "FK98708190-test",
+            "order_number": 114800,
+            "order_ref_reversed": "test-09180789KF",
+            "status": "submitted",
+            "pos_state_updated_at": "2020-10-31 01:20:52",
+            "pos_fulfilment_time": "2021-05-06 19:45:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
@@ -1541,56 +1573,13 @@
                             }
                         }
                     }
-                }
-            ],
-            "fulfilment_source": "deliveryhero",
-            "prep-time": 10
-        },
-        {
-            "order_id": 150,
-            "order_ref": "FK98708190-test",
-            "order_number": 114800,
-            "order_ref_reversed": "test-09180789KF",
-            "status": "submitted",
-            "pos_state_updated_at": "2020-10-31 01:20:52",
-            "pos_fulfilment_time": "2021-05-06 18:30:52",
-            "client": {
-                "code": "224wed",
-                "name": "Uber Eats",
-                "client_id": 1
-            },
-            "site": {
-                "code": "221ws",
-                "name": "London",
-                "reference": "site external reference",
-                "site_id": 2323
-            },
-            "order_paid": false,
-            "fulfilment_type": "delivery",
-            "notes": "any notes for the order",
-            "delivery_fee": 0.00,
-            "tax": 0.00,
-            "total": 20.98,
-            "customer": {
-                "firstname": "John",
-                "lastname": "Cena",
-                "phone_number": " +44 20 7234 3456",
-                "email": "johncena@outlook.com",
-                "address": {
-                    "address1": "address1",
-                    "address2": "address2",
-                    "city": "city",
-                    "state": "state",
-                    "postcode": "221321"
-                }
-            },
-            "order_lines": [
+                },
                 {
                     "sku": "321312",
                     "quantity": 2,
                     "tax": 0.00,
-                    "total": 16.98,
-                    "note": "Ketchup,lettuce,Mustard",
+                    "total": 4,
+                    "note": "Ketchup",
                     "mapping_data": "internal mapping data",
                     "product": {
                         "product_id": 12,
@@ -1647,7 +1636,7 @@
             "notes": "any notes for the order",
             "delivery_fee": 0.00,
             "tax": 0.00,
-            "total": 20.98,
+            "total": 16.98,
             "customer": {
                 "firstname": "John",
                 "lastname": "Cena",
@@ -1664,7 +1653,7 @@
             "order_lines": [
                 {
                     "sku": "321312",
-                    "quantity": 2,
+                    "quantity": 1,
                     "tax": 0.00,
                     "total": 16.98,
                     "note": "Ketchup,lettuce,Mustard",
@@ -2255,7 +2244,7 @@
             "notes": "any notes for the order",
             "delivery_fee": 4.00,
             "tax": 0.00,
-            "total": 20.98,
+            "total": 16.98,
             "customer": {
                 "firstname": "Candice",
                 "lastname": "Michelle",
