@@ -320,7 +320,7 @@ export default {
   data: () => ({
     timeIntervals: ["15 minutes", "30 minutes", "45 minutes"],
     ticketFontSizes: ["8 pt", "10 pt", "12 pt"],
-    orderStatus: ["In progress", "New", "Finished"],
+    orderStatus: ["in progress", "new", "finished"],
     ticketCounts: ["1", "2", "3"],
     reloadIntervals: ["Every 1 minute", "Every 5 minutes", "Every 10 minutes"],
     settingData: {},

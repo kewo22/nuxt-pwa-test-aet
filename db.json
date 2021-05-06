@@ -1099,7 +1099,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 03:55:52",
-            "pos_fulfilment_time": "2021-05-04 17:08:52",
+            "pos_fulfilment_time": "2021-05-04 20:08:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
@@ -1168,7 +1168,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "Cancel",
             "pos_state_updated_at": "2020-10-31 04:00:52",
-            "pos_fulfilment_time": "2021-05-04 22:15:52",
+            "pos_fulfilment_time": "2021-05-06 12:15:52",
             "client": {
                 "code": "220ws",
                 "name": "Just Eat",
