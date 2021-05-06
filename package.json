@@ -6,7 +6,7 @@
     "dev": "nuxt",
     "dev:sw": "npm run build && npm run generate && serve -s dist",
     "dev:sw:watch": "nodemon -w static/workers/*.sw.js --exec \"npm run dev:sw\"",
-    "dev:data": "json-server --watch db.json --port 3004",
+    "dev:data": "json-server --watch db.json --port 3004 -r routes.json",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
