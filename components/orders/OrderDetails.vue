@@ -113,7 +113,7 @@ export default {
     OrderActionContent,
     OrderStatLabel,
     OrderItemList,
-    PosBill
+    PosBill,
   },
   props: ["order"],
   data() {
@@ -125,9 +125,9 @@ export default {
         selectedReloadInterval: "Every 1 minute",
         selectedTicketCount: "1",
         selectedTicketFontSize: "8 pt",
-        selectedTimeInterval: "15 minutes"
+        selectedTimeInterval: "15 minutes",
       },
-      isPrintAuto: true
+      isPrintAuto: true,
     };
   },
   computed: {
@@ -200,9 +200,9 @@ export default {
     printOrder() {
       let noOfcopy = this.settingData.selectedTicketCount || 1;
       let count = 0;
-      let printdata = document.getElementById('ticket');
+      let printdata = document.getElementById("ticket");
       window.document.write(printdata.outerHTML);
-      while (count < noOfcopy){
+      while (count < noOfcopy) {
         window.print(0);
         window.close(0);
         count++;
@@ -216,8 +216,11 @@ export default {
         this.showDialog = true;
       } else {
         this.$emit("orderStatusChange", this.$props.order, nextState);
-        const printingState = this.settingData.selectedOrderStatus.toLowerCase();
-        if ([printingState].includes(nextState) && this.isPrintAuto){
+        const printingState = this.settingData.selectedOrderStatus || "";
+        if (
+          [printingState.toLowerCase()].includes(nextState) &&
+          this.isPrintAuto
+        ) {
           // this.printOrder();
         }
       }
