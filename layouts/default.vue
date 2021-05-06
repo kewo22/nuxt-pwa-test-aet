@@ -30,6 +30,12 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item
+          ><v-btn elevation="2" small @click="onLogoutClick"
+            >Logout</v-btn
+          ></v-list-item
+        >
       </v-list>
       <!-- Below line commented to avoid rendering filter section -->
       <!-- <div v-if="isFilter"> -->
@@ -309,6 +315,10 @@ export default {
     },
     filterDateLatest: function (date) {
       window.alert(date);
+    },
+    onLogoutClick() {
+      this.$store.dispatch("setUser", {});
+      this.$router.push('/login')
     },
   },
 };
