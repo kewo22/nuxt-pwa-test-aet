@@ -165,7 +165,7 @@ export const mutations = {
   },
   sortFinishedOrders(state) {
     state.finishedOrders.sort(function(a, b) {
-      return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+      return moment(b.timeStampForOrders).diff(a.timeStampForOrders);
     });
   },
 
@@ -240,7 +240,7 @@ export const actions = {
     commit("setTempInProgressOrders");
 
     dispatch("filterFinishedOrders");
-    // commit("sortFinishedOrders");
+    commit("sortFinishedOrders");
     // commit("setInProgressOrders");
     commit("setTempFinishedOrders");
     commit("setSelectedOrders");
@@ -272,6 +272,9 @@ export const actions = {
     commit("setFinishedOrdersData", finishedOrders);
   },
   moveOrdersManually({ state, commit, dispatch }, requestPayLoad) {
+    if (requestPayLoad.nextState == "finished") {
+      requestPayLoad.order.timeStampForOrders = moment().format();
+    }
     commit("saveMovdeOrdersManually", requestPayLoad);
     this.$idb.set("allorders", state.allorders);
 
@@ -279,18 +282,16 @@ export const actions = {
     commit("setOrdersFromIndexedDb", state.allorders);
 
     if (requestPayLoad.nextState == "in progress") {
-      console.log("before", state.inProgressOrders);
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
       dispatch("filterFinishedOrders");
 
-      console.log("update", state.inProgressOrders);
     } else if (requestPayLoad.nextState == "finished") {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
       console.log("before", state.finishedOrders);
       dispatch("filterFinishedOrders");
-      // commit("sortFinishedOrders");
+      commit("sortFinishedOrders");
 
     }
 
