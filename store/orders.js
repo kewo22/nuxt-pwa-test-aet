@@ -277,9 +277,10 @@ export const actions = {
     commit("setFinishedOrdersData", finishedOrders);
   },
   moveOrdersManually({ state, commit, dispatch }, requestPayLoad) {
-    if (requestPayLoad.nextState == "finished") {
-      requestPayLoad.order.timeStampForOrders = moment().format();
-    }
+    // if (requestPayLoad.nextState == "finished") {
+      // requestPayLoad.order.timeStampForOrders = moment().format();
+      // commit("setTimeStampForOrders", requestPayLoad.order)
+    // }
     commit("saveMovdeOrdersManually", requestPayLoad);
     this.$idb.set("allorders", state.allorders);
 

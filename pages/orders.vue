@@ -385,7 +385,14 @@ export default {
 
       //call moving
       const [fromQueueName] = this.findOrderArray(order.status);
-      this.$store.dispatch("orders/moveOrdersManually", { order, nextState });
+      let finishedOrder = order;
+      if (nextState == "finished") {
+        finishedOrder = { timeStampForOrders: moment().format(), ...order };
+      }
+      this.$store.dispatch("orders/moveOrdersManually", {
+        order: finishedOrder,
+        nextState,
+      });
       this.selectedOrder = this[fromQueueName][0];
     },
     moveOrdersToInProgress(orders) {
