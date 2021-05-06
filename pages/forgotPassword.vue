@@ -2,31 +2,37 @@
   <v-container fluid class="container-main">
     <v-card elevation="2" class="login-container">
       <LogoLine10 class="logo" />
-      <v-form ref="loginForm" class="login-form-container">
+      <v-form
+        ref="loginForm"
+        class="login-form-container"
+        v-if="!passWordResetToken"
+      >
         <v-row>
           <v-text-field
-            v-model="username"
-            :rules="[rules.usernameRequired, rules.emailValid]"
-            label="username"
+            v-model="email"
+            :rules="[rules.emailRequired, rules.emailValid]"
+            label="Email"
             required
             class="login-input"
           ></v-text-field>
         </v-row>
+        <v-btn class="login-button" @click="send"> Send </v-btn>
+      </v-form>
+
+      <v-form ref="newPasswordForm" class="login-form-container" v-else>
         <v-row>
           <v-text-field
             v-model="password"
             :type="'password'"
-            name="Password"
+            name="New Password"
             label="password"
             :rules="[rules.passwordRequired]"
             class="login-input"
           ></v-text-field>
         </v-row>
-        <v-btn class="login-button" @click="login"> Login </v-btn>
-        <NuxtLink to="/forgotPassword"> Forgot Password ? </NuxtLink>
-        <v-alert color="red" dark class="login-error" v-if="loginFail">
-          If you can not login, Please contact ‘support@lineten.com.’
-        </v-alert>
+        <v-btn class="login-button" @click="resetPassword">
+          Reset Password
+        </v-btn>
       </v-form>
     </v-card>
   </v-container>
@@ -42,73 +48,60 @@ export default {
   },
   data() {
     return {
-      loginFail: false,
-      username: "",
+      email: "",
       password: "",
       rules: {
-        usernameRequired: (value) => !!value || "Username is required",
+        emailRequired: (value) => !!value || "Email is required",
         passwordRequired: (value) => !!value || "Password is required",
         emailValid: (value) => {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || "Invalid e-mail.";
         },
       },
-      userId: "",
+      passWordResetToken: "",
     }; // ret end
   },
-  computed: {
-    token() {
-      return this.$store.state.token;
-    },
-  },
   methods: {
-    async login() {
-      const x = `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`;
-
+    async send() {
       await this.$axios
-        .post(
-          `https://api-l10-idp-staging-neu.azurewebsites.net/connect/token`,
-          x,
+        .get(
+          `https://api-l10-idp-staging-neu.azurewebsites.net/api/users/reset-password/${this.email}`,
           {
             headers: {
-              Authorization: "Basic c3RhZ2luZ19yZWNvbmNpbGlhdGlvbl93ZWI6",
-              "Content-Type": "application/x-www-form-urlencoded",
+              Authorization: `Bearer ${this.$store.state.token}`,
             },
           }
         )
         .then((res) => {
-          //   console.log("from then --------- ", res);
-          const decoded = jwt_decode(res.data.access_token);
-          // console.log(res.data.access_token);
-          // console.log(decoded);
-          this.userId = decoded.sub;
-          // this.$router.push("/orders");
+          this.passWordResetToken = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async resetPassword() {
+      const x = {
+        email: this.email,
+        token: this.passWordResetToken,
+        password: this.password,
+      };
+
+      await this.$axios
+        .post(
+          `https://api-l10-idp-staging-neu.azurewebsites.net/api/users/reset-password`,
+          x,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
         })
         .catch((err) => {
           console.log("from err --------- ", err);
-        })
-        .finally(async () => {
-          console.log("store token ", this.$store.state.token);
-          await this.$axios
-            .get(
-              `https://api-l10-idp-staging-neu.azurewebsites.net/api/users/${this.userId}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${this.$store.state.token}`,
-                },
-              }
-            )
-            .then((res) => {
-              // console.log(res.data);
-              this.$store.dispatch("setUser", res.data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
         });
-    },
-    test() {
-      // console.log(this.$store.state.user);
     },
   }, // meth
 };

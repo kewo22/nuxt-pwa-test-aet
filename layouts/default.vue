@@ -10,16 +10,19 @@
       absolute
       expand-on-hover
     > -->
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      :mini-variant.sync="mini"
-    >
+    <v-navigation-drawer v-model="drawer" app :mini-variant.sync="mini">
       <v-list dense>
-        <div  class="px-2">
-          <v-app-bar-nav-icon @click.stop="mini = !mini , isFilter = false"></v-app-bar-nav-icon>
+        <div class="px-2">
+          <v-app-bar-nav-icon
+            @click.stop="(mini = !mini), (isFilter = false)"
+          ></v-app-bar-nav-icon>
         </div>
-        <v-list-item v-for="item in items" :key="item.title" @click="showTab(item.title)" link>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          @click="showTab(item.title)"
+          link
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -72,21 +75,21 @@
           <v-list-item class="mt-0">
             <div class="w-100">
               <v-divider></v-divider>
-                <v-select
-                  class="mt-6"
-                  :items="overflow_items"
-                  label="Date-latest"
-                  v-model="dateLatest"
-                  @change="filterDateLatest(dateLatest)"
-                  solo
-                ></v-select>
+              <v-select
+                class="mt-6"
+                :items="overflow_items"
+                label="Date-latest"
+                v-model="dateLatest"
+                @change="filterDateLatest(dateLatest)"
+                solo
+              ></v-select>
               <v-divider></v-divider>
             </div>
           </v-list-item>
           <v-list-item class="mt-4">
             <div class="w-100">
               <div>
-                  <p class="font-weight-light my-2 subTitle">CHANNELS</p>
+                <p class="font-weight-light my-2 subTitle">CHANNELS</p>
                 <div class="d-flex justify-space-between align-baseline mb-1">
                   <span class="float-left channelName">All Channels</span>
                   <v-checkbox
@@ -98,8 +101,12 @@
                     hide-details
                   ></v-checkbox>
                 </div>
-                <div v-for="item in channels" :key="item.id" class="d-flex justify-space-between align-baseline mb-1">
-                  <span class="float-left channelName">{{item.name}}</span>
+                <div
+                  v-for="item in channels"
+                  :key="item.id"
+                  class="d-flex justify-space-between align-baseline mb-1"
+                >
+                  <span class="float-left channelName">{{ item.name }}</span>
                   <v-checkbox
                     v-model="selected"
                     :value="item.name"
@@ -114,7 +121,7 @@
           </v-list-item>
         </v-list>
         <div id="line10Logo" class="d-flex justify-center align-center mt-4">
-          <img src="../assets/LineTen Logo Standard.png" alt="">
+          <img src="../assets/LineTen Logo Standard.png" alt="" />
         </div>
       </div>
     </v-navigation-drawer>
@@ -129,6 +136,7 @@
       <v-container fill-height fluid class="pa-0">
         <!-- If using vue-router -->
         <!-- <router-view></router-view> -->
+        {{ token }}
         <Nuxt />
       </v-container>
     </v-main>
@@ -140,7 +148,7 @@
 </template>
 
 <script>
-
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -154,43 +162,49 @@ export default {
         { title: "Filters", icon: "mdi-filter", route: "" },
         { title: "Settings", icon: "mdi-cog", route: "/order" },
       ],
-      channels:[],
-      orders:[],
-      tempOrders:[],
-      orderType:[],
-      filterOrderData:[],
-      allChannels:"All Channels",
+      channels: [],
+      orders: [],
+      tempOrders: [],
+      orderType: [],
+      filterOrderData: [],
+      allChannels: "All Channels",
       selected: [],
-      overflow_items:["Item 1","Item 2","Item 3","Item 4","Item 5"],
-      dateLatest:"",
+      overflow_items: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+      dateLatest: "",
       clipped: true,
       expand: false,
       isFilter: false,
       mini: true,
-      BothOL:false,
+      BothOL: false,
       pickupOL: true,
-      deliveryOL: true
+      deliveryOL: true,
     };
   },
-  mounted() {
+  async mounted() {
     this.getMarketplacesList();
     this.filterOrderType();
-    this.filterChannels()
+    this.filterChannels();
+    await this.$store.dispatch("authorizeClientApp");
+  },
+  // computed: mapState(["token"]),
+  computed: {
+    token() {
+      return this.$store.state.token;
+    },
   },
   methods: {
-    getMarketplacesList(){
-      this.$axios
-        .get("marketplaces/0")
-        .then(
-          response => {
-            if (response.status == 200) {
-              this.channels = response.data.marketplaces;
-            }
-          },
-          error => {
-            console.log("error", error);
+    ...mapActions(["authorizeClientApp"]),
+    getMarketplacesList() {
+      this.$axios.get("marketplaces/0").then(
+        (response) => {
+          if (response.status == 200) {
+            this.channels = response.data.marketplaces;
           }
-        );
+        },
+        (error) => {
+          console.log("error", error);
+        }
+      );
     },
     async getOrders(filterType) {
       try {
@@ -201,22 +215,24 @@ export default {
         let channelDataArray = orders;
         let type = localStorage.getItem("filterOrderType");
         let channel = localStorage.getItem("filterChannels");
-        if (filterType !== undefined ) {
+        if (filterType !== undefined) {
           if (type !== "Both") {
             if (type === "Delivery") {
               orderTypeData = orders.filter((order) => {
                 return order.fulfilment_type === type;
-              });  
+              });
             } else {
               orderTypeData = orders.filter((order) => {
-                return order.fulfilment_type ===  "walk-in" || order.fulfilment_type ===  "collection";
+                return (
+                  order.fulfilment_type === "walk-in" ||
+                  order.fulfilment_type === "collection"
+                );
               });
             }
-            
           }
           if (channel !== "All Channels") {
             channelDataArray = [];
-            let arr = channel.split(',');
+            let arr = channel.split(",");
             for (let index = 0; index < arr.length; index++) {
               let element = arr[index];
               orderTypeData.filter((order) => {
@@ -224,32 +240,28 @@ export default {
                   channelDataArray.push(order);
                   return channelDataArray;
                 }
-              }
-              );
-              
+              });
             }
           } else {
             channelDataArray = orderTypeData;
           }
           this.filterOrderData = channelDataArray;
-          console.log("this.filterOrderData",this.filterOrderData)
+          console.log("this.filterOrderData", this.filterOrderData);
         }
       } catch (error) {
-
         console.log(error);
       }
     },
-    showTab:function(tab){
+    showTab: function (tab) {
       if (tab === "Filters") {
         if (this.isFilter === false) {
           this.isFilter = true;
         } else {
           this.isFilter = false;
         }
-        
       }
     },
-    filterOrderType: function(type) {
+    filterOrderType: function (type) {
       if (type === undefined) {
         if (localStorage.getItem("filterOrderType")) {
           type = localStorage.getItem("filterOrderType");
@@ -260,59 +272,59 @@ export default {
       }
       if (type == "Both") {
         this.BothOL = false;
-        this.pickupOL= true;
-        this.deliveryOL= true;
+        this.pickupOL = true;
+        this.deliveryOL = true;
         localStorage.setItem("filterOrderType", "Both");
         this.getOrders("OrderType");
-      } else if(type == "Pickup"){
+      } else if (type == "Pickup") {
         this.BothOL = true;
-        this.pickupOL= false;
-        this.deliveryOL= true;
+        this.pickupOL = false;
+        this.deliveryOL = true;
         localStorage.setItem("filterOrderType", type);
-        this.getOrders( "OrderType");
+        this.getOrders("OrderType");
       } else {
         this.BothOL = true;
-        this.pickupOL= true;
-        this.deliveryOL= false;
+        this.pickupOL = true;
+        this.deliveryOL = false;
         localStorage.setItem("filterOrderType", type);
-        this.getOrders ( "OrderType");
+        this.getOrders("OrderType");
       }
     },
-    filterChannels: function(channel){
+    filterChannels: function (channel) {
       if (channel === undefined) {
         if (localStorage.getItem("filterChannels")) {
-          channel = localStorage.getItem("filterChannels")
+          channel = localStorage.getItem("filterChannels");
           if (localStorage.getItem("filterChannels") !== "All Channels") {
-            channel = localStorage.getItem("filterChannels").split(',');
-            this.selected = channel ;
+            channel = localStorage.getItem("filterChannels").split(",");
+            this.selected = channel;
           }
         } else {
           localStorage.setItem("filterChannels", "All Channels");
           channel = localStorage.getItem("filterChannels");
         }
       }
-      let checkType = channel; 
-      if(typeof checkType === "object" && checkType !== null){
-        this.allChannels = ""
+      let checkType = channel;
+      if (typeof checkType === "object" && checkType !== null) {
+        this.allChannels = "";
         localStorage.setItem("filterChannels", channel);
         this.getOrders("channels");
       }
-      if(checkType === "All Channels"){
+      if (checkType === "All Channels") {
         this.selected = [];
         localStorage.setItem("filterChannels", "All Channels");
         this.getOrders("channels");
       }
     },
-    filterDateLatest: function(date){
+    filterDateLatest: function (date) {
       window.alert(date);
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
 .subTitle {
-  font-size: 0.95rem ;
+  font-size: 0.95rem;
   letter-spacing: 0.04em;
 }
 
@@ -321,7 +333,7 @@ h2 {
 }
 
 .channelName {
-  color: #42A5F5;
+  color: #42a5f5;
 }
 
 #line10Logo {
@@ -329,7 +341,7 @@ h2 {
   background-color: white;
 }
 
-#line10Logo img{
+#line10Logo img {
   height: 30%;
 }
 
