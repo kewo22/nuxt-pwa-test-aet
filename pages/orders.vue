@@ -354,25 +354,28 @@ export default {
       }
     },
     orderStatusChange(order, nextState) {
-      const [fromOrderArrayName, tmpFromArray] = this.findOrderArray(
-        order.status
-      );
-      const [toOrderArrayName, tmpToArray] = this.findOrderArray(nextState);
-      // from
-      this[fromOrderArrayName] = this[fromOrderArrayName].filter(
-        (ord) => order.order_id !== ord.order_id
-      );
-      this[tmpFromArray] = this[tmpFromArray].filter(
-        (ord) => order.order_id !== ord.order_id
-      );
-      // to
-      this[toOrderArrayName] = [
-        { ...order, status: nextState },
-        ...this[toOrderArrayName],
-      ];
-      this[tmpToArray] = [{ ...order, status: nextState }, ...this[tmpToArray]];
-      // show first order
-      this.selectedOrder = this[fromOrderArrayName][0];
+      // const [fromOrderArrayName, tmpFromArray] = this.findOrderArray(
+      //   order.status
+      // );
+      // const [toOrderArrayName, tmpToArray] = this.findOrderArray(nextState);
+      // // from
+      // this[fromOrderArrayName] = this[fromOrderArrayName].filter(
+      //   (ord) => order.order_id !== ord.order_id
+      // );
+      // this[tmpFromArray] = this[tmpFromArray].filter(
+      //   (ord) => order.order_id !== ord.order_id
+      // );
+      // // to
+      // this[toOrderArrayName] = [
+      //   { ...order, status: nextState },
+      //   ...this[toOrderArrayName],
+      // ];
+      // this[tmpToArray] = [{ ...order, status: nextState }, ...this[tmpToArray]];
+      // // show first order
+      // this.selectedOrder = this[fromOrderArrayName][0];
+
+      //call moving 
+      this.$store.dispatch("orders/moveOrdersManually", {order, nextState});
     },
     moveOrdersToInProgress(orders) {
       let leadTimeInMinutes = parseInt(this.leadTime.split(" ")[0]);

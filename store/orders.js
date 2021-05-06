@@ -112,6 +112,15 @@ export const mutations = {
       // orders[i].pickupTimeWithSeconds = pickupTimeWithSeconds;
     }
   },
+  saveMovdeOrdersManually(state, requestPayLoad) {
+    for (let i = 0; i < state.allorders.length; i++) {
+      if (
+        state.allorders[i].order_number == requestPayLoad.order.order_number
+      ) {
+        state.allorders[i].status = requestPayLoad.nextState;
+      }
+    }
+  },
   moveOrdersToInProgress(state) {
     //need to get lead time
     let leadTimeInMinutes = parseInt(state.leadTime.split(" ")[0]);
@@ -231,7 +240,7 @@ export const actions = {
     commit("setTempInProgressOrders");
 
     dispatch("filterFinishedOrders");
-    commit("sortFinishedOrders");
+    // commit("sortFinishedOrders");
     // commit("setInProgressOrders");
     commit("setTempFinishedOrders");
     commit("setSelectedOrders");
@@ -261,8 +270,30 @@ export const actions = {
       return order.status === "finished";
     });
     commit("setFinishedOrdersData", finishedOrders);
-  }
+  },
+  moveOrdersManually({ state, commit, dispatch }, requestPayLoad) {
+    commit("saveMovdeOrdersManually", requestPayLoad);
+    this.$idb.set("allorders", state.allorders);
 
+    commit("setOrdersFromVuexStore", state.allorders);
+    commit("setOrdersFromIndexedDb", state.allorders);
+
+    if (requestPayLoad.nextState == "in progress") {
+      console.log("before", state.inProgressOrders);
+      dispatch("filterInProgressOrders");
+      commit("sortInProgressOrders");
+
+      console.log("update", state.inProgressOrders);
+    } else if (requestPayLoad.nextState == "finished") {
+      dispatch("filterInProgressOrders");
+      commit("sortInProgressOrders");
+      console.log("before", state.finishedOrders);
+      dispatch("filterFinishedOrders");
+      // commit("sortFinishedOrders");
+
+    }
+
+  }
   // async getLeadTime
   // getNewStateOrders() {
   //   console.log("getAllOrders",state.allorders)
