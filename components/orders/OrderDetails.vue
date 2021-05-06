@@ -221,7 +221,7 @@ export default {
           [printingState.toLowerCase()].includes(nextState) &&
           this.isPrintAuto
         ) {
-          // this.printOrder();
+          this.printOrder();
         }
       }
     },
