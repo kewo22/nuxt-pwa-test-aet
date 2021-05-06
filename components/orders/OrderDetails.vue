@@ -188,9 +188,7 @@ export default {
   },
   methods: {
     async loadSettingData() {
-      // alert();
-      this.settingData = (await this.$idb.get("settingData"));
-      console.log(this.settingData);
+      this.settingData = (await this.$idb.get("settingData")) || [];
       if (this.settingData.length == 0) {
         this.isPrintAuto = true;
       } else {
@@ -200,7 +198,7 @@ export default {
       }
     },
     printOrder() {
-      let noOfcopy = this.settingData.selectedTicketCount;
+      let noOfcopy = this.settingData.selectedTicketCount || 1;
       let count = 0;
       let printdata = document.getElementById('ticket');
       window.document.write(printdata.outerHTML);
