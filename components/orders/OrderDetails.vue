@@ -216,7 +216,8 @@ export default {
         this.showDialog = true;
       } else {
         this.$emit("orderStatusChange", this.$props.order, nextState);
-        if (nextState == this.settingData.selectedOrderStatus && this.isPrintAuto){
+        const printingState = this.settingData.selectedOrderStatus.toLowerCase();
+        if ([printingState].includes(nextState) && this.isPrintAuto){
           this.printOrder();
         }
       }
