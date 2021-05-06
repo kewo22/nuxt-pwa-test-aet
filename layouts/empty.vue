@@ -1,5 +1,5 @@
 <template>
-  <v-app light> 
+  <v-app light>
     <v-main>
       <nuxt />
     </v-main>
@@ -11,12 +11,18 @@
 </template>
 
 <script>
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
       fixed: false,
     };
   },
-  created() {},
+  async mounted() {
+    await this.$store.dispatch("authorizeClientApp");
+  },
+  methods: {
+    ...mapActions(["authorizeClientApp"]),
+  },
 };
 </script>

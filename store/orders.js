@@ -154,12 +154,12 @@ export const mutations = {
     state.leadTime = leadTime;
   },
   sortNewOrders(state) {
-    state.newOrders.sort(function(a, b) {
+    state.newOrders.sort(function (a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
   sortInProgressOrders(state) {
-    state.inProgressOrders.sort(function(a, b) {
+    state.inProgressOrders.sort(function (a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
@@ -192,7 +192,7 @@ export const getters = {
       .filter(order => {
         return order.status === "submitted";
       })
-      .sort(function(a, b) {
+      .sort(function (a, b) {
         return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
       });
   },
@@ -208,7 +208,7 @@ export const getters = {
 };
 
 export const actions = {
-  async getOrdersNew({ commit, state, dispatch }) {
+  async getOrdersNew({ commit, state, dispatch, rootState }) {
     let settingData = (await this.$idb.get("settingData")) || [];
     let leadTime = settingData.selectedTimeInterval || "15";
 
@@ -217,6 +217,10 @@ export const actions = {
 
     let ordersFromIndexedDb = await this.$idb.get("allorders");
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
+
+    // const { isLoggedIn, user } = rootState;
+    // console.log(`USER`, { isLoggedIn, user });
+
     let clientId = 1;
     let siteId = 2323;
     var orders = await this.$axios.$get(
