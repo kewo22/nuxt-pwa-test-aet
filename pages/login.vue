@@ -82,7 +82,7 @@ export default {
           // console.log(res.data.access_token);
           // console.log(decoded);
           this.userId = decoded.sub;
-          // this.$router.push("/orders");
+          this.$router.push("/orders");
         })
         .catch((err) => {
           console.log("from err --------- ", err);
