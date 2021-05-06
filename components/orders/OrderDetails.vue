@@ -218,7 +218,7 @@ export default {
         this.$emit("orderStatusChange", this.$props.order, nextState);
         const printingState = this.settingData.selectedOrderStatus.toLowerCase();
         if ([printingState].includes(nextState) && this.isPrintAuto){
-          this.printOrder();
+          // this.printOrder();
         }
       }
     },
