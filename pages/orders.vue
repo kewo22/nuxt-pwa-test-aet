@@ -346,11 +346,11 @@ export default {
     findOrderArray(orderStatus) {
       switch (orderStatus) {
         case "in progress":
-          return ["inProgressOrders", "tempInProgressOrders"];
+          return ["inProgressQueue", "tempInProgressOrders"];
         case "finished":
-          return ["finishedOrders", "tempFinishedOrders"];
+          return ["finishedQueue", "tempFinishedOrders"];
         default:
-          return ["newOrders", "tempNewOrders"];
+          return ["newOrderQueue", "tempNewOrders"];
       }
     },
     orderStatusChange(order, nextState) {
@@ -374,8 +374,10 @@ export default {
       // // show first order
       // this.selectedOrder = this[fromOrderArrayName][0];
 
-      //call moving 
-      this.$store.dispatch("orders/moveOrdersManually", {order, nextState});
+      //call moving
+      const [fromQueueName] = this.findOrderArray(order.status);
+      this.$store.dispatch("orders/moveOrdersManually", { order, nextState });
+      this.selectedOrder = this[fromQueueName][0];
     },
     moveOrdersToInProgress(orders) {
       let leadTimeInMinutes = parseInt(this.leadTime.split(" ")[0]);
