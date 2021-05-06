@@ -100,18 +100,17 @@ export default {
             .then((res) => {
               console.log(res);
               this.$store.dispatch("setUser", res.data);
+              this.$router.push("/orders");
             })
             .catch((err) => {
               console.log(err.error_description);
             });
-
-          this.$router.push("/orders");
         })
         .catch((err) => {
           this.loginFail = true;
           console.log("from err --------- ", err.error_description);
         })
-        .finally(() => {});
+        .finally(async () => {});
     },
     test() {
       // console.log(this.$store.state.user);
