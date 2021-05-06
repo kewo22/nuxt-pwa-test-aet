@@ -62,9 +62,9 @@ export const mutations = {
     state.finishedOrders = orders;
   },
   moveCancelOrdersToFinished(state) {
-    for (let i = 0; i < state.newOrders.length; i++) {
-      if (state.newOrders[i].cancelled) {
-        state.newOrders[i].status = "finished";
+    for (let i = 0; i < state.allorders.length; i++) {
+      if (state.allorders[i].status == "cancelled") {
+        state.allorders[i].status = "finished";
       }
     }
   },
