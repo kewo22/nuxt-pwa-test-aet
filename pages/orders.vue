@@ -13,13 +13,32 @@
         ></v-text-field>
       </div>
       <div class="d-flex flex-column order-list-wrapper">
-        <v-tabs
-          centered
-          background-color="transparent"
-          class="tab-header"
-          v-model="tabs"
-        >
-          <v-tab @click="onNewTabClick(0)">
+        <v-item-group v-model="tabs" class="shrink mr-6" mandatory tag="v-flex">
+          <!-- <v-item v-for="n in length" :key="n" v-slot="{ active, toggle }">
+            <div>
+              <v-btn :input-value="active" icon @click="toggle">
+                <v-icon>mdi-record</v-icon>
+              </v-btn>
+            </div>
+          </v-item> -->
+          <v-item v-slot="{ active, toggle }">
+            <v-btn :input-value="active" @click="toggle">
+              New ({{ newOrderQueue.length }})
+            </v-btn>
+          </v-item>
+          <v-item v-slot="{ active, toggle }">
+            <v-btn :input-value="active" @click="toggle">
+              In Progress ({{ inProgressQueue.length }})
+            </v-btn>
+          </v-item>
+          <v-item v-slot="{ active, toggle }">
+            <v-btn :input-value="active" @click="toggle">
+              Finished ({{ finishedQueue.length }})
+            </v-btn>
+          </v-item>
+        </v-item-group>
+
+        <!-- <v-tab @click="onNewTabClick(0)">
             New ({{ newOrderQueue.length }})
           </v-tab>
           <v-tab @click="onInProgressTabClick(1)">
@@ -27,11 +46,13 @@
           </v-tab>
           <v-tab @click="onFinishedTabClick(2)">
             Finished ({{ finishedQueue.length }})
-          </v-tab>
-        </v-tabs>
+          </v-tab> -->
 
-        <v-tabs-items class="tab-items" v-model="tabs">
-          <v-tab-item class="tab-item">
+        <v-window v-model="tabs" touchless>
+          <!-- </v-window> -->
+
+          <!-- <v-tabs-items class="tab-items" v-model="tabs"> -->
+          <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
                 <div
@@ -58,8 +79,8 @@
                 </div>
               </v-card-text>
             </v-card>
-          </v-tab-item>
-          <v-tab-item class="tab-item">
+          </v-window-item>
+          <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
                 <div
@@ -86,8 +107,8 @@
                 </div>
               </v-card-text>
             </v-card>
-          </v-tab-item>
-          <v-tab-item class="tab-item">
+          </v-window-item>
+          <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
                 <div
@@ -112,8 +133,9 @@
                 </div>
               </v-card-text>
             </v-card>
-          </v-tab-item>
-        </v-tabs-items>
+          </v-window-item>
+          <!-- </v-tabs-items> -->
+        </v-window>
       </div>
     </div>
 
