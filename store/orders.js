@@ -151,21 +151,53 @@ export const mutations = {
     //   return orders;
     // }
   },
+  moveOrdersToInProgressAuto(state, requestPayLoad) {
+    let leadTimeInMinutes = parseInt(state.leadTime.split(" ")[0]);
+
+    for (let i = 0; i < state.allorders.length; i++) {
+      if (state.allorders[i].order_number == requestPayLoad.order_number) {
+        state.allorders[i].pickupTimeInMinutes =
+          requestPayLoad.pickupTimeInMinutes;
+
+        if (state.allorders[i].pickupTimeInMinutes == leadTimeInMinutes) {
+          state.allorders[i].status = "in progress";
+          state.allorders[i].pickupTime = leadTimeInMinutes + " Min";
+          state.allorders[i].pickupTimeInMinutes = leadTimeInMinutes;
+          state.newOrders = state.allorders
+            .filter(order => {
+              return order.status === "submitted";
+            })
+            .sort(function(a, b) {
+              return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+            });
+
+          state.inProgressOrders = state.allorders
+            .filter(order => {
+              return order.status === "in progress";
+            })
+            .sort(function(a, b) {
+              return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+            });
+        }
+        break;
+      }
+    }
+  },
   setLeadTime(state, leadTime) {
     state.leadTime = leadTime;
   },
   sortNewOrders(state) {
-    state.newOrders.sort(function (a, b) {
+    state.newOrders.sort(function(a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
   sortInProgressOrders(state) {
-    state.inProgressOrders.sort(function (a, b) {
+    state.inProgressOrders.sort(function(a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
   sortFinishedOrders(state) {
-    state.finishedOrders.sort(function (a, b) {
+    state.finishedOrders.sort(function(a, b) {
       return moment(b.timeStampForOrders).diff(a.timeStampForOrders);
     });
   },
@@ -193,7 +225,7 @@ export const getters = {
       .filter(order => {
         return order.status === "submitted";
       })
-      .sort(function (a, b) {
+      .sort(function(a, b) {
         return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
       });
   },
@@ -214,7 +246,7 @@ export const actions = {
     let leadTime = settingData.selectedTimeInterval || "15";
 
     commit("setLeadTime", leadTime);
-    commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
+    // commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
     let ordersFromIndexedDb = await this.$idb.get("allorders");
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
@@ -291,16 +323,13 @@ export const actions = {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
       dispatch("filterFinishedOrders");
-
     } else if (requestPayLoad.nextState == "finished") {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
       console.log("before", state.finishedOrders);
       dispatch("filterFinishedOrders");
       commit("sortFinishedOrders");
-
     }
-
   }
   // async getLeadTime
   // getNewStateOrders() {

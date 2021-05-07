@@ -71,7 +71,8 @@ export default {
   data() {
     return {
       pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
-      pickupTime: this.$props.item.pickupTime
+      pickupTime: this.$props.item.pickupTime,
+      order_number: this.$props.item.order_number
     };
   },
   props: ["item"],
@@ -92,7 +93,7 @@ export default {
         return false;
       }
       return item.overdue;
-    },
+    }
   },
   watch: {
     pickTimeCountDown: {
@@ -119,6 +120,12 @@ export default {
             pickupTime = m + " Min";
           }
           this.pickupTime = pickupTime;
+         
+          this.$store.commit("orders/moveOrdersToInProgressAuto", {
+            pickupTime,
+            pickupTimeInMinutes: this.pickTimeCountDown,
+            order_number: this.order_number
+          });
         }, 60000);
       },
       immediate: true // This ensures the watcher is triggered upon creation
