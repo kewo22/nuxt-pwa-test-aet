@@ -7,7 +7,7 @@
           <v-text-field
             v-model="username"
             :rules="[rules.usernameRequired, rules.emailValid]"
-            label="username"
+            label="Username"
             required
             class="login-input"
           ></v-text-field>
@@ -17,14 +17,19 @@
             v-model="password"
             :type="'password'"
             name="Password"
-            label="password"
+            label="Password"
             :rules="[rules.passwordRequired]"
             class="login-input"
           ></v-text-field>
         </v-row>
-        <v-btn class="login-button" @click="login"> Login </v-btn>
+        <v-row justify="center">
+          <v-btn class="login-button" @click="login"> Login </v-btn>
+        </v-row>
+        <v-row justify="center"
+          ><NuxtLink to="/forgotPassword"> Forgot Password ? </NuxtLink></v-row
+        >
         <v-alert color="red" dark class="login-error" v-if="loginFail">
-          If you can not login, Please contact ‘support@lineten.com.’
+          Wrong Username/Password
         </v-alert>
       </v-form>
     </v-card>
@@ -52,17 +57,21 @@ export default {
           return pattern.test(value) || "Invalid e-mail.";
         },
       },
-    };
+      userId: "",
+    }; // ret end
+  },
+  computed: {
+    token() {
+      return this.$store.state.token;
+    },
+  },
+  mounted() {
+    this.$refs.loginForm.reset();
+    this.$refs.loginForm.resetValidation();
   },
   methods: {
     async login() {
-      let formData = new FormData();
-      formData.append("username", this.username);
-      formData.append("password", this.password);
-      formData.append("grant_type", "password");
-
       const x = `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`;
-
       await this.$axios
         .post(
           `https://api-l10-idp-staging-neu.azurewebsites.net/connect/token`,
@@ -74,22 +83,43 @@ export default {
             },
           }
         )
-        .then((res) => {
-        //   console.log("from then --------- ", res);
-          var decoded = jwt_decode(res.data.access_token);
-          console.log(decoded);
-          this.$router.push('/orders')
+        .then(async (res) => {
+          const decoded = jwt_decode(res.data.access_token);
+          this.userId = decoded.sub;
+          this.loginFail = false;
+
+          await this.$axios
+            .get(
+              `https://api-l10-idp-staging-neu.azurewebsites.net/api/users/${this.userId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.state.token}`,
+                },
+              }
+            )
+            .then((res) => {
+              console.log(res);
+              this.$store.dispatch("setUser", res.data);
+              this.$router.push("/orders");
+            })
+            .catch((err) => {
+              console.log(err.error_description);
+            });
         })
         .catch((err) => {
-          console.log("from err --------- ", err);
+          this.loginFail = true;
+          console.log("from err --------- ", err.error_description);
         })
-        .finally(() => {});
+        .finally(async () => {});
     },
-  },
+    test() {
+      // console.log(this.$store.state.user);
+    },
+  }, // meth
 };
 </script>
 
-<style scoped>
+<style>
 .container-main {
   margin: 0;
   min-height: 100vh;
@@ -134,7 +164,6 @@ export default {
   font-size: 12px;
 }
 </style>
-
 
 
 

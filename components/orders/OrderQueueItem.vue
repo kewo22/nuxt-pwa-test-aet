@@ -49,7 +49,7 @@
           <v-container fill-height fluid>
             <v-row align="center" justify="center">
               <v-col align="center" justify="center">
-                #{{ item.order_id }}
+                #{{ item.order_number }}
               </v-col>
             </v-row>
           </v-container>
@@ -58,7 +58,8 @@
           <v-container fill-height fluid>
             <v-row align="center" justify="center">
               <v-col align="center" justify="center">
-                {{ item.order_lines.length }} items
+                {{ item.order_lines.length }} 
+                {{ item.order_lines.length > 1 ? `items` : `item` }}
               </v-col>
             </v-row>
           </v-container>
@@ -77,6 +78,7 @@ export default {
     return {
       pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
       pickupTime: this.$props.item.pickupTime,
+      order_number: this.$props.item.order_number
     };
   },
   computed: {
@@ -88,17 +90,7 @@ export default {
     },
     getImage() {
       const { item } = this.$props;
-      let fulfilment_source = item.fulfilment_source;
-      switch (fulfilment_source) {
-        case "Uber Eats":
-          return require("~/assets/ubereats.png");
-        case "Delivery Hero":
-          return require("~/assets/deliveryHero.png");
-        case "Just Eat":
-          return require("~/assets/justEat.png");
-        default:
-          return "";
-      }
+      return this.$getMarketplaceImages(item.fulfilment_source, "thumbnail");
     },
     isOverdue() {
       const { item } = this.$props;
@@ -145,6 +137,12 @@ export default {
             pickupTime = m + " Min";
           }
           this.pickupTime = pickupTime;
+         
+          this.$store.commit("orders/moveOrdersToInProgressAuto", {
+            pickupTime,
+            pickupTimeInMinutes: this.pickTimeCountDown,
+            order_number: this.order_number
+          });
         }, 60000);
       },
       immediate: true, // This ensures the watcher is triggered upon creation
@@ -176,6 +174,6 @@ export default {
   border: 2px solid #ff0000;
 }
 .cancelled-item {
-  border: 2px solid #f09d00;
+  border: 2px solid #f09d00 !important;
 }
 </style>

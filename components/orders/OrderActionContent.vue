@@ -42,6 +42,7 @@ export default {
     nextState() {
       switch (this.$props.state) {
         case "new":
+        case "submitted":
           return "In progress";
         case "in progress":
           return "Finished";

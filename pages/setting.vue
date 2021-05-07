@@ -303,7 +303,7 @@
             <v-container fill-height fluid>
               <v-row align="center" justify="center">
                 <v-col align="center" justify="center">
-                  <v-img src="/lineTenLogo.png" width="25%" /><br />
+                  <v-img :src="require('~/assets/LineTen Logo Standard.png')" width="25%" /><br />
                   <h4 style="color:#b1b3b8">2021 v.1.0.0</h4>
                 </v-col>
               </v-row>

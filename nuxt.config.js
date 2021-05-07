@@ -1,3 +1,5 @@
+import path from 'path'
+import fs from 'fs'
 import colors from 'vuetify/es5/util/colors'
 // import { TokenAuthentication } from './constants';
 
@@ -32,7 +34,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/currencyFormatter.client.js',
-    '~/plugins/idb.client.js'
+    '~/plugins/idb.client.js',
+    '~/plugins/utils.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -87,8 +90,7 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  },
+  build: {},
 
   server: {
     port: 8000 // default: 3000
@@ -107,7 +109,7 @@ export default {
       dark: true,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
+          primary: colors.blue.lighten1,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -118,39 +120,4 @@ export default {
       },
     },
   },
-
-  pwa: {
-    manifest: {
-      name: 'Order Pro | Line Ten',
-      short_name: 'Order Pro | L10',
-      lang: 'en',
-      start_ur: "/",
-      theme_color: "#ffffff",
-      background_color: "#ffffff",
-      display: "standalone",
-      orientation: "landscape"
-    },
-    workbox: {
-      importScripts: [
-        'idb-sw.client.js',
-        'workers/custom.sw.js'
-      ],
-      runtimeCaching: [
-        {
-          urlPattern: 'https://jsonplaceholder.typicode.com/.*',
-          strategyOptions: {
-            cacheName: 'test-cache-v2',
-          },
-          strategyPlugins: [{
-            use: 'BackgroundSync',
-            config: {
-              maxEntries: 10,
-              maxAgeSeconds: 3000
-            }
-          }]
-        }
-      ]
-    }
-  }
-
 }
