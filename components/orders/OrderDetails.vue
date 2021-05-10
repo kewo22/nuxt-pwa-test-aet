@@ -203,8 +203,8 @@ export default {
       let printdata = document.getElementById("ticket");
       window.document.write(printdata.outerHTML);
       while (count < noOfcopy) {
-        window.print(0);
         window.close(0);
+        window.print(0);
         count++;
       }
       // location.reload();
@@ -237,9 +237,6 @@ export default {
 </script>
 
 <style>
-#ticket {
-  display: none;
-}
 .order-detail-root {
   height: 100%;
   /* padding: 50px 80px; */
@@ -267,7 +264,6 @@ export default {
   text-decoration: line-through 2px;
 }
 #ticket {
-  display: none;
-  height: 50%;
+  /* display: none; */
 }
 </style>
