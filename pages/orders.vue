@@ -161,8 +161,8 @@ export default {
       }
     });
   },
-  mounted() {
-    this.$store.dispatch("orders/getOrdersNew");
+  async mounted() {
+    await this.$store.dispatch("orders/getOrdersNew");
   },
 
   computed: {

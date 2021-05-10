@@ -15,36 +15,38 @@ export const state = () => ({
 
 export const mutations = {
   setOrdersData(state, orders) {
-    if (state.allorders && state.allorders.length != 0) {
-      let i = 0;
-      state.allorders.forEach(item => {
-        if (item.status == "in progress" && orders[i].status == "cancelled") {
-          item.cancelled = true;
-        }
-        if (item.status != "submitted") {
-          // console.log("orders[i]",orders[i])
-          orders[i].status = item.status; //keep latest status even new request coming old status
-        }
-        let objKeys = Object.keys(orders[i]);
-        for (let j = 0; j < objKeys.length; j++) {
-          item[objKeys[j]] = orders[i][objKeys[j]];
-        }
-        i++;
-      });
-    } else {
-      state.allorders = orders;
-    }
+    if (orders.length != 0) {
+      if (state.allorders && state.allorders.length != 0) {
+        let i = 0;
+        state.allorders.forEach(item => {
+          if (item.status == "in progress" && orders[i].status == "cancelled") {
+            item.cancelled = true;
+          }
+          if (item.status != "submitted") {
+            // console.log("orders[i]",orders[i])
+            orders[i].status = item.status; //keep latest status even new request coming old status
+          }
+          let objKeys = Object.keys(orders[i]);
+          for (let j = 0; j < objKeys.length; j++) {
+            item[objKeys[j]] = orders[i][objKeys[j]];
+          }
+          i++;
+        });
+      } else {
+        state.allorders = orders;
+      }
 
-    for (let m = 0; m < orders.length; m++) {
-      let index = state.allorders.findIndex(
-        x => x.order_id == orders[m].order_id
-      );
-      if (index === -1) {
-        state.allorders.push(orders[m]);
+      for (let m = 0; m < orders.length; m++) {
+        let index = state.allorders.findIndex(
+          x => x.order_id == orders[m].order_id
+        );
+        if (index === -1) {
+          state.allorders.push(orders[m]);
+        }
       }
     }
 
-    this.$idb.set("allorders", state.allorders);
+    this.$idb.set("allorders", state.allorders || []);
   },
   setOrdersFromIndexedDb(state, orders) {
     state.ordersFromIndexedDb = orders;
@@ -254,14 +256,16 @@ export const actions = {
     const { isLoggedIn, user } = rootState;
     // console.log(`USER`, { isLoggedIn, user });
     // 16a4dea0-b542-4f21-a9e9-7d4b2410c292
+    let userProfile = await this.$axios.$get(
+      `http://localhost:3004/user/${user.id}`
+    );
 
-    let clientId = user.id;
-    clientId = 1;
-    let siteId = 2323;
-    var orders = await this.$axios.$get(
+    let clientId = userProfile[0].orderpro_npb_client_id;
+    let siteId = userProfile[0].orderpro_npb_site_id;
+    let orders = await this.$axios.$get(
       `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
     );
-    commit("setOrdersFromVuexStore", ordersFromIndexedDb);
+    commit("setOrdersFromVuexStore", ordersFromIndexedDb || []);
     commit("setOrdersData", orders);
     //call method to filter new order
     dispatch("filterNewOrders");

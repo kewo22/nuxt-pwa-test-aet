@@ -1,7 +1,8 @@
 export const state = () => ({
   token: "",
   user: {},
-  isLoggedIn: false
+  isLoggedIn: false,
+  userProfile: {}
 });
 
 export const getters = {};
@@ -29,26 +30,35 @@ export const actions = {
     console.log(res);
     commit("setToken", res.data.access_token);
   },
-  setUser({ commit }, user) {
-    if (Object.keys(user)) {
+  async setUser({ commit, dispatch }, user) {
+    if (Object.keys(user).length != 0) {
       this.$idb.set("user", user);
       commit("setUser", user);
       commit("setLoggedIn", true);
+      await dispatch("getProfileDetails", { user });
     } else {
+      this.$idb.set("allorders", []);
       this.$idb.set("user", {});
       commit("setUser", {});
       commit("setLoggedIn", false);
     }
   },
-  async getUsersForIndexedDb({ commit }) {
+  async getUsersForIndexedDb({ commit, dispatch }) {
     let userData = (await this.$idb.get("user")) || {};
     if (Object.keys(userData)) {
       commit("setUser", userData);
       commit("setLoggedIn", true);
+      await dispatch("getProfileDetails", { user: userData });
     } else {
       commit("setUser", {});
       commit("setLoggedIn", false);
     }
+  },
+  async getProfileDetails({ commit }, payload) {
+    let userProfile = await this.$axios.$get(
+      `http://localhost:3004/user/${payload.user.id}`
+    );
+    commit("setUserProfile", userProfile[0]);
   }
 };
 
@@ -61,5 +71,8 @@ export const mutations = {
   },
   setLoggedIn(state, isLoggedIn) {
     state.isLoggedIn = isLoggedIn;
+  },
+  setUserProfile(state, userProfile) {
+    state.userProfile = userProfile;
   }
 };
