@@ -251,10 +251,12 @@ export const actions = {
     let ordersFromIndexedDb = await this.$idb.get("allorders");
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
-    // const { isLoggedIn, user } = rootState;
+    const { isLoggedIn, user } = rootState;
     // console.log(`USER`, { isLoggedIn, user });
+    // 16a4dea0-b542-4f21-a9e9-7d4b2410c292
 
-    let clientId = 1;
+    let clientId = user.id;
+    clientId = 1;
     let siteId = 2323;
     var orders = await this.$axios.$get(
       `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`

@@ -185,6 +185,7 @@ export default {
     };
   },
   async mounted() {
+    await this.$store.dispatch("getUsersForIndexedDb");
     this.getMarketplacesList();
     this.filterOrderType();
     this.filterChannels();
