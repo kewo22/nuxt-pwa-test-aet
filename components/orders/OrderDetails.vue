@@ -177,7 +177,12 @@ export default {
     },
     order_item_count() {
       const { order } = this.$props;
-      return order.order_lines ? order.order_lines.length : null;
+      if (Array.isArray(order.order_lines)) {
+        const reducer = (accumulator, currentValue) =>
+          accumulator + currentValue;
+        return order.order_lines.map((item) => item.quantity).reduce(reducer);
+      }
+      return 0;
     },
     isInProgressStatus() {
       return this.$props.order.status === "in progress";
