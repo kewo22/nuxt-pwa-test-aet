@@ -83,7 +83,7 @@
 						  style="font-family: sans-serif; font-weight: bold; font-size: 10px; float: left;margin: auto; width: 100%;display: flex; justify-content: space-between; align-items: center;" 
 						>
 							<!-- <span style="display: flex; align-items: center; margin-left: -6px;"><v-icon color="#2D3941"> mdi-format-list-bulleted-square </v-icon><b>ITEMS</b></span><span style="float: right">{{item.order_lines.length}}</span> -->
-							<span style="display: flex; align-items: center; margin-left: -6px;"><img src="~/assets/Menu_icon_icon-icons.com_71858.png" width="auto" height="100%"><b>ITEMS</b></span><span style="float: right">{{item.order_lines.length}}</span>
+							<span style="display: flex; align-items: center; margin-left: -6px;"><img src="~/assets/Menu_icon_icon-icons.com_71858.png" width="auto" height="100%"><b>ITEMS</b></span><span style="float: right">{{fullQty}}</span>
 						</p>
 					</td>
 				</tr>
@@ -139,6 +139,18 @@ export default {
     },
 	order_amount() {
       return this.$currency(this.$props.item.total);
+    },
+	order_amount() {
+      return this.$currency(this.$props.item.total);
+    },
+	fullQty() {
+	  const { item } = this.$props;
+      let qty = 0;
+	  for (let index = 0; index < item.order_lines.length; index++) {
+		  const element = item.order_lines[index];
+		  qty = qty + element.quantity;
+	  }
+	  return qty;
     },
 	submittedNo() {
       const { item } = this.$props;

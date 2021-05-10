@@ -1,5 +1,8 @@
 {
     "/client/:cid/site/:id/marketplaces": "/location?client_id=:cid",
     "/client/:cid/site/:id/orders/today": "/orders?client.client_id=:cid&site.site_id=:id",
-    "/client/:cid/orders/site/:id/recent/:timestamp": "/orders?client.client_id=:cid&site.site_id=:id"
+    "/client/:cid/orders/site/:id/recent/:timestamp": "/orders?client.client_id=:cid&site.site_id=:id",
+    "/client/:cid/site/:id/menu/": "/menu?client.client_id=:cid&site.site_id=:id",
+    "/client/:cid/site/:id/menu/:mid/product/:pid/snooze": "/menu?client.client_id=:cid&site.site_id=:id&menu_id=:mid&product.product_id=:pid",
+    "/client/:cid/site/:id/menu/:mid/product/:pid/unsnooze": "/menu?client.client_id=:cid&site.site_id=:id&menu_id=:mid&product.product_id=:pid"
 }

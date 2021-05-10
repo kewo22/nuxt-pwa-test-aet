@@ -207,7 +207,7 @@ export default {
         window.print(0);
         count++;
       }
-      location.reload();
+      // location.reload();
     },
     changeOrderStatus(nextState) {
       const currentState = this.$props.order.status;
