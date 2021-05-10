@@ -44,12 +44,12 @@
                 <div v-else>
                   <OrderQueueItem
                     v-for="newOrder in newOrderQueue"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} 
-                    ${
-                      selectedOrder &&
+                    :class="
+                      `mb-2 ${newOrder.cancelled && `cancelled-order`} 
+                    ${selectedOrder &&
                       selectedOrder.order_id === newOrder.order_id &&
-                      `selected new`
-                    }`"
+                      `selected new`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
@@ -71,13 +71,13 @@
                 <div v-else>
                   <OrderQueueItem
                     v-for="newOrder in inProgressQueue"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} 
+                    :class="
+                      `mb-2 ${newOrder.cancelled && `cancelled-order`} 
                     ${newOrder.overdue && `overdue-order`}
-                    ${
-                      selectedOrder &&
+                    ${selectedOrder &&
                       selectedOrder.order_id === newOrder.order_id &&
-                      `selected`
-                    }`"
+                      `selected`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
@@ -99,11 +99,12 @@
                 <div v-else>
                   <OrderQueueItem
                     v-for="newOrder in finishedQueue"
-                    :class="`mb-2 ${newOrder.cancelled && `cancelled-order`} ${
-                      selectedOrder &&
-                      selectedOrder.order_id === newOrder.order_id &&
-                      `selected finished`
-                    }`"
+                    :class="
+                      `mb-2 ${newOrder.cancelled &&
+                        `cancelled-order`} ${selectedOrder &&
+                        selectedOrder.order_id === newOrder.order_id &&
+                        `selected finished`}`
+                    "
                     :key="`${newOrder.order_id}`"
                     :item="newOrder"
                     @orderClick="onNewOrderClick(newOrder)"
@@ -151,18 +152,35 @@ export default {
       searchVal: "",
       leadTime: "",
       orders: [],
-      settingData: "",
+      settingData: ""
     };
   },
   created() {
-    this.$store.subscribe((mutation) => {
+    this.$store.subscribe(mutation => {
       if (mutation.type === "orders/setSelectedOrders") {
         this.selectedOrder = this.$store.getters["orders/getNewStateOrders"][0];
       }
     });
   },
   async mounted() {
-    await this.$store.dispatch("orders/getOrdersNew");
+    let lastSyncTime = await this.$idb.get("lastSyncTime");
+    let settingData = (await this.$idb.get("settingData")) || [];
+    let selectedReloadInterval = settingData.selectedReloadInterval;
+
+    selectedReloadInterval
+      ? (selectedReloadInterval = selectedReloadInterval.split(" ")[1])
+      : (selectedReloadInterval = 1);
+
+    selectedReloadInterval = parseInt(selectedReloadInterval) * 60000;
+
+    if (lastSyncTime) {
+      await this.$store.dispatch("orders/getOrdersNew", true);
+      setInterval(async () => {
+        await this.$store.dispatch("orders/getOrdersNew", true);
+      }, selectedReloadInterval);
+    } else {
+      await this.$store.dispatch("orders/getOrdersNew", false);
+    }
   },
 
   computed: {
@@ -197,8 +215,8 @@ export default {
       getAllOrders: "orders/getAllOrders",
       getNewStateOrders: "orders/getNewStateOrders",
       getInProgressOrders: "orders/getInProgressOrders",
-      getFinishedOrders: "orders/getFinishedOrders",
-    }),
+      getFinishedOrders: "orders/getFinishedOrders"
+    })
   },
   methods: {
     async getOrders() {
@@ -208,7 +226,7 @@ export default {
 
       this.allOrders = this.orders;
       this.tempOrders = this.orders;
-      const newOrders = this.orders.filter((order) => {
+      const newOrders = this.orders.filter(order => {
         return order.status === "submitted";
       });
       this.newOrders = newOrders;
@@ -219,7 +237,7 @@ export default {
       this.sortNewOrders();
 
       this.tempNewOrders = this.newOrders;
-      const inProgressOrders = this.orders.filter((order) => {
+      const inProgressOrders = this.orders.filter(order => {
         return order.status === "in progress";
       });
       this.inProgressOrders = inProgressOrders;
@@ -228,7 +246,7 @@ export default {
 
       this.tempInProgressOrders = this.inProgressOrders;
 
-      const finishedOrders = this.orders.filter((order) => {
+      const finishedOrders = this.orders.filter(order => {
         return order.status === "finished";
       });
       this.finishedOrders = finishedOrders;
@@ -254,7 +272,7 @@ export default {
       this.searchVal = e.target.value;
       if (this.currentTab === 0) {
         if (this.searchVal) {
-          const filteredNewOrders = this.getNewStateOrders.filter((order) => {
+          const filteredNewOrders = this.getNewStateOrders.filter(order => {
             // return order.order_id === searchVal;
             return String(order.order_number).includes(this.searchVal);
           });
@@ -272,7 +290,7 @@ export default {
       if (this.currentTab === 1) {
         if (this.searchVal) {
           const filteredInprogressOrders = this.getInProgressOrders.filter(
-            (order) => {
+            order => {
               // return order.order_id === searchVal;
               return String(order.order_number).includes(this.searchVal);
             }
@@ -291,7 +309,7 @@ export default {
       if (this.currentTab === 2) {
         if (this.searchVal) {
           const filteredFinishedOrders = this.getFinishedOrders.filter(
-            (order) => {
+            order => {
               // return order.order_id === searchVal;
               return String(order.order_number).includes(this.searchVal);
             }
@@ -391,7 +409,7 @@ export default {
       }
       this.$store.dispatch("orders/moveOrdersManually", {
         order: finishedOrder,
-        nextState,
+        nextState
       });
       this.selectedOrder = this[fromQueueName][0];
     },
@@ -411,7 +429,7 @@ export default {
         }
       }
       if (isMoved) {
-        return orders.filter((order) => {
+        return orders.filter(order => {
           return order.status === "new";
         });
       } else {
@@ -426,16 +444,16 @@ export default {
       }
     },
     sortNewOrders() {
-      this.newOrders.sort(function (a, b) {
+      this.newOrders.sort(function(a, b) {
         return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
       });
     },
     sortInProgressOrders() {
-      this.inProgressOrders.sort(function (a, b) {
+      this.inProgressOrders.sort(function(a, b) {
         return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

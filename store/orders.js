@@ -10,7 +10,8 @@ export const state = () => ({
   tempInProgressOrders: [],
   tempFinishedOrders: [],
   finishedOrders: [],
-  selectedOrder: null
+  selectedOrder: null,
+  lastSyncTime: ""
 });
 
 export const mutations = {
@@ -215,6 +216,10 @@ export const mutations = {
   },
   setSelectedOrders(state) {
     state.selectedOrder = state.newOrders[0];
+  },
+  setLastSyncTime(state, lastSyncTime) {
+    state.lastSyncTime = lastSyncTime;
+    this.$idb.set("lastSyncTime", lastSyncTime);
   }
 };
 
@@ -239,14 +244,19 @@ export const getters = {
   },
   getSelectedOrders: state => {
     return state.selectedOrder;
+  },
+  getLastSyncTime: state => {
+    return state.lastSyncTime;
   }
 };
 
 export const actions = {
-  async getOrdersNew({ commit, state, dispatch, rootState }) {
+  async getOrdersNew(
+    { commit, state, dispatch, rootState },
+    isFromAutoCallingApi
+  ) {
     let settingData = (await this.$idb.get("settingData")) || [];
     let leadTime = settingData.selectedTimeInterval || "5";
-
     commit("setLeadTime", leadTime);
     // commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
@@ -262,9 +272,21 @@ export const actions = {
 
     let clientId = userProfile[0].orderpro_npb_client_id;
     let siteId = userProfile[0].orderpro_npb_site_id;
-    let orders = await this.$axios.$get(
-      `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
-    );
+    let orders;
+    if (isFromAutoCallingApi) {
+      let lastSyncTime = await this.$idb.get("lastSyncTime");
+
+      orders = await this.$axios.$get(
+        `http://localhost:3004/client/${clientId}/orders/site/${siteId}/recent/${lastSyncTime}`
+      );
+      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:MM:SS"));
+    } else {
+      orders = await this.$axios.$get(
+        `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
+      );
+      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:MM:SS"));
+    }
+
     commit("setOrdersFromVuexStore", ordersFromIndexedDb || []);
     commit("setOrdersData", orders);
     //call method to filter new order
