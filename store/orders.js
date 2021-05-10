@@ -245,7 +245,7 @@ export const getters = {
 export const actions = {
   async getOrdersNew({ commit, state, dispatch, rootState }) {
     let settingData = (await this.$idb.get("settingData")) || [];
-    let leadTime = settingData.selectedTimeInterval || "15";
+    let leadTime = settingData.selectedTimeInterval || "5";
 
     commit("setLeadTime", leadTime);
     // commit("setOrdersFromIndexedDb", ordersFromIndexedDb);

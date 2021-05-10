@@ -125,7 +125,7 @@ export default {
         selectedReloadInterval: "Every 1 minute",
         selectedTicketCount: "1",
         selectedTicketFontSize: "8 pt",
-        selectedTimeInterval: "15 minutes",
+        selectedTimeInterval: "5 minutes",
       },
       isPrintAuto: true,
     };

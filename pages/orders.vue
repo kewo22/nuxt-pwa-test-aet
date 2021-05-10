@@ -204,7 +204,7 @@ export default {
     async getOrders() {
       this.orders = await this.$axios.$get("http://localhost:3004/orders");
       let settingData = (await this.$idb.get("settingData")) || [];
-      this.leadTime = settingData.selectedTimeInterval || "15";
+      this.leadTime = settingData.selectedTimeInterval || "5";
 
       this.allOrders = this.orders;
       this.tempOrders = this.orders;
