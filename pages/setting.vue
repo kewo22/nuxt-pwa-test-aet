@@ -202,34 +202,6 @@
                                     justify="center"
                                     class="fontweight"
                                   >
-                                    Order History Duration
-                                  </v-col>
-                                </v-row>
-                              </div>
-                            </v-flex>
-                            <v-flex xs12 sm12 md6>
-                              <v-row no-gutters>
-                                <v-col align="right"
-                                  ><v-select
-                                    class="settingsDrop"
-                                    :items="historyDurationIntervals"
-                                    v-model="selectedHistoryDurationInterval"
-                                    @input="setHistoryDurationIntervalDrop"
-                                    solo
-                                  ></v-select>
-                                </v-col>
-                              </v-row>
-                            </v-flex>
-                          </v-layout>
-                          <v-layout>
-                            <v-flex xs12 sm12 md6>
-                              <div>
-                                <v-row align="center" justify="center">
-                                  <v-col
-                                    align="left"
-                                    justify="center"
-                                    class="fontweight"
-                                  >
                                     Printers
                                   </v-col>
                                 </v-row>
@@ -242,36 +214,6 @@
                                   style="color:#4f97d5;text-decoration: underline; font-weight: 500"
                                 >
                                   Select Printers
-                                </v-col>
-                              </v-row>
-                            </v-flex>
-                          </v-layout>
-                          <v-layout mt-10>
-                            <v-flex xs12 sm12 md6>
-                              <div>
-                                <v-row align="center" justify="center">
-                                  <v-col
-                                    align="left"
-                                    justify="center"
-                                    class="fontweight"
-                                  >
-                                    Clear all queues
-                                  </v-col>
-                                </v-row>
-                              </div>
-                            </v-flex>
-                            <v-flex xs12 sm12 md6>
-                              <v-row no-gutters>
-                                <v-col
-                                  align="right"
-                                  style="color:red;text-decoration: underline; font-weight: 500"
-                                >
-                                  <a
-                                    style="color:red;text-decoration: underline;"
-                                    @click="isClearAllQueuesPopup = true"
-                                  >
-                                    Clear Now
-                                  </a>
                                 </v-col>
                               </v-row>
                             </v-flex>
@@ -357,60 +299,11 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-dialog v-model="isClearAllQueuesPopup" width="500">
-            <v-card style="background-color: #FFFFFF !important">
-              <v-card-title
-                style="color:black; border-bottom: 1px solid #CCCED0;"
-              >
-                <div>
-                  <font-awesome-icon
-                    :icon="['fa', 'question-circle']"
-                  ></font-awesome-icon>
-
-                  <span>Confirm Action</span>
-                </div>
-              </v-card-title>
-
-              <v-card-text style="color:black;margin-top:2%">
-                <p>
-                  Please confirm that you wish to clear all order queues. This
-                  action cannot be reverted.
-                </p>
-              </v-card-text>
-
-              <v-divider></v-divider>
-
-              <v-card-actions class="justify-center">
-                <v-btn
-                  color="primary"
-                  class="confirmPopBtn"
-                  text
-                  style="color:black !important"
-                  @click="isClearAllQueuesPopup = false"
-                >
-                  Close
-                </v-btn>
-                <v-btn
-                  color="primary"
-                  class="confirmPopBtn"
-                  style="background-color:#2F3940;color:white !important"
-                  text
-                  @click="clearAllQueues"
-                >
-                  Confirm
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-
           <v-flex xs6 sm6 md6 style="background-color: #f6f8fa">
             <v-container fill-height fluid>
               <v-row align="center" justify="center">
                 <v-col align="center" justify="center">
-                  <v-img
-                    :src="require('~/assets/LineTen Logo Standard.png')"
-                    width="25%"
-                  /><br />
+                  <v-img :src="require('~/assets/LineTen Logo Standard.png')" width="25%" /><br />
                   <h4 style="color:#b1b3b8">2021 v.1.0.0</h4>
                 </v-col>
               </v-row>
@@ -425,18 +318,11 @@
 <script>
 export default {
   data: () => ({
-    timeIntervals: [
-      "5 minutes",
-      "10 minutes",
-      "15 minutes",
-      "20 minutes",
-      "25 minutes"
-    ],
+    timeIntervals: ["15 minutes", "30 minutes", "45 minutes"],
     ticketFontSizes: ["8 pt", "10 pt", "12 pt"],
     orderStatus: ["In progress", "New", "Finished"],
     ticketCounts: ["1", "2", "3"],
     reloadIntervals: ["Every 1 minute", "Every 5 minutes", "Every 10 minutes"],
-    historyDurationIntervals: ["24 hours", "48 hours"],
     settingData: {},
     isPrintChecked: "",
     selectedTimeInterval: "",
@@ -444,9 +330,7 @@ export default {
     selectedOrderStatus: "",
     selectedTicketCount: "",
     selectedReloadInterval: "",
-    selectedHistoryDurationInterval: "",
     isResetPopup: false,
-    isClearAllQueuesPopup: false,
     isSavedSuccess: false
   }),
 
@@ -475,16 +359,13 @@ export default {
       }
 
       this.selectedTimeInterval =
-        this.settingData.selectedTimeInterval || "5 minutes";
+        this.settingData.selectedTimeInterval || "15 minutes";
       this.selectedTicketFontSize =
         this.settingData.selectedTicketFontSize || "8 pt";
-      this.selectedOrderStatus =
-        this.settingData.selectedOrderStatus || "In progress";
+      this.selectedOrderStatus = this.settingData.selectedOrderStatus || "In progress";
       this.selectedTicketCount = this.settingData.selectedTicketCount || "1";
       this.selectedReloadInterval =
         this.settingData.selectedReloadInterval || "Every 1 minute";
-      this.selectedHistoryDurationInterval =
-        this.settingData.selectedHistoryDurationInterval || "24 hours";
     },
     saveSettings() {
       this.isPrintChecked
@@ -497,8 +378,7 @@ export default {
         selectedTicketFontSize: this.selectedTicketFontSize,
         selectedOrderStatus: this.selectedOrderStatus,
         selectedTicketCount: this.selectedTicketCount,
-        selectedReloadInterval: this.selectedReloadInterval,
-        selectedHistoryDurationInterval: this.selectedHistoryDurationInterval
+        selectedReloadInterval: this.selectedReloadInterval
       };
 
       this.$idb.set("settingData", this.settingData);
@@ -524,12 +404,9 @@ export default {
     setReloadIntervalDrop(value) {
       this.selectedReloadInterval = value;
     },
-    setHistoryDurationIntervalDrop(value) {
-      this.selectedHistoryDurationInterval = value;
-    },
     resetSettingData() {
       this.isPrintChecked = true;
-      this.selectedTimeInterval = "5 minutes";
+      this.selectedTimeInterval = "15 minutes";
       this.selectedTicketFontSize = "8 pt";
       this.selectedOrderStatus = "In progress";
       this.selectedTicketCount = "1";
@@ -537,11 +414,6 @@ export default {
       this.isResetPopup = false;
 
       this.saveSettings();
-    },
-    clearAllQueues() {
-      this.$store.commit("orders/clearAllQueues");
-      this.$store.commit("orders/setIsAllQueuesClear", true);
-      this.isClearAllQueuesPopup = false;
     }
   },
   computed: {}

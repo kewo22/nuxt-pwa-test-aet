@@ -30,14 +30,7 @@ export const Marketplaces = {
     justeat: {
         name: "Just Eat",
         images: {
-            full: require("~/assets/justEatFull.png"),
-            thumbnail: require("~/assets/justEat.png"),
-        }
-    },
-    takeaway: {
-        name: "Take away",
-        images: {
-            full: require("~/assets/takeawayFull.svg"),
+            full: require("~/assets/justEatFull.svg"),
             thumbnail: require("~/assets/justEat.png"),
         }
     },

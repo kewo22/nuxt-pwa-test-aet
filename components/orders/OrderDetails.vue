@@ -125,7 +125,7 @@ export default {
         selectedReloadInterval: "Every 1 minute",
         selectedTicketCount: "1",
         selectedTicketFontSize: "8 pt",
-        selectedTimeInterval: "5 minutes",
+        selectedTimeInterval: "15 minutes",
       },
       isPrintAuto: true,
     };
@@ -177,12 +177,7 @@ export default {
     },
     order_item_count() {
       const { order } = this.$props;
-      if (Array.isArray(order.order_lines)) {
-        const reducer = (accumulator, currentValue) =>
-          accumulator + currentValue;
-        return order.order_lines.map((item) => item.quantity).reduce(reducer);
-      }
-      return 0;
+      return order.order_lines ? order.order_lines.length : null;
     },
     isInProgressStatus() {
       return this.$props.order.status === "in progress";
