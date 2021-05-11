@@ -10,17 +10,10 @@
           height="30"
           class="search-input ml-auto"
           @keyup="onSearchKeyUp"
-        ></v-text-field>
+        />
       </div>
       <div class="d-flex flex-column order-list-wrapper">
-        <v-item-group v-model="tabs" class="shrink mr-6" mandatory tag="v-flex">
-          <!-- <v-item v-for="n in length" :key="n" v-slot="{ active, toggle }">
-            <div>
-              <v-btn :input-value="active" icon @click="toggle">
-                <v-icon>mdi-record</v-icon>
-              </v-btn>
-            </div>
-          </v-item> -->
+        <v-item-group v-model="tabs" class="shrink" mandatory tag="v-flex">
           <v-item v-slot="{ active, toggle }">
             <v-btn :input-value="active" @click="toggle">
               New ({{ newOrderQueue.length }})
@@ -38,20 +31,7 @@
           </v-item>
         </v-item-group>
 
-        <!-- <v-tab @click="onNewTabClick(0)">
-            New ({{ newOrderQueue.length }})
-          </v-tab>
-          <v-tab @click="onInProgressTabClick(1)">
-            In Progress ({{ inProgressQueue.length }})
-          </v-tab>
-          <v-tab @click="onFinishedTabClick(2)">
-            Finished ({{ finishedQueue.length }})
-          </v-tab> -->
-
-        <v-window v-model="tabs" touchless>
-          <!-- </v-window> -->
-
-          <!-- <v-tabs-items class="tab-items" v-model="tabs"> -->
+        <v-window v-model="tabs" touchless class="fill-height">
           <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
@@ -91,7 +71,6 @@
               </v-card-text>
             </v-card>
           </v-window-item>
-          <!-- </v-tabs-items> -->
         </v-window>
       </div>
     </div>
