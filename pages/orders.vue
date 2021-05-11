@@ -62,83 +62,32 @@
                   @orderClick="onNewOrderClick"
                   @orderStatusChange="orderStatusChange"
                 />
-                <!-- <div
-                  class="no-search-result"
-                  v-if="!newOrderQueue.length && !!searchVal"
-                >
-                  No orders found for ID -
-                  <span class="font-weight-black">&nbsp;{{ searchVal }}</span>
-                </div>
-                <div v-else>
-                  <OrderQueueItem
-                    v-for="newOrder in newOrderQueue"
-                    :class="
-                      `mb-2 ${newOrder.cancelled && `cancelled-order`} 
-                    ${selectedOrder &&
-                      selectedOrder.order_id === newOrder.order_id &&
-                      `selected new`}`
-                    "
-                    :key="`${newOrder.order_id}`"
-                    :item="newOrder"
-                    @orderClick="onNewOrderClick(newOrder)"
-                    @orderStatusChange="orderStatusChange"
-                  />
-                </div> -->
               </v-card-text>
             </v-card>
           </v-window-item>
           <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <div
-                  class="no-search-result"
-                  v-if="!inProgressQueue.length && !!searchVal"
-                >
-                  No orders found for ID -
-                  <span class="font-weight-black">&nbsp;{{ searchVal }}</span>
-                </div>
-                <div v-else>
-                  <OrderQueueItem
-                    v-for="newOrder in inProgressQueue"
-                    :class="
-                      `mb-2 ${newOrder.cancelled && `cancelled-order`} 
-                    ${newOrder.overdue && `overdue-order`}
-                    ${selectedOrder &&
-                      selectedOrder.order_id === newOrder.order_id &&
-                      `selected`}`
-                    "
-                    :key="`${newOrder.order_id}`"
-                    :item="newOrder"
-                    @orderClick="onNewOrderClick(newOrder)"
-                  />
-                </div>
+                <orders-order-queue 
+                  :ordersQueue="inProgressQueue"
+                  :selectedOrderID="(!!selectedOrder) ? selectedOrder.order_id : undefined"
+                  :searchVal="searchVal"
+                  @orderClick="onNewOrderClick"
+                  @orderStatusChange="orderStatusChange"
+                />
               </v-card-text>
             </v-card>
           </v-window-item>
           <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <div
-                  class="no-search-result"
-                  v-if="!finishedQueue.length && !!searchVal"
-                >
-                  No orders found for ID -
-                  <span class="font-weight-black">&nbsp;{{ searchVal }}</span>
-                </div>
-                <div v-else>
-                  <OrderQueueItem
-                    v-for="newOrder in finishedQueue"
-                    :class="
-                      `mb-2 ${newOrder.cancelled &&
-                        `cancelled-order`} ${selectedOrder &&
-                        selectedOrder.order_id === newOrder.order_id &&
-                        `selected finished`}`
-                    "
-                    :key="`${newOrder.order_id}`"
-                    :item="newOrder"
-                    @orderClick="onNewOrderClick(newOrder)"
-                  />
-                </div>
+                <orders-order-queue 
+                  :ordersQueue="finishedQueue"
+                  :selectedOrderID="(!!selectedOrder) ? selectedOrder.order_id : undefined"
+                  :searchVal="searchVal"
+                  @orderClick="onNewOrderClick"
+                  @orderStatusChange="orderStatusChange"
+                />
               </v-card-text>
             </v-card>
           </v-window-item>

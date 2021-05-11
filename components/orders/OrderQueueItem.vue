@@ -1,9 +1,11 @@
 <template>
   <SwipeableStack :item="item" v-on="$listeners" :nextOrderState="nextOrderState">
     <v-btn
-      :class="`${item.cancelled && `cancelled-item`} ${
-        isOverdue && `overdue-item`
-      }`"
+      :class="`${item.cancelled ? `cancelled-item` : ``} 
+      ${isOverdue ? `overdue-item` : ``}
+      ${selected ? `selected` : ``}
+      ${item.status.replace(' ', '-').toLowerCase()}
+      `"
       style="
         width: 100%;
         background-color: #282e35;
@@ -73,7 +75,7 @@
 import SwipeableStack from "./SwipeableStack";
 export default {
   components: { SwipeableStack },
-  props: ["item"],
+  props: ["item", "selected"],
   data() {
     return {
       pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
@@ -169,6 +171,9 @@ export default {
 </script>
 
 <style scoped>
+.selected {
+  border: 2px #509ad9 solid;
+}
 .cancelled {
   color: #f09d00;
   text-decoration: line-through 1px;
@@ -185,4 +190,12 @@ export default {
 .cancelled-item {
   border: 2px solid #f09d00 !important;
 }
+.submitted,
+.new {
+  border-color: #9d41b9;
+}
+.finished {
+  border-color: #62a073;
+}
+
 </style>
