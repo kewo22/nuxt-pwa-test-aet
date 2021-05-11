@@ -303,7 +303,10 @@
             <v-container fill-height fluid>
               <v-row align="center" justify="center">
                 <v-col align="center" justify="center">
-                  <v-img :src="require('~/assets/LineTen Logo Standard.png')" width="25%" /><br />
+                  <v-img
+                    :src="require('~/assets/LineTen Logo Standard.png')"
+                    width="25%"
+                  /><br />
                   <h4 style="color:#b1b3b8">2021 v.1.0.0</h4>
                 </v-col>
               </v-row>
@@ -318,7 +321,13 @@
 <script>
 export default {
   data: () => ({
-    timeIntervals: ["15 minutes", "30 minutes", "45 minutes"],
+    timeIntervals: [
+      "5 minutes",
+      "10 minutes",
+      "15 minutes",
+      "20 minutes",
+      "25 minutes"
+    ],
     ticketFontSizes: ["8 pt", "10 pt", "12 pt"],
     orderStatus: ["In progress", "New", "Finished"],
     ticketCounts: ["1", "2", "3"],
@@ -359,10 +368,11 @@ export default {
       }
 
       this.selectedTimeInterval =
-        this.settingData.selectedTimeInterval || "15 minutes";
+        this.settingData.selectedTimeInterval || "5 minutes";
       this.selectedTicketFontSize =
         this.settingData.selectedTicketFontSize || "8 pt";
-      this.selectedOrderStatus = this.settingData.selectedOrderStatus || "In progress";
+      this.selectedOrderStatus =
+        this.settingData.selectedOrderStatus || "In progress";
       this.selectedTicketCount = this.settingData.selectedTicketCount || "1";
       this.selectedReloadInterval =
         this.settingData.selectedReloadInterval || "Every 1 minute";
@@ -406,7 +416,7 @@ export default {
     },
     resetSettingData() {
       this.isPrintChecked = true;
-      this.selectedTimeInterval = "15 minutes";
+      this.selectedTimeInterval = "5 minutes";
       this.selectedTicketFontSize = "8 pt";
       this.selectedOrderStatus = "In progress";
       this.selectedTicketCount = "1";

@@ -58,8 +58,8 @@
           <v-container fill-height fluid>
             <v-row align="center" justify="center">
               <v-col align="center" justify="center">
-                {{ item.order_lines.length }} 
-                {{ item.order_lines.length > 1 ? `items` : `item` }}
+                {{ orderItemCount }}
+                {{ orderItemCount > 1 ? `items` : `item` }}
               </v-col>
             </v-row>
           </v-container>
@@ -110,6 +110,15 @@ export default {
         default:
           return "Move back to";
       }
+    },
+    orderItemCount() {
+      const { item } = this.$props;
+      if (Array.isArray(item.order_lines)) {
+        const reducer = (accumulator, currentValue) =>
+          accumulator + currentValue;
+        return item.order_lines.map((item) => item.quantity).reduce(reducer);
+      }
+      return 0;
     },
   },
   watch: {

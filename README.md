@@ -21,21 +21,45 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 ## Local Mock data API
 
+> Defined Mock API endpoints and responses follow [Order Pro - API Design](https://lineten.atlassian.net/wiki/spaces/AET/pages/2365227197/Order+Pro+-+API+Design) document.
+
 Start local mock API using the following command.
 
 `npm run dev:data`
 
-> Local server will be running on the `http://localhost:3004`.
+> Local server will be running on the [`http://localhost:3004`](http://localhost:3004).
 
-### Available Mock API endpoints
+
+
+### **USER PROFILE SERVICE API**
 
 |API name|HTTP VERB|Endpoint format|
 |-|-|-|
+|User profile details|GET|/user/{userId} <br> ex: http://localhost:3004/user/1 |
+
+
+### **SITE SERVICE API**
+|API name|HTTP VERB|Endpoint format|
+|-|-|-|
 |List of Marketplaces for specific site of client|GET|/client/{id}/site/{id}/marketplaces <br> ex: http://localhost:3004/client/1/site/1/marketplaces|
+
+### **ORDER SERVICE API**
+
+|API name|HTTP VERB|Endpoint format|
+|-|-|-|
 |List of orders for today for specific site of client|GET|/client/{id}/site/{id}/orders/today <br> ex: http://localhost:3004/client/1/site/2323/orders/today|
 |List of orders for after given time period for specific site of client|GET|/client/{id}/orders/site/{id}/recent/{timestamp} <br> ex: http://localhost:3004/client/1/orders/site/2323/recent/2021-08-21
 
-*Default API endpoints*
+### **SNOOZE SERVICE API**
+TBD
+
+### **MENU SERVICE API**
+TBD
+
+### **CLIENT SERVICE API**
+TBD
+
+### ***Default API endpoints***
 
 |API NAME|HTTP VERB|URL|
 |-|-|-|
