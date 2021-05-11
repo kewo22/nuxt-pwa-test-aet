@@ -55,7 +55,14 @@
           <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <div
+                <orders-order-queue 
+                  :ordersQueue="newOrderQueue"
+                  :selectedOrderID="(!!selectedOrder) ? selectedOrder.order_id : undefined"
+                  :searchVal="searchVal"
+                  @orderClick="onNewOrderClick"
+                  @orderStatusChange="orderStatusChange"
+                />
+                <!-- <div
                   class="no-search-result"
                   v-if="!newOrderQueue.length && !!searchVal"
                 >
@@ -76,7 +83,7 @@
                     @orderClick="onNewOrderClick(newOrder)"
                     @orderStatusChange="orderStatusChange"
                   />
-                </div>
+                </div> -->
               </v-card-text>
             </v-card>
           </v-window-item>
@@ -177,6 +184,11 @@ export default {
       orders: [],
       settingData: ""
     };
+  },
+  watch:{
+    tabs(newTab) {
+      this.onTabClick(newTab);
+    }
   },
   created() {
     this.$store.subscribe(mutation => {
@@ -279,17 +291,18 @@ export default {
     onNewOrderClick(order) {
       this.selectedOrder = order;
     },
-    onNewTabClick(e) {
-      this.currentTab = 0;
-      this.selectedOrder = this.getNewStateOrders[0];
-    },
-    onInProgressTabClick(e) {
-      this.currentTab = 1;
-      this.selectedOrder = this.getInProgressOrders[0];
-    },
-    onFinishedTabClick(e) {
-      this.currentTab = 2;
-      this.selectedOrder = this.getFinishedOrders[0];
+    onTabClick(queue){
+      this.currentTab = queue;
+      switch(queue){
+        case 1:
+          this.selectedOrder = this.getInProgressOrders[0];
+          break;
+        case 2:
+          this.selectedOrder = this.getFinishedOrders[0];
+          break;
+        default:
+          this.selectedOrder = this.getNewStateOrders[0];
+      }
     },
     onSearchKeyUp(e) {
       this.searchVal = e.target.value;
@@ -423,7 +436,7 @@ export default {
       // this[tmpToArray] = [{ ...order, status: nextState }, ...this[tmpToArray]];
       // // show first order
       // this.selectedOrder = this[fromOrderArrayName][0];
-
+      console.log(`On Order Status Change::`, {order, nextState});
       //call moving
       const [fromQueueName] = this.findOrderArray(order.status);
       let finishedOrder = order;
@@ -484,21 +497,7 @@ export default {
 .orders-wrapper {
   width: 100%;
 }
-.selected {
-  border: 2px #509ad9 solid;
-}
-.new {
-  border-color: #9d41b9;
-}
-.finished {
-  border-color: #62a073;
-}
-.cancelled-order {
-  border-color: #f09d00;
-}
-.overdue-order {
-  border-color: #ff0000;
-}
+
 .section-1 {
   flex: 1 0 50%;
 }
@@ -537,10 +536,4 @@ export default {
   height: 100%;
 }
 
-.no-search-result {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 </style>
