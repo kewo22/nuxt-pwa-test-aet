@@ -292,16 +292,15 @@ export const actions = {
     let orders;
     if (isFromAutoCallingApi) {
       let lastSyncTime = await this.$idb.get("lastSyncTime");
-
       orders = await this.$axios.$get(
         `http://localhost:3004/client/${clientId}/orders/site/${siteId}/recent/${lastSyncTime}`
       );
-      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:MM:SS"));
+      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:mm:ss"));
     } else {
       orders = await this.$axios.$get(
         `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
       );
-      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:MM:SS"));
+      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:mm:ss"));
     }
 
     commit("setOrdersFromVuexStore", ordersFromIndexedDb || []);
