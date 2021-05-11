@@ -10,41 +10,45 @@ export const state = () => ({
   tempInProgressOrders: [],
   tempFinishedOrders: [],
   finishedOrders: [],
-  selectedOrder: null
+  selectedOrder: null,
+  lastSyncTime: "",
+  isAllQueuesClear: ""
 });
 
 export const mutations = {
   setOrdersData(state, orders) {
-    if (state.allorders && state.allorders.length != 0) {
-      let i = 0;
-      state.allorders.forEach(item => {
-        if (item.status == "in progress" && orders[i].status == "cancelled") {
-          item.cancelled = true;
-        }
-        if (item.status != "submitted") {
-          // console.log("orders[i]",orders[i])
-          orders[i].status = item.status; //keep latest status even new request coming old status
-        }
-        let objKeys = Object.keys(orders[i]);
-        for (let j = 0; j < objKeys.length; j++) {
-          item[objKeys[j]] = orders[i][objKeys[j]];
-        }
-        i++;
-      });
-    } else {
-      state.allorders = orders;
-    }
+    if (orders.length != 0) {
+      if (state.allorders && state.allorders.length != 0) {
+        let i = 0;
+        state.allorders.forEach(item => {
+          if (item.status == "in progress" && orders[i].status == "cancelled") {
+            item.cancelled = true;
+          }
+          if (item.status != "submitted") {
+            // console.log("orders[i]",orders[i])
+            orders[i].status = item.status; //keep latest status even new request coming old status
+          }
+          let objKeys = Object.keys(orders[i]);
+          for (let j = 0; j < objKeys.length; j++) {
+            item[objKeys[j]] = orders[i][objKeys[j]];
+          }
+          i++;
+        });
+      } else {
+        state.allorders = orders;
+      }
 
-    for (let m = 0; m < orders.length; m++) {
-      let index = state.allorders.findIndex(
-        x => x.order_id == orders[m].order_id
-      );
-      if (index === -1) {
-        state.allorders.push(orders[m]);
+      for (let m = 0; m < orders.length; m++) {
+        let index = state.allorders.findIndex(
+          x => x.order_id == orders[m].order_id
+        );
+        if (index === -1) {
+          state.allorders.push(orders[m]);
+        }
       }
     }
 
-    this.$idb.set("allorders", state.allorders);
+    this.$idb.set("allorders", state.allorders || []);
   },
   setOrdersFromIndexedDb(state, orders) {
     state.ordersFromIndexedDb = orders;
@@ -213,6 +217,23 @@ export const mutations = {
   },
   setSelectedOrders(state) {
     state.selectedOrder = state.newOrders[0];
+  },
+  setLastSyncTime(state, lastSyncTime) {
+    state.lastSyncTime = lastSyncTime;
+    this.$idb.set("lastSyncTime", lastSyncTime);
+  },
+  clearAllQueues(state) {
+    state.allorders = [];
+    state.ordersFromIndexedDb = [];
+    state.newOrders = [];
+    state.inProgressOrders = [];
+    state.finishedOrders = [];
+    this.$idb.set("allorders", []);
+    // this.$idb.set("lastSyncTime", "");
+  },
+  setIsAllQueuesClear(state, isAllQueuesClear) {
+    state.isAllQueuesClear = isAllQueuesClear;
+    this.$idb.set("isAllQueuesClear", isAllQueuesClear);
   }
 };
 
@@ -237,29 +258,52 @@ export const getters = {
   },
   getSelectedOrders: state => {
     return state.selectedOrder;
+  },
+  getLastSyncTime: state => {
+    return state.lastSyncTime;
+  },
+  getIsAllQueuesClear: state => {
+    return state.isAllQueuesClear;
   }
 };
 
 export const actions = {
-  async getOrdersNew({ commit, state, dispatch, rootState }) {
+  async getOrdersNew(
+    { commit, state, dispatch, rootState },
+    isFromAutoCallingApi
+  ) {
     let settingData = (await this.$idb.get("settingData")) || [];
-    let leadTime = settingData.selectedTimeInterval || "15";
-
+    let leadTime = settingData.selectedTimeInterval || "5";
     commit("setLeadTime", leadTime);
     // commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
     let ordersFromIndexedDb = await this.$idb.get("allorders");
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
-    // const { isLoggedIn, user } = rootState;
+    const { isLoggedIn, user } = rootState;
     // console.log(`USER`, { isLoggedIn, user });
-
-    let clientId = 1;
-    let siteId = 2323;
-    var orders = await this.$axios.$get(
-      `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
+    // 16a4dea0-b542-4f21-a9e9-7d4b2410c292
+    let userProfile = await this.$axios.$get(
+      `http://localhost:3004/user/${user.id}`
     );
-    commit("setOrdersFromVuexStore", ordersFromIndexedDb);
+
+    let clientId = userProfile[0].orderpro_npb_client_id;
+    let siteId = userProfile[0].orderpro_npb_site_id;
+    let orders;
+    if (isFromAutoCallingApi) {
+      let lastSyncTime = await this.$idb.get("lastSyncTime");
+      orders = await this.$axios.$get(
+        `http://localhost:3004/client/${clientId}/orders/site/${siteId}/recent/${lastSyncTime}`
+      );
+      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:mm:ss"));
+    } else {
+      orders = await this.$axios.$get(
+        `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
+      );
+      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:mm:ss"));
+    }
+
+    commit("setOrdersFromVuexStore", ordersFromIndexedDb || []);
     commit("setOrdersData", orders);
     //call method to filter new order
     dispatch("filterNewOrders");

@@ -1,7 +1,8 @@
 {
+    "/user/:userId": "/user?user_id=:userId",
     "/client/:cid/site/:id/marketplaces": "/location?client_id=:cid",
     "/client/:cid/site/:id/orders/today": "/orders?client.client_id=:cid&site.site_id=:id",
-    "/client/:cid/orders/site/:id/recent/:timestamp": "/orders?client.client_id=:cid&site.site_id=:id",
+    "/client/:cid/orders/site/:id/recent/:timestamp": "/ordersTimeStamp?client.client_id=:cid&site.site_id=:id",
     "/client/:cid/site/:id/menu/:mid": "/menu?client.client_id=:cid&site.site_id=:id&menu_id=:mid",
     "/client/:cid/site/:id/menus": "/menulist?client_id=:cid&site_id=:id"
 }
