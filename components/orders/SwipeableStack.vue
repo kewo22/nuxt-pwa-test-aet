@@ -7,7 +7,7 @@
     }"
   >
     <div
-      v-if="showSwipe.right"
+      v-if="canSwipeToRight && showSwipe.right"
       :class="`swipe-bg swipe-left-area swipe-${item.status.replace(' ', '-')}`"
     >
       <div>
@@ -41,6 +41,7 @@ export default {
   computed: {
     leftArrowColor() {
       switch (this.item.status) {
+        case "submitted":
         case "new":
           return "#509AD9";
         case "in progress":
@@ -48,6 +49,15 @@ export default {
         default:
           return "";
       }
+    },
+    canSwipeToRight() {
+      // blocking right Swipe for all cancelled orders 
+      if (this.item.cancelled) {
+        // checking order can be moved to finshed queue
+        // (for cancelled orders residing in in-progress queue)
+        return this.nextOrderState === "Finished";
+      }
+      return true;
     },
   },
   methods: {
@@ -99,6 +109,7 @@ export default {
 }
 .swipe-left-area {
   text-align: right;
+  padding-right: 10px;
 }
 .swipe-left-area div {
   display: flex;
@@ -106,6 +117,7 @@ export default {
   align-items: flex-end;
   margin-right: 5px;
 }
+.swipe-submitted,
 .swipe-new {
   color: #509ad9;
 }

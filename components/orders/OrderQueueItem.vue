@@ -103,6 +103,7 @@ export default {
     },
     nextOrderState() {
       switch (this.item.status) {
+        case "submitted":
         case "new":
           return "In progress";
         case "in progress":
