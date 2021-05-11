@@ -11,7 +11,8 @@ export const state = () => ({
   tempFinishedOrders: [],
   finishedOrders: [],
   selectedOrder: null,
-  lastSyncTime: ""
+  lastSyncTime: "",
+  isAllQueuesClear: ""
 });
 
 export const mutations = {
@@ -220,6 +221,19 @@ export const mutations = {
   setLastSyncTime(state, lastSyncTime) {
     state.lastSyncTime = lastSyncTime;
     this.$idb.set("lastSyncTime", lastSyncTime);
+  },
+  clearAllQueues(state) {
+    state.allorders = [];
+    state.ordersFromIndexedDb = [];
+    state.newOrders = [];
+    state.inProgressOrders = [];
+    state.finishedOrders = [];
+    this.$idb.set("allorders", []);
+    // this.$idb.set("lastSyncTime", "");
+  },
+  setIsAllQueuesClear(state, isAllQueuesClear) {
+    state.isAllQueuesClear = isAllQueuesClear;
+    this.$idb.set("isAllQueuesClear", isAllQueuesClear);
   }
 };
 
@@ -247,6 +261,9 @@ export const getters = {
   },
   getLastSyncTime: state => {
     return state.lastSyncTime;
+  },
+  getIsAllQueuesClear: state => {
+    return state.isAllQueuesClear;
   }
 };
 

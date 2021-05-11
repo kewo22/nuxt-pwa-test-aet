@@ -227,6 +227,36 @@
                                     justify="center"
                                     class="fontweight"
                                   >
+                                    Clear all queues
+                                  </v-col>
+                                </v-row>
+                              </div>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6>
+                              <v-row no-gutters>
+                                <v-col
+                                  align="right"
+                                  style="color:red;text-decoration: underline; font-weight: 500"
+                                >
+                                  <a
+                                    style="color:red;text-decoration: underline;"
+                                    @click="isClearAllQueuesPopup = true"
+                                  >
+                                    Clear Now
+                                  </a>
+                                </v-col>
+                              </v-row>
+                            </v-flex>
+                          </v-layout>
+                          <v-layout mt-10>
+                            <v-flex xs12 sm12 md6>
+                              <div>
+                                <v-row align="center" justify="center">
+                                  <v-col
+                                    align="left"
+                                    justify="center"
+                                    class="fontweight"
+                                  >
                                     <a
                                       style="color:#F09D00;text-decoration: underline;"
                                       @click="isResetPopup = true"
@@ -299,6 +329,52 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="isClearAllQueuesPopup" width="500">
+            <v-card style="background-color: #FFFFFF !important">
+              <v-card-title
+                style="color:black; border-bottom: 1px solid #CCCED0;"
+              >
+                <div>
+                  <font-awesome-icon
+                    :icon="['fa', 'question-circle']"
+                  ></font-awesome-icon>
+
+                  <span>Confirm Action</span>
+                </div>
+              </v-card-title>
+
+              <v-card-text style="color:black;margin-top:2%">
+                <p>
+                  Please confirm that you wish to clear all order queues. This
+                  action cannot be reverted.
+                </p>
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions class="justify-center">
+                <v-btn
+                  color="primary"
+                  class="confirmPopBtn"
+                  text
+                  style="color:black !important"
+                  @click="isClearAllQueuesPopup = false"
+                >
+                  Close
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  class="confirmPopBtn"
+                  style="background-color:#2F3940;color:white !important"
+                  text
+                  @click="clearAllQueues"
+                >
+                  Confirm
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <v-flex xs6 sm6 md6 style="background-color: #f6f8fa">
             <v-container fill-height fluid>
               <v-row align="center" justify="center">
@@ -340,6 +416,7 @@ export default {
     selectedTicketCount: "",
     selectedReloadInterval: "",
     isResetPopup: false,
+    isClearAllQueuesPopup: false,
     isSavedSuccess: false
   }),
 
@@ -424,6 +501,11 @@ export default {
       this.isResetPopup = false;
 
       this.saveSettings();
+    },
+    clearAllQueues() {
+      this.$store.commit("orders/clearAllQueues");
+      this.$store.commit("orders/setIsAllQueuesClear", true);
+      this.isClearAllQueuesPopup = false;
     }
   },
   computed: {}
