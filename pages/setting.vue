@@ -202,6 +202,34 @@
                                     justify="center"
                                     class="fontweight"
                                   >
+                                    Order History Duration
+                                  </v-col>
+                                </v-row>
+                              </div>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6>
+                              <v-row no-gutters>
+                                <v-col align="right"
+                                  ><v-select
+                                    class="settingsDrop"
+                                    :items="historyDurationIntervals"
+                                    v-model="selectedHistoryDurationInterval"
+                                    @input="setHistoryDurationIntervalDrop"
+                                    solo
+                                  ></v-select>
+                                </v-col>
+                              </v-row>
+                            </v-flex>
+                          </v-layout>
+                          <v-layout>
+                            <v-flex xs12 sm12 md6>
+                              <div>
+                                <v-row align="center" justify="center">
+                                  <v-col
+                                    align="left"
+                                    justify="center"
+                                    class="fontweight"
+                                  >
                                     Printers
                                   </v-col>
                                 </v-row>
@@ -408,6 +436,7 @@ export default {
     orderStatus: ["In progress", "New", "Finished"],
     ticketCounts: ["1", "2", "3"],
     reloadIntervals: ["Every 1 minute", "Every 5 minutes", "Every 10 minutes"],
+    historyDurationIntervals: ["24 hours", "48 hours"],
     settingData: {},
     isPrintChecked: "",
     selectedTimeInterval: "",
@@ -415,6 +444,7 @@ export default {
     selectedOrderStatus: "",
     selectedTicketCount: "",
     selectedReloadInterval: "",
+    selectedHistoryDurationInterval: "",
     isResetPopup: false,
     isClearAllQueuesPopup: false,
     isSavedSuccess: false
@@ -453,6 +483,8 @@ export default {
       this.selectedTicketCount = this.settingData.selectedTicketCount || "1";
       this.selectedReloadInterval =
         this.settingData.selectedReloadInterval || "Every 1 minute";
+      this.selectedHistoryDurationInterval =
+        this.settingData.selectedHistoryDurationInterval || "24 hours";
     },
     saveSettings() {
       this.isPrintChecked
@@ -465,7 +497,8 @@ export default {
         selectedTicketFontSize: this.selectedTicketFontSize,
         selectedOrderStatus: this.selectedOrderStatus,
         selectedTicketCount: this.selectedTicketCount,
-        selectedReloadInterval: this.selectedReloadInterval
+        selectedReloadInterval: this.selectedReloadInterval,
+        selectedHistoryDurationInterval: this.selectedHistoryDurationInterval
       };
 
       this.$idb.set("settingData", this.settingData);
@@ -490,6 +523,9 @@ export default {
     },
     setReloadIntervalDrop(value) {
       this.selectedReloadInterval = value;
+    },
+    setHistoryDurationIntervalDrop(value) {
+      this.selectedHistoryDurationInterval = value;
     },
     resetSettingData() {
       this.isPrintChecked = true;
