@@ -110,7 +110,9 @@ export default {
       searchVal: "",
       leadTime: "",
       orders: [],
-      settingData: ""
+      settingData: "",
+      lastSyncTime: "",
+      selectedReloadInterval: ""
     };
   },
   watch:{
@@ -126,23 +128,34 @@ export default {
     });
   },
   async mounted() {
-    let lastSyncTime = await this.$idb.get("lastSyncTime");
-    let settingData = (await this.$idb.get("settingData")) || [];
-    let selectedReloadInterval = settingData.selectedReloadInterval;
+    let lastSyncTime =
+      this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
+    let isAllQueuesClear =
+      this.getIsAllQueuesClear;
 
-    selectedReloadInterval
-      ? (selectedReloadInterval = selectedReloadInterval.split(" ")[1])
-      : (selectedReloadInterval = 1);
+    this.settingData = (await this.$idb.get("settingData")) || [];
+    this.selectedReloadInterval = this.settingData.selectedReloadInterval;
 
-    selectedReloadInterval = parseInt(selectedReloadInterval) * 60000;
+    this.selectedReloadInterval
+      ? (this.selectedReloadInterval = this.selectedReloadInterval.split(
+          " "
+        )[1])
+      : (this.selectedReloadInterval = 1);
 
-    if (lastSyncTime) {
+    this.selectedReloadInterval = parseInt(this.selectedReloadInterval) * 60000;
+
+    if (lastSyncTime && isAllQueuesClear == false) {
       await this.$store.dispatch("orders/getOrdersNew", true);
       setInterval(async () => {
         await this.$store.dispatch("orders/getOrdersNew", true);
-      }, selectedReloadInterval);
+      }, this.selectedReloadInterval);
     } else {
-      await this.$store.dispatch("orders/getOrdersNew", false);
+      if (isAllQueuesClear == false) {
+        await this.$store.dispatch("orders/getOrdersNew", false);
+        setInterval(async () => {
+          await this.$store.dispatch("orders/getOrdersNew", true);
+        }, this.selectedReloadInterval);
+      }
     }
   },
 
@@ -178,7 +191,9 @@ export default {
       getAllOrders: "orders/getAllOrders",
       getNewStateOrders: "orders/getNewStateOrders",
       getInProgressOrders: "orders/getInProgressOrders",
-      getFinishedOrders: "orders/getFinishedOrders"
+      getFinishedOrders: "orders/getFinishedOrders",
+      getIsAllQueuesClear: "orders/getIsAllQueuesClear",
+      getLastSyncTime: "orders/getLastSyncTime"
     })
   },
   methods: {
