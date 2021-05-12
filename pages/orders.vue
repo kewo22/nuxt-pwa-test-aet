@@ -280,43 +280,6 @@ export default {
         }
       }
     },
-    calculatePickupTime(orders) {
-      for (let i = 0; i < orders.length; i++) {
-        const pos_fulfilment_time = moment(orders[i].pos_fulfilment_time);
-        const today = moment();
-        const pickupTimeInMinutes = pos_fulfilment_time.diff(today, "minutes");
-
-        let pickupTime;
-
-        let h = Math.floor(pickupTimeInMinutes / 60);
-        let m = Math.floor(pickupTimeInMinutes % 60);
-
-        if (h != 0) {
-          if (h < 0) {
-            h++;
-            if (h == 0) {
-              pickupTime = m + " Min";
-            } else {
-              pickupTime = h + " hr " + m + " Min";
-            }
-          } else {
-            pickupTime = h + " hr " + m + " Min";
-          }
-        } else {
-          pickupTime = m + " Min";
-        }
-
-        if (pickupTimeInMinutes < 0) {
-          orders[i].overdue = true;
-        } else {
-          orders[i].overdue = false;
-        }
-
-        orders[i].pickupTime = pickupTime;
-        orders[i].pickupTimeInMinutes = pickupTimeInMinutes;
-      }
-      return orders;
-    },
     findOrderArray(orderStatus) {
       switch (orderStatus) {
         case "in progress":
