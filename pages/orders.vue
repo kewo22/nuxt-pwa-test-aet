@@ -13,7 +13,12 @@
         />
       </div>
       <div class="d-flex flex-column order-list-wrapper">
-        <v-item-group v-model="tabs" class="shrink queue-buttons pa-5" mandatory tag="v-flex">
+        <v-item-group
+          v-model="tabs"
+          class="shrink queue-buttons pa-5"
+          mandatory
+          tag="v-flex"
+        >
           <v-item v-slot="{ active, toggle }">
             <v-btn :input-value="active" @click="toggle">
               New ({{ newOrderQueue.length }})
@@ -35,9 +40,11 @@
           <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <orders-order-queue 
+                <orders-order-queue
                   :ordersQueue="newOrderQueue"
-                  :selectedOrderID="(!!selectedOrder) ? selectedOrder.order_id : undefined"
+                  :selectedOrderID="
+                    !!selectedOrder ? selectedOrder.order_id : undefined
+                  "
                   :searchVal="searchVal"
                   @orderClick="onNewOrderClick"
                   @orderStatusChange="orderStatusChange"
@@ -48,9 +55,11 @@
           <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <orders-order-queue 
+                <orders-order-queue
                   :ordersQueue="inProgressQueue"
-                  :selectedOrderID="(!!selectedOrder) ? selectedOrder.order_id : undefined"
+                  :selectedOrderID="
+                    !!selectedOrder ? selectedOrder.order_id : undefined
+                  "
                   :searchVal="searchVal"
                   @orderClick="onNewOrderClick"
                   @orderStatusChange="orderStatusChange"
@@ -61,9 +70,11 @@
           <v-window-item class="tab-item">
             <v-card class="v-card" flat>
               <v-card-text class="v-card-text">
-                <orders-order-queue 
+                <orders-order-queue
                   :ordersQueue="finishedQueue"
-                  :selectedOrderID="(!!selectedOrder) ? selectedOrder.order_id : undefined"
+                  :selectedOrderID="
+                    !!selectedOrder ? selectedOrder.order_id : undefined
+                  "
                   :searchVal="searchVal"
                   @orderClick="onNewOrderClick"
                   @orderStatusChange="orderStatusChange"
@@ -113,16 +124,16 @@ export default {
       orders: [],
       settingData: "",
       lastSyncTime: "",
-      selectedReloadInterval: ""
+      selectedReloadInterval: "",
     };
   },
-  watch:{
+  watch: {
     tabs(newTab) {
       this.onTabClick(newTab);
-    }
+    },
   },
   created() {
-    this.$store.subscribe(mutation => {
+    this.$store.subscribe((mutation) => {
       if (mutation.type === "orders/setSelectedOrders") {
         this.selectedOrder = this.$store.getters["orders/getNewStateOrders"][0];
       }
@@ -131,8 +142,7 @@ export default {
   async mounted() {
     let lastSyncTime =
       this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
-    let isAllQueuesClear =
-      this.getIsAllQueuesClear;
+    let isAllQueuesClear = this.getIsAllQueuesClear;
 
     this.settingData = (await this.$idb.get("settingData")) || [];
     this.selectedReloadInterval = this.settingData.selectedReloadInterval;
@@ -194,15 +204,15 @@ export default {
       getInProgressOrders: "orders/getInProgressOrders",
       getFinishedOrders: "orders/getFinishedOrders",
       getIsAllQueuesClear: "orders/getIsAllQueuesClear",
-      getLastSyncTime: "orders/getLastSyncTime"
-    })
+      getLastSyncTime: "orders/getLastSyncTime",
+    }),
   },
   methods: {
-    showOrderStateChangeConfirmPrompt(order){
+    showOrderStateChangeConfirmPrompt(order) {
       this.confirmOrder = order;
       this.showDialog = true;
     },
-    closeDialog(){
+    closeDialog() {
       this.showDialog = false;
       this.confirmOrder = null;
     },
@@ -213,9 +223,9 @@ export default {
     onNewOrderClick(order) {
       this.selectedOrder = order;
     },
-    onTabClick(queue){
+    onTabClick(queue) {
       this.currentTab = queue;
-      switch(queue){
+      switch (queue) {
         case 1:
           this.selectedOrder = this.getInProgressOrders[0];
           break;
@@ -230,7 +240,7 @@ export default {
       this.searchVal = e.target.value;
       if (this.currentTab === 0) {
         if (this.searchVal) {
-          const filteredNewOrders = this.getNewStateOrders.filter(order => {
+          const filteredNewOrders = this.getNewStateOrders.filter((order) => {
             return String(order.order_number).includes(this.searchVal);
           });
           this.tempNewOrders = filteredNewOrders;
@@ -247,7 +257,7 @@ export default {
       if (this.currentTab === 1) {
         if (this.searchVal) {
           const filteredInprogressOrders = this.getInProgressOrders.filter(
-            order => {
+            (order) => {
               return String(order.order_number).includes(this.searchVal);
             }
           );
@@ -265,7 +275,7 @@ export default {
       if (this.currentTab === 2) {
         if (this.searchVal) {
           const filteredFinishedOrders = this.getFinishedOrders.filter(
-            order => {
+            (order) => {
               return String(order.order_number).includes(this.searchVal);
             }
           );
@@ -291,7 +301,7 @@ export default {
       }
     },
     orderStatusChange(order, nextState) {
-      console.log(`On Order Status Change::`, {order, nextState});
+      console.log(`On Order Status Change::`, { order, nextState });
       //call moving
       const [fromQueueName] = this.findOrderArray(order.status);
       let finishedOrder = order;
@@ -300,11 +310,11 @@ export default {
       }
       this.$store.dispatch("orders/moveOrdersManually", {
         order: finishedOrder,
-        nextState
+        nextState,
       });
       this.selectedOrder = this[fromQueueName][0];
     },
-  }
+  },
 };
 </script>
 
@@ -334,8 +344,8 @@ export default {
   flex-grow: 1;
 }
 
-.queue-buttons{
-  align-self:  center;
+.queue-buttons {
+  align-self: center;
 }
 
 .section-2 {
@@ -355,5 +365,4 @@ export default {
 .v-card-text {
   height: 100%;
 }
-
 </style>
