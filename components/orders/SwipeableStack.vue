@@ -73,7 +73,7 @@ export default {
         return false;
       }
       // Only allow finished orders to be swiped to right
-      return this.nextOrderState === "Finished";
+      return this.nextOrderState === "In Progress";
     },
   },
   methods: {
@@ -82,6 +82,7 @@ export default {
      * and will disappear along with the change event
      */
     swipe(direction) {
+      if (!this.checkAbilityToSwipe(direction)) return;
       this.showSwipe[direction] = true;
       setTimeout(() => {
         this.showSwipe[direction] = false;
@@ -98,6 +99,19 @@ export default {
         this.nextOrderState.toLowerCase()
       );
     },
+    /**
+     * Check item can be swiped to given direction
+     */
+    checkAbilityToSwipe(direction) {
+      switch (direction) {
+        case "right":
+          return this.canSwipeToRight;
+        case "left":
+          return this.canSwipeToLeft;
+        default:
+          return false;
+      }
+    }
   },
 };
 </script>
@@ -152,9 +166,8 @@ export default {
   align-items: flex-end;
   margin-right: 5px;
 }
-.swipe-submitted,
-.swipe-new,
-.swipe-in-progress .swipe-right-area {
+.swipe-submitted .swipe-left-area,
+.swipe-right-area {
   color: #509ad9;
 }
 .swipe-in-progress .swipe-left-area {
