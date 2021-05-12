@@ -87,7 +87,7 @@
       </div>
 
       <OrderItemList :items="order.order_lines" :amount="order_amount" />
-      <PosBill id="ticket" :item="order" />
+      <PosBill id="ticket" :item="order"/>
       <!-- <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt=""> -->
     </v-container>
     <Dialog
@@ -208,11 +208,11 @@ export default {
       let printdata = document.getElementById("ticket");
       window.document.write(printdata.outerHTML);
       while (count < noOfcopy) {
-        window.print(0);
         window.close(0);
+        window.print(0);
         count++;
       }
-      location.reload();
+      // location.reload();
     },
     changeOrderStatus(nextState) {
       const currentState = this.$props.order.status;
@@ -242,10 +242,6 @@ export default {
 </script>
 
 <style>
-#ticket {
-  display: none;
-  width: 238px;
-}
 .order-detail-root {
   height: 100%;
   /* padding: 50px 80px; */
@@ -274,6 +270,5 @@ export default {
 }
 #ticket {
   display: none;
-  height: 50%;
 }
 </style>
