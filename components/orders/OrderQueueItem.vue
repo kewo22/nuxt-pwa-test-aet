@@ -111,7 +111,7 @@ export default {
         case "finished":
           return "In Progress";
         default:
-          return "Move back to";
+          return false;
       }
     },
     orderItemCount() {

@@ -64,7 +64,7 @@ export default {
         // (for cancelled orders residing in in-progress queue)
         return this.nextOrderState === "Finished";
       }
-      return true;
+      return this.item.status !== "finished";
     },
     canSwipeToLeft() {
       // return true;
@@ -86,7 +86,11 @@ export default {
       this.showSwipe[direction] = true;
       setTimeout(() => {
         this.showSwipe[direction] = false;
-        this.emitOrderChange();
+        if (this.item.status === "finished") {
+          this.$emit("confirmOrderChange", this.item);
+        } else {
+          this.emitOrderChange();
+        }
       }, 1000);
     },
     /**
@@ -111,7 +115,7 @@ export default {
         default:
           return false;
       }
-    }
+    },
   },
 };
 </script>

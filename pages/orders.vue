@@ -67,6 +67,7 @@
                   :searchVal="searchVal"
                   @orderClick="onNewOrderClick"
                   @orderStatusChange="orderStatusChange"
+                  @confirmOrderChange="showOrderStateChangeConfirmPrompt"
                 />
               </v-card-text>
             </v-card>
@@ -83,6 +84,11 @@
       />
       <NoOrder v-else />
     </div>
+    <CommonDialog
+      :show="showDialog"
+      @closeDialog="closeDialog"
+      @clickConfirm="confirmOrderStateChange"
+    />
   </div>
 </template>
 
@@ -95,6 +101,7 @@ export default {
   components: { OrderDetails, NoOrder },
   data() {
     return {
+      showDialog: false,
       tabs: null,
       selectedOrder: null,
       tempNewOrders: [],
@@ -191,6 +198,18 @@ export default {
     })
   },
   methods: {
+    showOrderStateChangeConfirmPrompt(order){
+      this.confirmOrder = order;
+      this.showDialog = true;
+    },
+    closeDialog(){
+      this.showDialog = false;
+      this.confirmOrder = null;
+    },
+    confirmOrderStateChange() {
+      this.orderStatusChange(this.confirmOrder, "in progress");
+      this.closeDialog();
+    },
     onNewOrderClick(order) {
       this.selectedOrder = order;
     },
@@ -313,7 +332,7 @@ export default {
       //call moving
       const [fromQueueName] = this.findOrderArray(order.status);
       let finishedOrder = order;
-      if (nextState == "finished") {
+      if (nextState === "finished") {
         finishedOrder = { timeStampForOrders: moment().format(), ...order };
       }
       this.$store.dispatch("orders/moveOrdersManually", {
