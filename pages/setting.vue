@@ -202,7 +202,7 @@
                                     justify="center"
                                     class="fontweight"
                                   >
-                                    Order History Duration
+                                    Order history duration
                                   </v-col>
                                 </v-row>
                               </div>
@@ -222,6 +222,33 @@
                             </v-flex>
                           </v-layout>
                           <v-layout>
+                            <v-flex xs12 sm12 md6>
+                              <div>
+                                <v-row align="center" justify="center">
+                                  <v-col
+                                    align="left"
+                                    justify="center"
+                                    class="fontweight"
+                                  >
+                                    Order history clear time
+                                  </v-col>
+                                </v-row>
+                              </div>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6>
+                              <v-row no-gutters>
+                                <v-col align="left">
+                                  <input
+                                    type="time"
+                                    id="appt"
+                                    name="appt"
+                                    v-model="selectedOrderHistoryClearTime"
+                                  />
+                                </v-col>
+                              </v-row>
+                            </v-flex>
+                          </v-layout>
+                          <v-layout mt-10>
                             <v-flex xs12 sm12 md6>
                               <div>
                                 <v-row align="center" justify="center">
@@ -447,7 +474,8 @@ export default {
     selectedHistoryDurationInterval: "",
     isResetPopup: false,
     isClearAllQueuesPopup: false,
-    isSavedSuccess: false
+    isSavedSuccess: false,
+    selectedOrderHistoryClearTime: "10:00"
   }),
 
   mounted() {
@@ -485,6 +513,8 @@ export default {
         this.settingData.selectedReloadInterval || "Every 1 minute";
       this.selectedHistoryDurationInterval =
         this.settingData.selectedHistoryDurationInterval || "24 hours";
+      this.selectedOrderHistoryClearTime =
+        this.settingData.selectedOrderHistoryClearTime || "10:00";
     },
     saveSettings() {
       this.isPrintChecked
@@ -498,7 +528,8 @@ export default {
         selectedOrderStatus: this.selectedOrderStatus,
         selectedTicketCount: this.selectedTicketCount,
         selectedReloadInterval: this.selectedReloadInterval,
-        selectedHistoryDurationInterval: this.selectedHistoryDurationInterval
+        selectedHistoryDurationInterval: this.selectedHistoryDurationInterval,
+        selectedOrderHistoryClearTime: this.selectedOrderHistoryClearTime
       };
 
       this.$idb.set("settingData", this.settingData);
@@ -534,6 +565,8 @@ export default {
       this.selectedOrderStatus = "In progress";
       this.selectedTicketCount = "1";
       this.selectedReloadInterval = "Every 1 minute";
+      this.selectedHistoryDurationInterval = "24 hours";
+      this.selectedOrderHistoryClearTime = "10:00";
       this.isResetPopup = false;
 
       this.saveSettings();
