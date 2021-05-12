@@ -11,6 +11,7 @@ export const state = () => ({
   tempFinishedOrders: [],
   finishedOrders: [],
   selectedOrder: null,
+  isSelectorOrderExecutedFirst: false,
   lastSyncTime: "",
   isAllQueuesClear: ""
 });
@@ -217,6 +218,7 @@ export const mutations = {
   },
   setSelectedOrders(state) {
     state.selectedOrder = state.newOrders[0];
+    state.isSelectorOrderExecutedFirst = true;
   },
   setLastSyncTime(state, lastSyncTime) {
     state.lastSyncTime = lastSyncTime;
@@ -274,10 +276,22 @@ export const actions = {
   ) {
     let settingData = (await this.$idb.get("settingData")) || [];
     let leadTime = settingData.selectedTimeInterval || "5";
+    let selectedHistoryDurationInterval =
+      settingData.selectedHistoryDurationInterval || "24";
+    let selectedOrderHistoryClearTime =
+      settingData.selectedOrderHistoryClearTime || "10:00";
     commit("setLeadTime", leadTime);
     // commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
     let ordersFromIndexedDb = await this.$idb.get("allorders");
+    if (ordersFromIndexedDb) {
+      ordersFromIndexedDb = await dispatch("removeFinishedOrdersForClearing", {
+        ordersFromIndexedDb: ordersFromIndexedDb,
+        selectedHistoryDurationInterval: selectedHistoryDurationInterval,
+        selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
+      });
+    }
+
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
     const { isLoggedIn, user } = rootState;
@@ -304,6 +318,11 @@ export const actions = {
     }
 
     commit("setOrdersFromVuexStore", ordersFromIndexedDb || []);
+    orders = await dispatch("removeFinishedOrdersForClearing", {
+      ordersFromIndexedDb: orders,
+      selectedHistoryDurationInterval: selectedHistoryDurationInterval,
+      selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
+    });
     commit("setOrdersData", orders);
     //call method to filter new order
     dispatch("filterNewOrders");
@@ -324,7 +343,9 @@ export const actions = {
     commit("sortFinishedOrders");
     // commit("setInProgressOrders");
     commit("setTempFinishedOrders");
-    commit("setSelectedOrders");
+    if (!state.isSelectorOrderExecutedFirst) {
+      commit("setSelectedOrders");
+    }
 
     return state.allorders;
   },
@@ -374,11 +395,49 @@ export const actions = {
       dispatch("filterFinishedOrders");
       commit("sortFinishedOrders");
     }
-  }
-  // async getLeadTime
-  // getNewStateOrders() {
-  //   console.log("getAllOrders",state.allorders)
+  },
+  removeFinishedOrdersForClearing({}, requestPayLoad) {
+    let orders = requestPayLoad.ordersFromIndexedDb;
+    let selectedOrderHistoryClearTime =
+      requestPayLoad.selectedOrderHistoryClearTime;
+    let selectedHistoryDurationInterval =
+      requestPayLoad.selectedHistoryDurationInterval;
+    let myStringParts = selectedOrderHistoryClearTime.split(":");
+    let hourDelta = +myStringParts[0];
+    let minuteDelta = +myStringParts[1];
 
-  //   return state.allorders;
-  // }
+    let historyDurationIntervalHoursStringParts = selectedHistoryDurationInterval.split(
+      " "
+    );
+    let historyDurationIntervalHourDela = +historyDurationIntervalHoursStringParts[0];
+
+    let etObj = moment({ hour: hourDelta, minute: minuteDelta }); //
+    let et;
+    let st;
+    et = etObj.format("YYYY-MM-DD HH:mm:ss");
+    let stObj = etObj.subtract({ hours: historyDurationIntervalHourDela });
+    st = stObj.format("YYYY-MM-DD HH:mm:ss");
+
+    let pos_fulfilment_time;
+    for (let i = 0; i < orders.length; i++) {
+      if (orders[i].status == "finished" || orders[i].status == "cancelled") {
+        pos_fulfilment_time = moment(orders[i].pos_fulfilment_time).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+        if (moment(pos_fulfilment_time).isBetween(st, et)) {
+          console.log("true st", st);
+          console.log("true et", et);
+          console.log("true pos_fulfilment_time", pos_fulfilment_time);
+        } else {
+          //remove here
+          orders[i].status = "cleared";
+          console.log("false st", st);
+          console.log("false et", et);
+          console.log("false pos_fulfilment_time", pos_fulfilment_time);
+        }
+      }
+    }
+
+    return orders;
+  }
 };
