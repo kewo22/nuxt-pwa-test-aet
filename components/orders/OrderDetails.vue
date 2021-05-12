@@ -87,7 +87,7 @@
       </div>
 
       <OrderItemList :items="order.order_lines" :amount="order_amount" />
-      <PosBill id="ticket" :item="order" />
+      <PosBill id="ticket" :item="order"/>
       <!-- <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt=""> -->
     </v-container>
     <Dialog
@@ -242,10 +242,6 @@ export default {
 </script>
 
 <style>
-#ticket {
-  display: none;
-  width: 238px;
-}
 .order-detail-root {
   height: 100%;
   /* padding: 50px 80px; */
@@ -274,6 +270,5 @@ export default {
 }
 #ticket {
   display: none;
-  height: 50%;
 }
 </style>

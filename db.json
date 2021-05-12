@@ -45,27 +45,58 @@
     ],
     "marketplaces": [
         {
-            "id": 0,
-            "marketplaces": [
-                {
-                    "id": 1,
-                    "name": "Uber Eats",
-                    "full_logo": "https://mms.businesswire.com/media/20200316005228/en/779858/22/Uber_Eats_Logo.jpg",
-                    "small_logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZdONnLvouI9QV3gUF_1PMMspeYBS5IlXDHg&usqp=CAU"
-                },
-                {
-                    "id": 2,
-                    "name": "Deliveroo",
-                    "full_logo": "https://medios.ehvoila.es/logo-deliveroo.png",
-                    "small_logo": "https://listimg.pinclipart.com/picdir/s/154-1544020_deliveroo-logo-deliveroo-logo-svg-clipart.png"
-                },
-                {
-                    "id": 3,
-                    "name": "Just Eat",
-                    "full_logo": "https://corporatetakeaway-cdn.azureedge.net/media/1673/just-eat-logo.png?width=190&height=190",
-                    "small_logo": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
-                }
-            ]
+            "id": 1,
+            "name": "Uber Eats",
+            "full_logo": "https://mms.businesswire.com/media/20200316005228/en/779858/22/Uber_Eats_Logo.jpg",
+            "small_logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZdONnLvouI9QV3gUF_1PMMspeYBS5IlXDHg&usqp=CAU"
+        },
+        {
+            "id": 2,
+            "name": "Deliveroo",
+            "full_logo": "https://medios.ehvoila.es/logo-deliveroo.png",
+            "small_logo": "https://listimg.pinclipart.com/picdir/s/154-1544020_deliveroo-logo-deliveroo-logo-svg-clipart.png"
+        },
+        {
+            "id": 3,
+            "name": "Just Eat",
+            "full_logo": "https://corporatetakeaway-cdn.azureedge.net/media/1673/just-eat-logo.png?width=190&height=190",
+            "small_logo": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+        },
+        {
+            "name": "Eats",
+            "full_logo": "https://mms.businesswire.com/media/20200316005228/en/779858/22/Uber_Eats_Logo.jpg",
+            "small_logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZdONnLvouI9QV3gUF_1PMMspeYBS5IlXDHg&usqp=CAU",
+            "id": 4
+        }
+    ],
+    "menulist": [
+        {
+            "menu_id": 1,
+            "code": "string",
+            "name": "Menu 1",
+            "client_id": 1,
+            "site_id": 1
+        },
+        {
+            "menu_id": 2,
+            "code": "string",
+            "name": "Menu 2",
+            "client_id": 1,
+            "site_id": 1
+        },
+        {
+            "menu_id": 3,
+            "code": "string",
+            "name": "Menu 3",
+            "client_id": 1,
+            "site_id": 1
+        },
+        {
+            "menu_id": 4,
+            "code": "string",
+            "name": "Menu 4",
+            "client_id": 2,
+            "site_id": 2
         }
     ],
     "menu": [
@@ -76,7 +107,7 @@
             "client": {
                 "code": "string",
                 "name": "string",
-                "client_id": 0,
+                "client_id": 1,
                 "marketplaces": [
                     "string"
                 ]
@@ -139,7 +170,7 @@
                 }
             ],
             "site": {
-                "site_id": 0,
+                "site_id": 1,
                 "code": "string",
                 "name": "string"
             }
@@ -151,7 +182,7 @@
             "client": {
                 "code": "string",
                 "name": "string",
-                "client_id": 0,
+                "client_id": 1,
                 "marketplaces": [
                     "string"
                 ]
@@ -245,7 +276,7 @@
                 }
             ],
             "site": {
-                "site_id": 0,
+                "site_id": 1,
                 "code": "string",
                 "name": "string"
             }
@@ -257,7 +288,7 @@
             "client": {
                 "code": "string",
                 "name": "string",
-                "client_id": 0,
+                "client_id": 1,
                 "marketplaces": [
                     "string"
                 ]
@@ -351,7 +382,113 @@
                 }
             ],
             "site": {
-                "site_id": 0,
+                "site_id": 1,
+                "code": "string",
+                "name": "string"
+            }
+        },
+        {
+            "menu_id": 3,
+            "code": "string",
+            "name": "string",
+            "client": {
+                "code": "string",
+                "name": "string",
+                "client_id": 2,
+                "marketplaces": [
+                    "string"
+                ]
+            },
+            "product": [
+                {
+                    "product_id": 12,
+                    "sku": "321312",
+                    "name": "Triple Decker House Burger",
+                    "category": "category type 1",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                },
+                {
+                    "product_id": 10,
+                    "sku": "321311",
+                    "name": "Triple Cook Chips",
+                    "category": "category type 2",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                },
+                {
+                    "product_id": 10,
+                    "sku": "321312",
+                    "name": "Zero Coke 300ml",
+                    "category": "category type 3",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                }
+            ],
+            "options": [
+                {
+                    "option_id": 1,
+                    "value": "string",
+                    "name": "Ketchup",
+                    "active": true,
+                    "list": [
+                        {
+                            "value": "string",
+                            "name": "string",
+                            "status": true,
+                            "code": "string"
+                        }
+                    ],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 2,
+                    "value": "string",
+                    "name": "lettuce",
+                    "active": true,
+                    "list": [
+                        {
+                            "value": "string",
+                            "name": "string",
+                            "status": true,
+                            "code": "string"
+                        }
+                    ],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 3,
+                    "value": "string",
+                    "name": "Mustard",
+                    "active": true,
+                    "list": [
+                        {
+                            "value": "string",
+                            "name": "string",
+                            "status": true,
+                            "code": "string"
+                        }
+                    ],
+                    "product_id": 12
+                },
+                {
+                    "option_id": 4,
+                    "value": "string",
+                    "name": "Cheese",
+                    "active": true,
+                    "list": [
+                        {
+                            "value": "string",
+                            "name": "string",
+                            "status": true,
+                            "code": "string"
+                        }
+                    ],
+                    "product_id": 10
+                }
+            ],
+            "site": {
+                "site_id": 2,
                 "code": "string",
                 "name": "string"
             }
@@ -2972,6 +3109,12 @@
             "prep-time": 10
         }
     ],
+    "snooze": {
+        "description": "OK"
+    },
+    "unsnooze": {
+        "description": "OK"
+    },
     "user": [
         {
             "user_id": "2AAF7DC3C83631CA00DE71C16B9D88F1",
