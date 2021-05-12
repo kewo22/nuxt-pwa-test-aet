@@ -1,6 +1,8 @@
 <template>
   <div
-    class="swipeable-stack"
+    :class="`swipeable-stack swipe-${item.status.replace(' ', '-')} ${
+      showSwipe.left ? `swipe-right` : ``
+    }`"
     v-touch="{
       left: () => swipe('left'),
       right: () => swipe('right'),
@@ -8,7 +10,7 @@
   >
     <div
       v-if="canSwipeToRight && showSwipe.right"
-      :class="`swipe-bg swipe-left-area swipe-${item.status.replace(' ', '-')}`"
+      :class="`swipe-bg swipe-left-area`"
     >
       <div>
         <p class="ma-0">Moving to</p>
@@ -19,10 +21,15 @@
       </v-icon>
     </div>
     <slot />
-    <div v-if="showSwipe.left" class="swipe-bg swipe-right-area">
-      <p class="ma-0">Moving to</p>
-      <p class="ma-0">Finished</p>
+    <div
+      v-if="canSwipeToLeft && showSwipe.left"
+      class="swipe-bg swipe-right-area"
+    >
       <v-icon color="blue">mdi-arrow-left-bold-circle-outline</v-icon>
+      <div>
+        <p class="ma-0">Moving to</p>
+        <p class="ma-0">In Progress</p>
+      </div>
     </div>
   </div>
 </template>
@@ -51,7 +58,7 @@ export default {
       }
     },
     canSwipeToRight() {
-      // blocking right Swipe for all cancelled orders 
+      // blocking right Swipe for all cancelled orders
       if (this.item.cancelled) {
         // checking order can be moved to finshed queue
         // (for cancelled orders residing in in-progress queue)
@@ -59,18 +66,37 @@ export default {
       }
       return true;
     },
+    canSwipeToLeft() {
+      // return true;
+      // blocking left Swipe for all cancelled orders
+      if (this.item.cancelled) {
+        return false;
+      }
+      // Only allow finished orders to be swiped to right
+      return this.nextOrderState === "Finished";
+    },
   },
   methods: {
+    /**
+     * Show the moving UI updated
+     * and will disappear along with the change event
+     */
     swipe(direction) {
       this.showSwipe[direction] = true;
       setTimeout(() => {
         this.showSwipe[direction] = false;
-        this.$emit(
-          "orderStatusChange",
-          this.item,
-          this.nextOrderState.toLowerCase()
-        );
-      }, 4000);
+        this.emitOrderChange();
+      }, 1000);
+    },
+    /**
+     * Emit order change event
+     */
+    emitOrderChange() {
+      this.$emit(
+        "orderStatusChange",
+        this.item,
+        this.nextOrderState.toLowerCase()
+      );
     },
   },
 };
@@ -97,19 +123,28 @@ export default {
   text-transform: uppercase;
   margin-left: 10px;
 }
+.swipe-right {
+  justify-content: flex-end;
+}
 .swipe-left-area,
 .swipe-right-area {
   color: black;
 }
 .swipe-right-area {
   text-align: left;
+  margin-left: 0;
 }
+.swipe-right-area p,
 .swipe-left-area p {
   width: 130%;
 }
 .swipe-left-area {
   text-align: right;
   padding-right: 10px;
+}
+.swipe-right-area div {
+  padding-left: 5px;
+  width: 6rem;
 }
 .swipe-left-area div {
   display: flex;
@@ -118,10 +153,11 @@ export default {
   margin-right: 5px;
 }
 .swipe-submitted,
-.swipe-new {
+.swipe-new,
+.swipe-in-progress .swipe-right-area {
   color: #509ad9;
 }
-.swipe-in-progress {
+.swipe-in-progress .swipe-left-area {
   color: #4aa36f;
 }
 </style>
