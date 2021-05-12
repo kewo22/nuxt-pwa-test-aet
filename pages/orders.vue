@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex fill-height orders-wrapper">
-    <div class="d-flex flex-column section-1 mr-2 pa-2">
+    <div class="d-flex flex-column section-1 pa-2">
       <div>
         <v-text-field
           label="Search by ID"
@@ -13,7 +13,7 @@
         />
       </div>
       <div class="d-flex flex-column order-list-wrapper">
-        <v-item-group v-model="tabs" class="shrink" mandatory tag="v-flex">
+        <v-item-group v-model="tabs" class="shrink queue-buttons pa-5" mandatory tag="v-flex">
           <v-item v-slot="{ active, toggle }">
             <v-btn :input-value="active" @click="toggle">
               New ({{ newOrderQueue.length }})
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <div class="section-2 ml-2 pa-2">
+    <div class="section-2 pa-2">
       <OrderDetails
         v-if="selectedOrder"
         :order="selectedOrder"
@@ -333,6 +333,11 @@ export default {
 .order-list-wrapper {
   flex-grow: 1;
 }
+
+.queue-buttons{
+  align-self:  center;
+}
+
 .section-2 {
   flex: 1 0 50%;
   background: aliceblue;
