@@ -208,11 +208,11 @@ export default {
       let printdata = document.getElementById("ticket");
       window.document.write(printdata.outerHTML);
       while (count < noOfcopy) {
-        window.close(0);
         window.print(0);
+        window.close(0);
         count++;
       }
-      // location.reload();
+      location.reload();
     },
     changeOrderStatus(nextState) {
       const currentState = this.$props.order.status;
