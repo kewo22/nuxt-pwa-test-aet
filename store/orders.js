@@ -421,12 +421,12 @@ export const actions = {
           "YYYY-MM-DD HH:mm:ss"
         );
         if (moment(pos_fulfilment_time).isBetween(st, et)) {
-          //remove here
-          orders[i].status = "cleared";
           console.log("true st", st);
           console.log("true et", et);
           console.log("true pos_fulfilment_time", pos_fulfilment_time);
         } else {
+          //remove here
+          orders[i].status = "cleared";
           console.log("false st", st);
           console.log("false et", et);
           console.log("false pos_fulfilment_time", pos_fulfilment_time);
