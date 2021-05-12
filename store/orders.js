@@ -11,6 +11,7 @@ export const state = () => ({
   tempFinishedOrders: [],
   finishedOrders: [],
   selectedOrder: null,
+  isSelectorOrderExecutedFirst: false,
   lastSyncTime: "",
   isAllQueuesClear: ""
 });
@@ -217,6 +218,7 @@ export const mutations = {
   },
   setSelectedOrders(state) {
     state.selectedOrder = state.newOrders[0];
+    state.isSelectorOrderExecutedFirst = true;
   },
   setLastSyncTime(state, lastSyncTime) {
     state.lastSyncTime = lastSyncTime;
@@ -341,7 +343,9 @@ export const actions = {
     commit("sortFinishedOrders");
     // commit("setInProgressOrders");
     commit("setTempFinishedOrders");
-    commit("setSelectedOrders");
+    if (!state.isSelectorOrderExecutedFirst) {
+      commit("setSelectedOrders");
+    }
 
     return state.allorders;
   },
