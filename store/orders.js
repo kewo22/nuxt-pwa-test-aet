@@ -424,7 +424,7 @@ export const actions = {
         pos_fulfilment_time = moment(orders[i].pos_fulfilment_time).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        if (moment(pos_fulfilment_time).isBetween(st, et)) {
+        if (moment(pos_fulfilment_time).isAfter(et) || moment(pos_fulfilment_time).isBetween(st, et) ) {
           console.log("true st", st);
           console.log("true et", et);
           console.log("true pos_fulfilment_time", pos_fulfilment_time);
