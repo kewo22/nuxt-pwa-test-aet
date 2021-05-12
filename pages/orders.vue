@@ -384,7 +384,7 @@ export default {
       const [fromQueueName] = this.findOrderArray(order.status);
       let finishedOrder = order;
       if (nextState == "finished") {
-        // finishedOrder = { timeStampForOrders: moment().format(), ...order };
+        finishedOrder = { timeStampForOrders: moment().format(), ...order };
       }
       this.$store.dispatch("orders/moveOrdersManually", {
         order: finishedOrder,

@@ -375,7 +375,7 @@ export const actions = {
   },
   moveOrdersManually({ state, commit, dispatch }, requestPayLoad) {
     if (requestPayLoad.nextState == "finished") {
-      requestPayLoad.order.timeStampForOrders = moment().format();
+      // requestPayLoad.order.timeStampForOrders = moment().format();
       // commit("setTimeStampForOrders", requestPayLoad.order)
     }
     commit("saveMovdeOrdersManually", requestPayLoad);
