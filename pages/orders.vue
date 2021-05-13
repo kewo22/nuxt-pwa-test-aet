@@ -165,35 +165,36 @@ export default {
     });
   },
   async mounted() {
-    let lastSyncTime =
-      this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
-    let isAllQueuesClear =
-      this.getIsAllQueuesClear;
+    await this.$store.dispatch("orders/getInitialOrders");
+    // let lastSyncTime =
+    //   this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
+    // let isAllQueuesClear =
+    //   this.getIsAllQueuesClear;
 
-    this.settingData = (await this.$idb.get("settingData")) || [];
-    this.selectedReloadInterval = this.settingData.selectedReloadInterval;
+    // this.settingData = (await this.$idb.get("settingData")) || [];
+    // this.selectedReloadInterval = this.settingData.selectedReloadInterval;
 
-    this.selectedReloadInterval
-      ? (this.selectedReloadInterval = this.selectedReloadInterval.split(
-          " "
-        )[1])
-      : (this.selectedReloadInterval = 1);
+    // this.selectedReloadInterval
+    //   ? (this.selectedReloadInterval = this.selectedReloadInterval.split(
+    //       " "
+    //     )[1])
+    //   : (this.selectedReloadInterval = 1);
 
-    this.selectedReloadInterval = parseInt(this.selectedReloadInterval) * 60000;
+    // this.selectedReloadInterval = parseInt(this.selectedReloadInterval) * 60000;
 
-    if (lastSyncTime && isAllQueuesClear == false) {
-      await this.$store.dispatch("orders/getOrdersNew", true);
-      setInterval(async () => {
-        await this.$store.dispatch("orders/getOrdersNew", true);
-      }, this.selectedReloadInterval);
-    } else {
-      if (isAllQueuesClear == false) {
-        await this.$store.dispatch("orders/getOrdersNew", false);
-        setInterval(async () => {
-          await this.$store.dispatch("orders/getOrdersNew", true);
-        }, this.selectedReloadInterval);
-      }
-    }
+    // if (lastSyncTime && isAllQueuesClear == false) {
+    //   await this.$store.dispatch("orders/getOrdersNew", true);
+    //   setInterval(async () => {
+    //     await this.$store.dispatch("orders/getOrdersNew", true);
+    //   }, this.selectedReloadInterval);
+    // } else {
+    //   if (isAllQueuesClear == false) {
+    //     await this.$store.dispatch("orders/getOrdersNew", false);
+    //     setInterval(async () => {
+    //       await this.$store.dispatch("orders/getOrdersNew", true);
+    //     }, this.selectedReloadInterval);
+    //   }
+    // }
   },
 
   computed: {

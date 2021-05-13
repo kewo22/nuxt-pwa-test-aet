@@ -273,6 +273,31 @@ export const getters = {
 };
 
 export const actions = {
+  async getInitialOrders({ commit, state, dispatch, rootState }) {
+    let lastSyncTime =
+      this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
+    let isAllQueuesClear = state.isAllQueuesClear;
+    let settingData = (await this.$idb.get("settingData")) || [];
+    let selectedReloadInterval = settingData.selectedReloadInterval;
+    selectedReloadInterval
+      ? (selectedReloadInterval = selectedReloadInterval.split(" ")[1])
+      : (selectedReloadInterval = 1);
+    selectedReloadInterval = parseInt(selectedReloadInterval) * 60000;
+
+    if (lastSyncTime && isAllQueuesClear == false) {
+      await dispatch("getOrdersNew", true);
+      setInterval(async () => {
+        await dispatch("getOrdersNew", true);
+      }, selectedReloadInterval);
+    } else {
+      if (isAllQueuesClear == false) {
+        await dispatch("getOrdersNew", false);
+        setInterval(async () => {
+          await dispatch("getOrdersNew", true);
+        }, selectedReloadInterval);
+      }
+    }
+  },
   async getOrdersNew(
     { commit, state, dispatch, rootState },
     isFromAutoCallingApi
