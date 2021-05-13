@@ -463,7 +463,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 01:20:52",
-            "pos_fulfilment_time": "2021-05-06 19:25:52",
+            "pos_fulfilment_time": "2021-05-11 19:25:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
@@ -849,7 +849,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "Cancel",
             "pos_state_updated_at": "2020-10-31 01:48:52",
-            "pos_fulfilment_time": "2021-05-04 14:50:00",
+            "pos_fulfilment_time": "2021-05-05 14:50:00",
             "client": {
                 "code": "23as4wed",
                 "name": "Deliveroo",
@@ -1113,7 +1113,7 @@
             "order_ref_reversed": "test-09180789KF",
             "status": "submitted",
             "pos_state_updated_at": "2020-10-31 03:40:52",
-            "pos_fulfilment_time": "2021-05-06 19:10:52",
+            "pos_fulfilment_time": "2021-05-11 17:10:52",
             "client": {
                 "code": "224wed",
                 "name": "Uber Eats",
