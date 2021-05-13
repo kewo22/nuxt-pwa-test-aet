@@ -80,7 +80,7 @@
         <OrderStatLabel label="Items:" :value="order_item_count" />
         <OrderStatLabel
           v-if="isInProgressStatus"
-          label="Predicted prep time:"
+          label="Remaining Pickup Time:"
           :valueStyle="isOverDue && `overdue`"
           :value="order.pickupTime"
         />
