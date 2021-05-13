@@ -1,5 +1,9 @@
 <template>
-  <SwipeableStack :item="item" v-on="$listeners" :nextOrderState="nextOrderState">
+  <SwipeableStack
+    :item="item"
+    v-on="$listeners"
+    :nextOrderState="nextOrderState"
+  >
     <v-btn
       :class="`${item.cancelled ? `cancelled-item` : ``} 
       ${isOverdue ? `overdue-item` : ``}
@@ -26,7 +30,7 @@
             </v-row>
           </v-container>
         </v-flex>
-        <v-flex xs4 sm4 md6>
+        <v-flex xs4 sm4 md4>
           <v-container v-if="isCancelled" fill-height fluid>
             <v-row align="center" justify="center">
               <v-col align="left" justify="center" class="cancelled">
@@ -47,7 +51,7 @@
             </v-row>
           </v-container>
         </v-flex>
-        <v-flex xs4 sm4 md2>
+        <v-flex xs4 sm4 md2 offset-md-1>
           <v-container fill-height fluid>
             <v-row align="center" justify="center">
               <v-col align="center" justify="center">
@@ -80,7 +84,7 @@ export default {
     return {
       pickTimeCountDown: this.$props.item.pickupTimeInMinutes,
       pickupTime: this.$props.item.pickupTime,
-      order_number: this.$props.item.order_number
+      order_number: this.$props.item.order_number,
     };
   },
   computed: {
@@ -149,11 +153,11 @@ export default {
             pickupTime = m + " Min";
           }
           this.pickupTime = pickupTime;
-         
+
           this.$store.commit("orders/moveOrdersToInProgressAuto", {
             pickupTime,
             pickupTimeInMinutes: this.pickTimeCountDown,
-            order_number: this.order_number
+            order_number: this.order_number,
           });
         }, 60000);
       },
@@ -163,9 +167,6 @@ export default {
   methods: {
     onOrderClick() {
       this.$emit("orderClick", this.item);
-    },
-    displayFromCountDownTimer(s) {
-      s = s - 1;
     },
   },
 };
@@ -198,5 +199,4 @@ export default {
 .finished {
   border-color: #62a073;
 }
-
 </style>

@@ -15,7 +15,7 @@
       <div class="d-flex flex-column order-list-wrapper">
         <v-item-group
           v-model="tabs"
-          class="shrink queue-buttons pa-4"
+          class="shrink queue-buttons pa-4 mb-3"
           mandatory
           tag="v-flex"
         >
