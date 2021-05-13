@@ -554,7 +554,7 @@ export default {
       this.selectedOrderHistoryMinutes =
         this.settingData.selectedOrderHistoryMinutes || "00 min";
     },
-    saveSettings() {
+    async saveSettings() {
       this.isPrintChecked
         ? (this.settingData.isPrintChecked = 1)
         : (this.settingData.isPrintChecked = 0);
@@ -576,6 +576,8 @@ export default {
       };
 
       this.$idb.set("settingData", this.settingData);
+      await this.$store.dispatch("orders/getInitialOrders", true);
+
       this.isSavedSuccess = true;
     },
 

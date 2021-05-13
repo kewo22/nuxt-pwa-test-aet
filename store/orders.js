@@ -271,9 +271,9 @@ export const getters = {
     return state.isAllQueuesClear;
   }
 };
-
+let peiodicAPICallStart;
 export const actions = {
-  async getInitialOrders({ commit, state, dispatch, rootState }) {
+  async getInitialOrders({ state, dispatch }, isFromSetting = false) {
     let lastSyncTime =
       this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
     let isAllQueuesClear = state.isAllQueuesClear;
@@ -285,16 +285,38 @@ export const actions = {
     selectedReloadInterval = parseInt(selectedReloadInterval) * 60000;
 
     if (lastSyncTime && isAllQueuesClear == false) {
-      await dispatch("getOrdersNew", true);
-      setInterval(async () => {
+      if (isFromSetting) {
+        if (peiodicAPICallStart) {
+          clearInterval(peiodicAPICallStart);
+        }
+      } else {
         await dispatch("getOrdersNew", true);
-      }, selectedReloadInterval);
+      }
+      peiodicAPICallStart = setInterval(peiodicAPICallStartFunction, selectedReloadInterval);
+
+      async function peiodicAPICallStartFunction() {
+        await dispatch("getOrdersNew", true);
+      }
+      // setInterval(async () => {
+      //   await dispatch("getOrdersNew", true);
+      // }, selectedReloadInterval);
     } else {
       if (isAllQueuesClear == false) {
-        await dispatch("getOrdersNew", false);
-        setInterval(async () => {
+        if (isFromSetting) {
+          if (peiodicAPICallStart) {
+            clearInterval(peiodicAPICallStart);
+          }
+        } else {
+          await dispatch("getOrdersNew", false);
+        }
+        peiodicAPICallStart = setInterval(peiodicAPICallStartFunction, selectedReloadInterval);
+
+        async function peiodicAPICallStartFunction() {
           await dispatch("getOrdersNew", true);
-        }, selectedReloadInterval);
+        }
+        // setInterval(async () => {
+        //   await dispatch("getOrdersNew", true);
+        // }, selectedReloadInterval);
       }
     }
   },
