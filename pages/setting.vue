@@ -247,7 +247,7 @@
                                         @input="
                                           setSelectedOrderHistoryHoursDrop
                                         "
-                                        style="width:75%"
+                                        style="width:85%"
                                         solo
                                       ></v-select>
                                     </v-flex>
@@ -259,7 +259,7 @@
                                         @input="
                                           setSelectedOrderHistoryMinutesDrop
                                         "
-                                        style="width:75%"
+                                        style="width:85%"
                                         solo
                                       ></v-select>
                                     </v-flex>
