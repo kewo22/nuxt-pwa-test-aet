@@ -15,31 +15,31 @@
       <div class="d-flex flex-column order-list-wrapper">
         <v-item-group
           v-model="tabs"
-          class="shrink queue-buttons pa-5"
+          class="shrink queue-buttons pa-4"
           mandatory
           tag="v-flex"
         >
           <v-item v-slot="{ active, toggle }">
-            <v-btn :input-value="active" @click="toggle">
+            <v-btn depressed :input-value="active" @click="toggle">
               New ({{ newOrderQueue.length }})
             </v-btn>
           </v-item>
           <v-item v-slot="{ active, toggle }">
-            <v-btn :input-value="active" @click="toggle">
+            <v-btn depressed :input-value="active" @click="toggle">
               In Progress ({{ inProgressQueue.length }})
             </v-btn>
           </v-item>
           <v-item v-slot="{ active, toggle }">
-            <v-btn :input-value="active" @click="toggle">
+            <v-btn depressed :input-value="active" @click="toggle">
               Finished ({{ finishedQueue.length }})
             </v-btn>
           </v-item>
         </v-item-group>
 
-        <v-window v-model="tabs" touchless class="fill-height">
+        <v-window v-model="tabs" touchless class="queue-list">
           <v-window-item class="tab-item">
-            <v-card class="v-card" flat>
-              <v-card-text class="v-card-text">
+            <!-- <v-card class="v-card" flat>
+              <v-card-text class="v-card-text"> -->
                 <orders-order-queue
                   :ordersQueue="newOrderQueue"
                   :selectedOrderID="
@@ -49,12 +49,12 @@
                   @orderClick="onNewOrderClick"
                   @orderStatusChange="orderStatusChange"
                 />
-              </v-card-text>
-            </v-card>
+              <!-- </v-card-text>
+            </v-card> -->
           </v-window-item>
           <v-window-item class="tab-item">
-            <v-card class="v-card" flat>
-              <v-card-text class="v-card-text">
+            <!-- <v-card class="v-card" flat>
+              <v-card-text class="v-card-text"> -->
                 <orders-order-queue
                   :ordersQueue="inProgressQueue"
                   :selectedOrderID="
@@ -64,12 +64,12 @@
                   @orderClick="onNewOrderClick"
                   @orderStatusChange="orderStatusChange"
                 />
-              </v-card-text>
-            </v-card>
+              <!-- </v-card-text>
+            </v-card> -->
           </v-window-item>
           <v-window-item class="tab-item">
-            <v-card class="v-card" flat>
-              <v-card-text class="v-card-text">
+            <!-- <v-card class="v-card" flat>
+              <v-card-text class="v-card-text"> -->
                 <orders-order-queue
                   :ordersQueue="finishedQueue"
                   :selectedOrderID="
@@ -80,8 +80,8 @@
                   @orderStatusChange="orderStatusChange"
                   @confirmOrderChange="showOrderStateChangeConfirmPrompt"
                 />
-              </v-card-text>
-            </v-card>
+              <!-- </v-card-text>
+            </v-card> -->
           </v-window-item>
         </v-window>
       </div>
@@ -326,28 +326,6 @@ export default {
 .section-1 {
   flex: 1 0 50%;
 }
-.tab-header {
-  flex: 0 0 8%;
-}
-.tab-items {
-  flex-grow: 1;
-  background-color: transparent;
-  height: 100%;
-  overflow: hidden;
-}
-.tab-item {
-  background-color: transparent;
-  height: 100%;
-  overflow: hidden;
-}
-.order-list-wrapper {
-  flex-grow: 1;
-}
-
-.queue-buttons {
-  align-self: center;
-}
-
 .section-2 {
   flex: 1 0 50%;
   background: aliceblue;
@@ -355,6 +333,20 @@ export default {
 }
 .search-input {
   width: 250px;
+}
+
+.order-list-wrapper {
+  flex-grow: 1;
+}
+
+.queue-list {
+  height: 80vh;
+  overflow: auto;
+}
+.queue-buttons {
+  align-self: center;
+  background: #282e35 0% 0% no-repeat padding-box;
+  border-radius: 16px;
 }
 
 .v-card {

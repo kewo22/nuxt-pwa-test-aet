@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-flex class="ma-5">
     <div class="no-search-result" v-if="!ordersQueue.length && !!searchVal">
       No orders found for ID -
       <span class="font-weight-black">&nbsp;{{ searchVal }}</span>
