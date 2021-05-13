@@ -119,6 +119,9 @@ export const mutations = {
     }
   },
   saveMovdeOrdersManually(state, requestPayLoad) {
+    if (requestPayLoad.nextState == "finished") {
+      requestPayLoad.order.timeStampForOrders = moment().format();
+    }
     for (let i = 0; i < state.allorders.length; i++) {
       if (
         state.allorders[i].order_number == requestPayLoad.order.order_number
@@ -270,6 +273,31 @@ export const getters = {
 };
 
 export const actions = {
+  async getInitialOrders({ commit, state, dispatch, rootState }) {
+    let lastSyncTime =
+      this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
+    let isAllQueuesClear = state.isAllQueuesClear;
+    let settingData = (await this.$idb.get("settingData")) || [];
+    let selectedReloadInterval = settingData.selectedReloadInterval;
+    selectedReloadInterval
+      ? (selectedReloadInterval = selectedReloadInterval.split(" ")[1])
+      : (selectedReloadInterval = 1);
+    selectedReloadInterval = parseInt(selectedReloadInterval) * 60000;
+
+    if (lastSyncTime && isAllQueuesClear == false) {
+      await dispatch("getOrdersNew", true);
+      setInterval(async () => {
+        await dispatch("getOrdersNew", true);
+      }, selectedReloadInterval);
+    } else {
+      if (isAllQueuesClear == false) {
+        await dispatch("getOrdersNew", false);
+        setInterval(async () => {
+          await dispatch("getOrdersNew", true);
+        }, selectedReloadInterval);
+      }
+    }
+  },
   async getOrdersNew(
     { commit, state, dispatch, rootState },
     isFromAutoCallingApi
@@ -318,11 +346,11 @@ export const actions = {
     }
 
     commit("setOrdersFromVuexStore", ordersFromIndexedDb || []);
-    orders = await dispatch("removeFinishedOrdersForClearing", {
-      ordersFromIndexedDb: orders,
-      selectedHistoryDurationInterval: selectedHistoryDurationInterval,
-      selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
-    });
+    // orders = await dispatch("removeFinishedOrdersForClearing", {
+    //   ordersFromIndexedDb: orders,
+    //   selectedHistoryDurationInterval: selectedHistoryDurationInterval,
+    //   selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
+    // });
     commit("setOrdersData", orders);
     //call method to filter new order
     dispatch("filterNewOrders");
@@ -374,10 +402,10 @@ export const actions = {
     commit("setFinishedOrdersData", finishedOrders);
   },
   moveOrdersManually({ state, commit, dispatch }, requestPayLoad) {
-    if (requestPayLoad.nextState == "finished") {
-      // requestPayLoad.order.timeStampForOrders = moment().format();
-      // commit("setTimeStampForOrders", requestPayLoad.order)
-    }
+    // if (requestPayLoad.nextState == "finished") {
+    //   requestPayLoad.order.timeStampForOrders = moment().format();
+    //   // commit("setTimeStampForOrders", requestPayLoad.order)
+    // }
     commit("saveMovdeOrdersManually", requestPayLoad);
     this.$idb.set("allorders", state.allorders);
 
@@ -388,6 +416,7 @@ export const actions = {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
       dispatch("filterFinishedOrders");
+      commit("sortFinishedOrders");
     } else if (requestPayLoad.nextState == "finished") {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
@@ -424,7 +453,10 @@ export const actions = {
         pos_fulfilment_time = moment(orders[i].pos_fulfilment_time).format(
           "YYYY-MM-DD HH:mm:ss"
         );
-        if (moment(pos_fulfilment_time).isAfter(et) || moment(pos_fulfilment_time).isBetween(st, et) ) {
+        if (
+          moment(pos_fulfilment_time).isAfter(et) ||
+          moment(pos_fulfilment_time).isBetween(st, et)
+        ) {
           console.log("true st", st);
           console.log("true et", et);
           console.log("true pos_fulfilment_time", pos_fulfilment_time);
@@ -437,7 +469,6 @@ export const actions = {
         }
       }
     }
-
     return orders;
   }
 };
