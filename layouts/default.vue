@@ -164,7 +164,8 @@ export default {
           route: "/orders"
         },
         { title: "Filters", icon: "mdi-filter", route: "/order" },
-        { title: "Settings", icon: "mdi-cog", route: "/setting" }
+        { title: "Settings", icon: "mdi-cog", route: "/setting" },
+        { title: "Snooze", icon: "mdi-clock", route: "/snooze" }
       ],
       channels: [],
       orders: [],

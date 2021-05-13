@@ -72,22 +72,19 @@
     </v-row> -->
 
       <div class="d-flex flex-row justify-space-between mb-3">
-        <OrderStatLabel
-          label="Order Number:"
-          :value="`#${order.order_number}`"
-        />
-        <OrderStatLabel label="Type:" :value="fulfilmentType" />
-        <OrderStatLabel label="Items:" :value="order_item_count" />
+        <OrderStatLabel label="Order" :value="`#${order.order_number}`" />
+        <OrderStatLabel label="Type" :value="fulfilmentType" />
+        <OrderStatLabel label="Items" :value="order_item_count" />
         <OrderStatLabel
           v-if="isInProgressStatus"
-          label="Remaining Pickup Time:"
+          label="Pick up"
           :valueStyle="isOverDue && `overdue`"
           :value="order.pickupTime"
         />
       </div>
 
       <OrderItemList :items="order.order_lines" :amount="order_amount" />
-      <PosBill id="ticket" :item="order"/>
+      <PosBill id="ticket" :item="order" />
       <!-- <img src="https://help.tallysolutions.com/docs/te9rel66/Advanced_Features/Advanced_Inventory_Features/Images/pos_vch_5.gif" id="ticket" alt=""> -->
     </v-container>
     <Dialog
@@ -143,7 +140,7 @@ export default {
     },
     orderStatus() {
       if (this.isCancelled) {
-        return `Cancelled!`;
+        return `Cancelled`;
       }
       if (this.isOverDue) {
         return `Overdue`;
@@ -221,7 +218,8 @@ export default {
         this.showDialog = true;
       } else {
         this.$emit("orderStatusChange", this.$props.order, nextState);
-        const printingState = this.settingData.selectedOrderStatus || "in progress";
+        const printingState =
+          this.settingData.selectedOrderStatus || "in progress";
         if (
           [printingState.toLowerCase()].includes(nextState) &&
           this.isPrintAuto
@@ -266,7 +264,6 @@ export default {
 }
 .cancelled {
   color: #f09d00;
-  text-decoration: line-through 2px;
 }
 #ticket {
   display: none;
