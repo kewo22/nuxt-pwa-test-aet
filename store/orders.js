@@ -119,6 +119,9 @@ export const mutations = {
     }
   },
   saveMovdeOrdersManually(state, requestPayLoad) {
+    if (requestPayLoad.nextState == "finished") {
+      requestPayLoad.order.timeStampForOrders = moment().format();
+    }
     for (let i = 0; i < state.allorders.length; i++) {
       if (
         state.allorders[i].order_number == requestPayLoad.order.order_number
@@ -374,10 +377,10 @@ export const actions = {
     commit("setFinishedOrdersData", finishedOrders);
   },
   moveOrdersManually({ state, commit, dispatch }, requestPayLoad) {
-    if (requestPayLoad.nextState == "finished") {
-      requestPayLoad.order.timeStampForOrders = moment().format();
-      // commit("setTimeStampForOrders", requestPayLoad.order)
-    }
+    // if (requestPayLoad.nextState == "finished") {
+    //   requestPayLoad.order.timeStampForOrders = moment().format();
+    //   // commit("setTimeStampForOrders", requestPayLoad.order)
+    // }
     commit("saveMovdeOrdersManually", requestPayLoad);
     this.$idb.set("allorders", state.allorders);
 
@@ -388,6 +391,7 @@ export const actions = {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
       dispatch("filterFinishedOrders");
+      commit("sortFinishedOrders");
     } else if (requestPayLoad.nextState == "finished") {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
