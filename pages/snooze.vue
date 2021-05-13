@@ -22,14 +22,14 @@
 								Product Snooze
 							</h3>
 							<p
-								style="font-weight: 500;"
+								style="font-weight: 500; font-size: 12px;"
 							>
 								From here you can snooze products From the available menus</p>
 							<hr style="width:80%;"/>
 						</v-col>
               		</v-row>
 					<v-row
-						style="height: 70px;"
+						style="height: 70px; margin-top: 30px;"
 					>
 						<v-col
 							class="col-md-4 col-sm-6" 
@@ -95,7 +95,8 @@
 							></v-switch>
 						</v-col>
               		</v-row>
-					<v-row 
+					<v-row
+						v-show="menuDetails !== null" 
 						v-for="item in this.menuDetails.product"
 						:key="item.product_id"
 						class="item-container"
