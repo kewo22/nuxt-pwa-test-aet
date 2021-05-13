@@ -178,7 +178,6 @@ export default {
 }
 .cancelled {
   color: #f09d00;
-  text-decoration: line-through 1px;
 }
 .pickup-time {
   color: #509ad8;

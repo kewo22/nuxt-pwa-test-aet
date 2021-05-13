@@ -140,7 +140,7 @@ export default {
     },
     orderStatus() {
       if (this.isCancelled) {
-        return `Cancelled!`;
+        return `Cancelled`;
       }
       if (this.isOverDue) {
         return `Overdue`;
@@ -264,7 +264,6 @@ export default {
 }
 .cancelled {
   color: #f09d00;
-  text-decoration: line-through 2px;
 }
 #ticket {
   display: none;
