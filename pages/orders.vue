@@ -328,12 +328,12 @@ export default {
 }
 
 .queue-list {
-  height: 80vh;
+  height: 80%;
   overflow: auto;
 }
 .queue-buttons {
   align-self: center;
   background: #282e35 0% 0% no-repeat padding-box;
-  border-radius: 16px;
+  border-radius: 10px;
 }
 </style>
