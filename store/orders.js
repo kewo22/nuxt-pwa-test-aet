@@ -292,7 +292,10 @@ export const actions = {
       } else {
         await dispatch("getOrdersNew", true);
       }
-      peiodicAPICallStart = setInterval(peiodicAPICallStartFunction, selectedReloadInterval);
+      peiodicAPICallStart = setInterval(
+        peiodicAPICallStartFunction,
+        selectedReloadInterval
+      );
 
       async function peiodicAPICallStartFunction() {
         await dispatch("getOrdersNew", true);
@@ -309,7 +312,10 @@ export const actions = {
         } else {
           await dispatch("getOrdersNew", false);
         }
-        peiodicAPICallStart = setInterval(peiodicAPICallStartFunction, selectedReloadInterval);
+        peiodicAPICallStart = setInterval(
+          peiodicAPICallStartFunction,
+          selectedReloadInterval
+        );
 
         async function peiodicAPICallStartFunction() {
           await dispatch("getOrdersNew", true);
