@@ -5,7 +5,7 @@
         <v-layout>
           <v-flex xs6 sm6 md6 style="background-color: #23282c">
             <v-alert
-              style="position:absolute;width:49%"
+              style="position:absolute;width:49%;z-index:1"
               dismissible
               type="success"
               :value="isSavedSuccess"
