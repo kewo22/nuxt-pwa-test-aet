@@ -38,50 +38,38 @@
 
         <v-window v-model="tabs" touchless class="queue-list">
           <v-window-item class="tab-item">
-            <!-- <v-card class="v-card" flat>
-              <v-card-text class="v-card-text"> -->
-                <orders-order-queue
-                  :ordersQueue="newOrderQueue"
-                  :selectedOrderID="
-                    !!selectedOrder ? selectedOrder.order_id : undefined
-                  "
-                  :searchVal="searchVal"
-                  @orderClick="onNewOrderClick"
-                  @orderStatusChange="orderStatusChange"
-                />
-              <!-- </v-card-text>
-            </v-card> -->
+            <orders-order-queue
+              :ordersQueue="newOrderQueue"
+              :selectedOrderID="
+                !!selectedOrder ? selectedOrder.order_id : undefined
+              "
+              :searchVal="searchVal"
+              @orderClick="onNewOrderClick"
+              @orderStatusChange="orderStatusChange"
+            />
           </v-window-item>
           <v-window-item class="tab-item">
-            <!-- <v-card class="v-card" flat>
-              <v-card-text class="v-card-text"> -->
-                <orders-order-queue
-                  :ordersQueue="inProgressQueue"
-                  :selectedOrderID="
-                    !!selectedOrder ? selectedOrder.order_id : undefined
-                  "
-                  :searchVal="searchVal"
-                  @orderClick="onNewOrderClick"
-                  @orderStatusChange="orderStatusChange"
-                />
-              <!-- </v-card-text>
-            </v-card> -->
+            <orders-order-queue
+              :ordersQueue="inProgressQueue"
+              :selectedOrderID="
+                !!selectedOrder ? selectedOrder.order_id : undefined
+              "
+              :searchVal="searchVal"
+              @orderClick="onNewOrderClick"
+              @orderStatusChange="orderStatusChange"
+            />
           </v-window-item>
           <v-window-item class="tab-item">
-            <!-- <v-card class="v-card" flat>
-              <v-card-text class="v-card-text"> -->
-                <orders-order-queue
-                  :ordersQueue="finishedQueue"
-                  :selectedOrderID="
-                    !!selectedOrder ? selectedOrder.order_id : undefined
-                  "
-                  :searchVal="searchVal"
-                  @orderClick="onNewOrderClick"
-                  @orderStatusChange="orderStatusChange"
-                  @confirmOrderChange="showOrderStateChangeConfirmPrompt"
-                />
-              <!-- </v-card-text>
-            </v-card> -->
+            <orders-order-queue
+              :ordersQueue="finishedQueue"
+              :selectedOrderID="
+                !!selectedOrder ? selectedOrder.order_id : undefined
+              "
+              :searchVal="searchVal"
+              @orderClick="onNewOrderClick"
+              @orderStatusChange="orderStatusChange"
+              @confirmOrderChange="showOrderStateChangeConfirmPrompt"
+            />
           </v-window-item>
         </v-window>
       </div>
@@ -347,14 +335,5 @@ export default {
   align-self: center;
   background: #282e35 0% 0% no-repeat padding-box;
   border-radius: 16px;
-}
-
-.v-card {
-  height: 100%;
-  overflow: hidden;
-}
-
-.v-card-text {
-  height: 100%;
 }
 </style>
