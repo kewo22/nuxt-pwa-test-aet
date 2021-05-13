@@ -28,7 +28,9 @@
 							<hr style="width:80%;"/>
 						</v-col>
               		</v-row>
-					<v-row>
+					<v-row
+						style="height: 70px;"
+					>
 						<v-col
 							class="col-md-4 col-sm-6" 
 						>
@@ -40,8 +42,8 @@
 								label="Menus"
 								v-model="menu"
 								@change="selectMenu(menu)"
-								class="rounded-lg"
 								height="20px"
+								class="rounded-lg"
 								solo
 							></v-select>
 						</v-col>
@@ -65,7 +67,7 @@
 						<v-col
 							class="col-md-4 col-sm-4 d-flex justify-start align-baseline" 
 						>
-							<p style="font-size: 20px;">Only show snoozed products</p>
+							<p style="font-size: 16px;">Only show snoozed products</p>
 							<v-switch
 								v-model="snoozedProducts"
 								value="Snoozed Productss"
@@ -80,7 +82,7 @@
 						<v-col
 							class="col-md-4 col-sm-4 d-flex justify-start align-baseline" 
 						>
-							<p style="font-size: 20px;">Turn on all products</p>
+							<p style="font-size: 16px;">Turn on all products</p>
 							<v-switch
 								v-model="allProducts"
 								value="All Products"
@@ -99,7 +101,7 @@
 						class="item-container"
 					>
 						<v-col class="col-md-5 col-sm-5 offset-1 d-flex justify-start align-center" >
-							<h3 style="color:#4f97d5;">{{item.name}}</h3>
+							<h3 style="color:#4f97d5; font-weight: 500;">{{item.name}}</h3>
 						</v-col>
 						<v-col class="col-md-5 col-sm-5 d-flex justify-space-between align-baseline" >
 							<v-btn
@@ -116,7 +118,7 @@
 								x-large
 								:light="testcolor"
 								>
-								Snoozed
+								Unsnoozed
 							</v-btn>
 							<div
 								style="width: 30%;"
@@ -207,7 +209,8 @@ export default {
 <style scoped>
 #main-container {
 	background: #f6f8fa;
-	color: black;	
+	color: black;
+	min-height: 100vh;	
 }
 .h2heading {
 	color:#4f97d5;

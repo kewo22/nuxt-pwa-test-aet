@@ -105,13 +105,22 @@
                 ]
             },
             "product": [{
-                "product_id": 12,
-                "sku": "321312",
-                "name": "Triple Decker House Burger",
-                "category": "category type 1",
-                "active": true,
-                "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
-            }],
+                    "product_id": 12,
+                    "sku": "321312",
+                    "name": "Triple Decker House Burger",
+                    "category": "category type 1",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                },
+                {
+                    "product_id": 9,
+                    "sku": "321311",
+                    "name": "Deluxe Burger",
+                    "category": "category type 2",
+                    "active": true,
+                    "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
+                }
+            ],
             "options": [{
                     "option_id": 1,
                     "value": "string",
@@ -283,7 +292,7 @@
                     "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
                 },
                 {
-                    "product_id": 10,
+                    "product_id": 11,
                     "sku": "321312",
                     "name": "Zero Coke 300ml",
                     "category": "category type 3",
@@ -379,7 +388,7 @@
                     "image_url": "https://w7.pngwing.com/pngs/255/459/png-transparent-just-eat-pura-brasa-sant-andreu-restaurant-take-out-delivery-eat-logo-food-text-rectangle-thumbnail.png"
                 },
                 {
-                    "product_id": 10,
+                    "product_id": 11,
                     "sku": "321312",
                     "name": "Zero Coke 300ml",
                     "category": "category type 3",
