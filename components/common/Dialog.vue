@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" width="500">
+  <v-dialog persistent v-model="show" width="500">
     <v-card light>
       <v-card-title>
         <font-awesome-icon :icon="['fa', 'question-circle']" />
