@@ -72,15 +72,12 @@
     </v-row> -->
 
       <div class="d-flex flex-row justify-space-between mb-3">
-        <OrderStatLabel
-          label="Order Number:"
-          :value="`#${order.order_number}`"
-        />
-        <OrderStatLabel label="Type:" :value="fulfilmentType" />
-        <OrderStatLabel label="Items:" :value="order_item_count" />
+        <OrderStatLabel label="Order" :value="`#${order.order_number}`" />
+        <OrderStatLabel label="Type" :value="fulfilmentType" />
+        <OrderStatLabel label="Items" :value="order_item_count" />
         <OrderStatLabel
           v-if="isInProgressStatus"
-          label="Predicted prep time:"
+          label="Pick up"
           :valueStyle="isOverDue && `overdue`"
           :value="order.pickupTime"
         />
@@ -125,7 +122,7 @@ export default {
         selectedReloadInterval: "Every 1 minute",
         selectedTicketCount: "1",
         selectedTicketFontSize: "8 pt",
-        selectedTimeInterval: "15 minutes",
+        selectedTimeInterval: "5 minutes",
       },
       isPrintAuto: true,
     };
@@ -143,7 +140,7 @@ export default {
     },
     orderStatus() {
       if (this.isCancelled) {
-        return `Cancelled!`;
+        return `Cancelled`;
       }
       if (this.isOverDue) {
         return `Overdue`;
@@ -177,7 +174,12 @@ export default {
     },
     order_item_count() {
       const { order } = this.$props;
-      return order.order_lines ? order.order_lines.length : null;
+      if (Array.isArray(order.order_lines)) {
+        const reducer = (accumulator, currentValue) =>
+          accumulator + currentValue;
+        return order.order_lines.map((item) => item.quantity).reduce(reducer);
+      }
+      return 0;
     },
     isInProgressStatus() {
       return this.$props.order.status === "in progress";
@@ -216,7 +218,8 @@ export default {
         this.showDialog = true;
       } else {
         this.$emit("orderStatusChange", this.$props.order, nextState);
-        const printingState = this.settingData.selectedOrderStatus || "in progress";
+        const printingState =
+          this.settingData.selectedOrderStatus || "in progress";
         if (
           [printingState.toLowerCase()].includes(nextState) &&
           this.isPrintAuto
@@ -237,10 +240,6 @@ export default {
 </script>
 
 <style>
-#ticket {
-  display: none;
-  width: 238px;
-}
 .order-detail-root {
   height: 100%;
   /* padding: 50px 80px; */
@@ -265,10 +264,8 @@ export default {
 }
 .cancelled {
   color: #f09d00;
-  text-decoration: line-through 2px;
 }
 #ticket {
   display: none;
-  height: 50%;
 }
 </style>

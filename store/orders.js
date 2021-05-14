@@ -10,41 +10,46 @@ export const state = () => ({
   tempInProgressOrders: [],
   tempFinishedOrders: [],
   finishedOrders: [],
-  selectedOrder: null
+  selectedOrder: null,
+  isSelectorOrderExecutedFirst: false,
+  lastSyncTime: "",
+  isAllQueuesClear: ""
 });
 
 export const mutations = {
   setOrdersData(state, orders) {
-    if (state.allorders && state.allorders.length != 0) {
-      let i = 0;
-      state.allorders.forEach(item => {
-        if (item.status == "in progress" && orders[i].status == "cancelled") {
-          item.cancelled = true;
-        }
-        if (item.status != "submitted") {
-          // console.log("orders[i]",orders[i])
-          orders[i].status = item.status; //keep latest status even new request coming old status
-        }
-        let objKeys = Object.keys(orders[i]);
-        for (let j = 0; j < objKeys.length; j++) {
-          item[objKeys[j]] = orders[i][objKeys[j]];
-        }
-        i++;
-      });
-    } else {
-      state.allorders = orders;
-    }
+    if (orders.length != 0) {
+      if (state.allorders && state.allorders.length != 0) {
+        let i = 0;
+        state.allorders.forEach(item => {
+          if (item.status == "in progress" && orders[i].status == "cancelled") {
+            item.cancelled = true;
+          }
+          if (item.status != "submitted") {
+            // console.log("orders[i]",orders[i])
+            orders[i].status = item.status; //keep latest status even new request coming old status
+          }
+          let objKeys = Object.keys(orders[i]);
+          for (let j = 0; j < objKeys.length; j++) {
+            item[objKeys[j]] = orders[i][objKeys[j]];
+          }
+          i++;
+        });
+      } else {
+        state.allorders = orders;
+      }
 
-    for (let m = 0; m < orders.length; m++) {
-      let index = state.allorders.findIndex(
-        x => x.order_id == orders[m].order_id
-      );
-      if (index === -1) {
-        state.allorders.push(orders[m]);
+      for (let m = 0; m < orders.length; m++) {
+        let index = state.allorders.findIndex(
+          x => x.order_id == orders[m].order_id
+        );
+        if (index === -1) {
+          state.allorders.push(orders[m]);
+        }
       }
     }
 
-    this.$idb.set("allorders", state.allorders);
+    this.$idb.set("allorders", state.allorders || []);
   },
   setOrdersFromIndexedDb(state, orders) {
     state.ordersFromIndexedDb = orders;
@@ -114,6 +119,9 @@ export const mutations = {
     }
   },
   saveMovdeOrdersManually(state, requestPayLoad) {
+    if (requestPayLoad.nextState == "finished") {
+      requestPayLoad.order.timeStampForOrders = moment().format();
+    }
     for (let i = 0; i < state.allorders.length; i++) {
       if (
         state.allorders[i].order_number == requestPayLoad.order.order_number
@@ -151,16 +159,48 @@ export const mutations = {
     //   return orders;
     // }
   },
+  moveOrdersToInProgressAuto(state, requestPayLoad) {
+    let leadTimeInMinutes = parseInt(state.leadTime.split(" ")[0]);
+
+    for (let i = 0; i < state.allorders.length; i++) {
+      if (state.allorders[i].order_number == requestPayLoad.order_number) {
+        state.allorders[i].pickupTimeInMinutes =
+          requestPayLoad.pickupTimeInMinutes;
+
+        if (state.allorders[i].pickupTimeInMinutes == leadTimeInMinutes) {
+          state.allorders[i].status = "in progress";
+          state.allorders[i].pickupTime = leadTimeInMinutes + " Min";
+          state.allorders[i].pickupTimeInMinutes = leadTimeInMinutes;
+          state.newOrders = state.allorders
+            .filter(order => {
+              return order.status === "submitted";
+            })
+            .sort(function(a, b) {
+              return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+            });
+
+          state.inProgressOrders = state.allorders
+            .filter(order => {
+              return order.status === "in progress";
+            })
+            .sort(function(a, b) {
+              return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
+            });
+        }
+        break;
+      }
+    }
+  },
   setLeadTime(state, leadTime) {
     state.leadTime = leadTime;
   },
   sortNewOrders(state) {
-    state.newOrders.sort(function (a, b) {
+    state.newOrders.sort(function(a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
   sortInProgressOrders(state) {
-    state.inProgressOrders.sort(function (a, b) {
+    state.inProgressOrders.sort(function(a, b) {
       return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
     });
   },
@@ -181,6 +221,24 @@ export const mutations = {
   },
   setSelectedOrders(state) {
     state.selectedOrder = state.newOrders[0];
+    state.isSelectorOrderExecutedFirst = true;
+  },
+  setLastSyncTime(state, lastSyncTime) {
+    state.lastSyncTime = lastSyncTime;
+    this.$idb.set("lastSyncTime", lastSyncTime);
+  },
+  clearAllQueues(state) {
+    state.allorders = [];
+    state.ordersFromIndexedDb = [];
+    state.newOrders = [];
+    state.inProgressOrders = [];
+    state.finishedOrders = [];
+    this.$idb.set("allorders", []);
+    // this.$idb.set("lastSyncTime", "");
+  },
+  setIsAllQueuesClear(state, isAllQueuesClear) {
+    state.isAllQueuesClear = isAllQueuesClear;
+    this.$idb.set("isAllQueuesClear", isAllQueuesClear);
   }
 };
 
@@ -193,7 +251,7 @@ export const getters = {
       .filter(order => {
         return order.status === "submitted";
       })
-      .sort(function (a, b) {
+      .sort(function(a, b) {
         return a.pickupTimeInMinutes - b.pickupTimeInMinutes;
       });
   },
@@ -205,29 +263,122 @@ export const getters = {
   },
   getSelectedOrders: state => {
     return state.selectedOrder;
+  },
+  getLastSyncTime: state => {
+    return state.lastSyncTime;
+  },
+  getIsAllQueuesClear: state => {
+    return state.isAllQueuesClear;
   }
 };
-
+let peiodicAPICallStart;
 export const actions = {
-  async getOrdersNew({ commit, state, dispatch, rootState }) {
+  async getInitialOrders({ state, dispatch }, isFromSetting = false) {
+    let lastSyncTime =
+      this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
+    let isAllQueuesClear = state.isAllQueuesClear;
     let settingData = (await this.$idb.get("settingData")) || [];
-    let leadTime = settingData.selectedTimeInterval || "15";
+    let selectedReloadInterval = settingData.selectedReloadInterval;
+    selectedReloadInterval
+      ? (selectedReloadInterval = selectedReloadInterval.split(" ")[1])
+      : (selectedReloadInterval = 1);
+    selectedReloadInterval = parseInt(selectedReloadInterval) * 60000;
 
+    if (lastSyncTime && isAllQueuesClear == false) {
+      if (isFromSetting) {
+        if (peiodicAPICallStart) {
+          clearInterval(peiodicAPICallStart);
+        }
+      } else {
+        await dispatch("getOrdersNew", true);
+      }
+      peiodicAPICallStart = setInterval(
+        peiodicAPICallStartFunction,
+        selectedReloadInterval
+      );
+
+      async function peiodicAPICallStartFunction() {
+        await dispatch("getOrdersNew", true);
+      }
+      // setInterval(async () => {
+      //   await dispatch("getOrdersNew", true);
+      // }, selectedReloadInterval);
+    } else {
+      if (isAllQueuesClear == false) {
+        if (isFromSetting) {
+          if (peiodicAPICallStart) {
+            clearInterval(peiodicAPICallStart);
+          }
+        } else {
+          await dispatch("getOrdersNew", false);
+        }
+        peiodicAPICallStart = setInterval(
+          peiodicAPICallStartFunction,
+          selectedReloadInterval
+        );
+
+        async function peiodicAPICallStartFunction() {
+          await dispatch("getOrdersNew", true);
+        }
+        // setInterval(async () => {
+        //   await dispatch("getOrdersNew", true);
+        // }, selectedReloadInterval);
+      }
+    }
+  },
+  async getOrdersNew(
+    { commit, state, dispatch, rootState },
+    isFromAutoCallingApi
+  ) {
+    let settingData = (await this.$idb.get("settingData")) || [];
+    let leadTime = settingData.selectedTimeInterval || "5";
+    let selectedHistoryDurationInterval =
+      settingData.selectedHistoryDurationInterval || "24";
+    let selectedOrderHistoryClearTime =
+      settingData.selectedOrderHistoryClearTime || "10:00";
     commit("setLeadTime", leadTime);
-    commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
+    // commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
     let ordersFromIndexedDb = await this.$idb.get("allorders");
+    if (ordersFromIndexedDb) {
+      ordersFromIndexedDb = await dispatch("removeFinishedOrdersForClearing", {
+        ordersFromIndexedDb: ordersFromIndexedDb,
+        selectedHistoryDurationInterval: selectedHistoryDurationInterval,
+        selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
+      });
+    }
+
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
-    // const { isLoggedIn, user } = rootState;
+    const { isLoggedIn, user } = rootState;
     // console.log(`USER`, { isLoggedIn, user });
-
-    let clientId = 1;
-    let siteId = 2323;
-    var orders = await this.$axios.$get(
-      `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
+    // 16a4dea0-b542-4f21-a9e9-7d4b2410c292
+    let userProfile = await this.$axios.$get(
+      `http://localhost:3004/user/${user.id}`
     );
-    commit("setOrdersFromVuexStore", ordersFromIndexedDb);
+
+    let clientId = userProfile[0].orderpro_npb_client_id;
+    let siteId = userProfile[0].orderpro_npb_site_id;
+    let orders;
+    if (isFromAutoCallingApi) {
+      let lastSyncTime = await this.$idb.get("lastSyncTime");
+      orders = await this.$axios.$get(
+        `http://localhost:3004/client/${clientId}/orders/site/${siteId}/recent/${lastSyncTime}`
+      );
+      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:mm:ss"));
+    } else {
+      orders = await this.$axios.$get(
+        `http://localhost:3004/client/${clientId}/site/${siteId}/orders/today`
+      );
+      commit("setLastSyncTime", moment().format("YYYY-MM-DD HH:mm:ss"));
+    }
+
+    commit("setOrdersFromVuexStore", ordersFromIndexedDb || []);
+    // orders = await dispatch("removeFinishedOrdersForClearing", {
+    //   ordersFromIndexedDb: orders,
+    //   selectedHistoryDurationInterval: selectedHistoryDurationInterval,
+    //   selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
+    // });
     commit("setOrdersData", orders);
     //call method to filter new order
     dispatch("filterNewOrders");
@@ -248,7 +399,9 @@ export const actions = {
     commit("sortFinishedOrders");
     // commit("setInProgressOrders");
     commit("setTempFinishedOrders");
-    commit("setSelectedOrders");
+    if (!state.isSelectorOrderExecutedFirst) {
+      commit("setSelectedOrders");
+    }
 
     return state.allorders;
   },
@@ -278,8 +431,8 @@ export const actions = {
   },
   moveOrdersManually({ state, commit, dispatch }, requestPayLoad) {
     // if (requestPayLoad.nextState == "finished") {
-      // requestPayLoad.order.timeStampForOrders = moment().format();
-      // commit("setTimeStampForOrders", requestPayLoad.order)
+    //   requestPayLoad.order.timeStampForOrders = moment().format();
+    //   // commit("setTimeStampForOrders", requestPayLoad.order)
     // }
     commit("saveMovdeOrdersManually", requestPayLoad);
     this.$idb.set("allorders", state.allorders);
@@ -291,21 +444,59 @@ export const actions = {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
       dispatch("filterFinishedOrders");
-
+      commit("sortFinishedOrders");
     } else if (requestPayLoad.nextState == "finished") {
       dispatch("filterInProgressOrders");
       commit("sortInProgressOrders");
       console.log("before", state.finishedOrders);
       dispatch("filterFinishedOrders");
       commit("sortFinishedOrders");
-
     }
+  },
+  removeFinishedOrdersForClearing({}, requestPayLoad) {
+    let orders = requestPayLoad.ordersFromIndexedDb;
+    let selectedOrderHistoryClearTime =
+      requestPayLoad.selectedOrderHistoryClearTime;
+    let selectedHistoryDurationInterval =
+      requestPayLoad.selectedHistoryDurationInterval;
+    let myStringParts = selectedOrderHistoryClearTime.split(":");
+    let hourDelta = +myStringParts[0];
+    let minuteDelta = +myStringParts[1];
 
+    let historyDurationIntervalHoursStringParts = selectedHistoryDurationInterval.split(
+      " "
+    );
+    let historyDurationIntervalHourDela = +historyDurationIntervalHoursStringParts[0];
+
+    let etObj = moment({ hour: hourDelta, minute: minuteDelta }); //
+    let et;
+    let st;
+    et = etObj.format("YYYY-MM-DD HH:mm:ss");
+    let stObj = etObj.subtract({ hours: historyDurationIntervalHourDela });
+    st = stObj.format("YYYY-MM-DD HH:mm:ss");
+
+    let pos_fulfilment_time;
+    for (let i = 0; i < orders.length; i++) {
+      if (orders[i].status == "finished" || orders[i].status == "cancelled") {
+        pos_fulfilment_time = moment(orders[i].pos_fulfilment_time).format(
+          "YYYY-MM-DD HH:mm:ss"
+        );
+        if (
+          moment(pos_fulfilment_time).isAfter(et) ||
+          moment(pos_fulfilment_time).isBetween(st, et)
+        ) {
+          console.log("true st", st);
+          console.log("true et", et);
+          console.log("true pos_fulfilment_time", pos_fulfilment_time);
+        } else {
+          //remove here
+          orders[i].status = "cleared";
+          console.log("false st", st);
+          console.log("false et", et);
+          console.log("false pos_fulfilment_time", pos_fulfilment_time);
+        }
+      }
+    }
+    return orders;
   }
-  // async getLeadTime
-  // getNewStateOrders() {
-  //   console.log("getAllOrders",state.allorders)
-
-  //   return state.allorders;
-  // }
 };

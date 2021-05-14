@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" width="500">
+  <v-dialog persistent v-model="show" width="500">
     <v-card light>
       <v-card-title>
         <font-awesome-icon :icon="['fa', 'question-circle']" />
@@ -13,20 +13,15 @@
       </v-card-text>
 
       <v-card-actions class="justify-center">
-        <Button @click="closeDialog" outlined>Close</Button>
-        <Button @click="clickConfirm" dark>Confirm</Button>
-        <!-- <v-spacer></v-spacer> -->
-        <!-- <v-btn color="primary" rounded @click="closeDialog"> Close </v-btn> -->
-        <!-- <v-btn color="primary" text @click="closeDialog"> Confirm </v-btn> -->
+        <common-button @click="closeDialog" outlined>Close</common-button>
+        <common-button @click="clickConfirm" dark>Confirm</common-button>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import Button from "./Button";
 export default {
-  components: { Button },
   props: ["show"],
   emits: ["closeDialog", "clickConfirm"],
   methods: {

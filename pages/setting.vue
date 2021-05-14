@@ -5,7 +5,7 @@
         <v-layout>
           <v-flex xs6 sm6 md6 style="background-color: #23282c">
             <v-alert
-              style="position:absolute;width:49%"
+              style="position:absolute;width:49%;z-index:1"
               dismissible
               type="success"
               :value="isSavedSuccess"
@@ -202,6 +202,90 @@
                                     justify="center"
                                     class="fontweight"
                                   >
+                                    Order history duration
+                                  </v-col>
+                                </v-row>
+                              </div>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6>
+                              <v-row no-gutters>
+                                <v-col align="right"
+                                  ><v-select
+                                    class="settingsDrop"
+                                    :items="historyDurationIntervals"
+                                    v-model="selectedHistoryDurationInterval"
+                                    @input="setHistoryDurationIntervalDrop"
+                                    solo
+                                  ></v-select>
+                                </v-col>
+                              </v-row>
+                            </v-flex>
+                          </v-layout>
+                          <v-layout>
+                            <v-flex xs12 sm12 md6>
+                              <div>
+                                <v-row align="center" justify="center">
+                                  <v-col
+                                    align="left"
+                                    justify="center"
+                                    class="fontweight"
+                                  >
+                                    Order history clear time
+                                  </v-col>
+                                </v-row>
+                              </div>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6>
+                              <v-row no-gutters>
+                                <v-col>
+                                  <v-layout>
+                                    <v-flex xs12 sm12 md6>
+                                      <v-select
+                                        class="settingsDrop"
+                                        :items="orderHistoryClearTimeHours"
+                                        v-model="selectedOrderHistoryHours"
+                                        @input="
+                                          setSelectedOrderHistoryHoursDrop
+                                        "
+                                        style="width:85%"
+                                        solo
+                                      ></v-select>
+                                    </v-flex>
+                                    <v-flex xs12 sm12 md6>
+                                      <v-select
+                                        class="settingsDrop"
+                                        :items="orderHistoryClearTimeMinutes"
+                                        v-model="selectedOrderHistoryMinutes"
+                                        @input="
+                                          setSelectedOrderHistoryMinutesDrop
+                                        "
+                                        style="width:85%"
+                                        solo
+                                      ></v-select>
+                                    </v-flex>
+                                  </v-layout>
+
+                                  <!-- <input
+                                    type="time"
+                                    id="appt"
+                                    name="appt"
+                                    class="a"
+                                    style="color:white; margin-left:3%"
+                                    v-model="selectedOrderHistoryClearTime"
+                                  /> -->
+                                </v-col>
+                              </v-row>
+                            </v-flex>
+                          </v-layout>
+                          <v-layout>
+                            <v-flex xs12 sm12 md6>
+                              <div>
+                                <v-row align="center" justify="center">
+                                  <v-col
+                                    align="left"
+                                    justify="center"
+                                    class="fontweight"
+                                  >
                                     Printers
                                   </v-col>
                                 </v-row>
@@ -214,6 +298,36 @@
                                   style="color:#4f97d5;text-decoration: underline; font-weight: 500"
                                 >
                                   Select Printers
+                                </v-col>
+                              </v-row>
+                            </v-flex>
+                          </v-layout>
+                          <v-layout mt-10>
+                            <v-flex xs12 sm12 md6>
+                              <div>
+                                <v-row align="center" justify="center">
+                                  <v-col
+                                    align="left"
+                                    justify="center"
+                                    class="fontweight"
+                                  >
+                                    Clear all queues
+                                  </v-col>
+                                </v-row>
+                              </div>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6>
+                              <v-row no-gutters>
+                                <v-col
+                                  align="right"
+                                  style="color:red;text-decoration: underline; font-weight: 500"
+                                >
+                                  <a
+                                    style="color:red;text-decoration: underline;"
+                                    @click="isClearAllQueuesPopup = true"
+                                  >
+                                    Clear Now
+                                  </a>
                                 </v-col>
                               </v-row>
                             </v-flex>
@@ -299,11 +413,60 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="isClearAllQueuesPopup" width="500">
+            <v-card style="background-color: #FFFFFF !important">
+              <v-card-title
+                style="color:black; border-bottom: 1px solid #CCCED0;"
+              >
+                <div>
+                  <font-awesome-icon
+                    :icon="['fa', 'question-circle']"
+                  ></font-awesome-icon>
+
+                  <span>Confirm Action</span>
+                </div>
+              </v-card-title>
+
+              <v-card-text style="color:black;margin-top:2%">
+                <p>
+                  Please confirm that you wish to clear all order queues. This
+                  action cannot be reverted.
+                </p>
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions class="justify-center">
+                <v-btn
+                  color="primary"
+                  class="confirmPopBtn"
+                  text
+                  style="color:black !important"
+                  @click="isClearAllQueuesPopup = false"
+                >
+                  Close
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  class="confirmPopBtn"
+                  style="background-color:#2F3940;color:white !important"
+                  text
+                  @click="clearAllQueues"
+                >
+                  Confirm
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <v-flex xs6 sm6 md6 style="background-color: #f6f8fa">
             <v-container fill-height fluid>
               <v-row align="center" justify="center">
                 <v-col align="center" justify="center">
-                  <v-img :src="require('~/assets/LineTen Logo Standard.png')" width="25%" /><br />
+                  <v-img
+                    :src="require('~/assets/LineTen Logo Standard.png')"
+                    width="25%"
+                  /><br />
                   <h4 style="color:#b1b3b8">2021 v.1.0.0</h4>
                 </v-col>
               </v-row>
@@ -318,11 +481,20 @@
 <script>
 export default {
   data: () => ({
-    timeIntervals: ["15 minutes", "30 minutes", "45 minutes"],
+    timeIntervals: [
+      "5 minutes",
+      "10 minutes",
+      "15 minutes",
+      "20 minutes",
+      "25 minutes"
+    ],
     ticketFontSizes: ["8 pt", "10 pt", "12 pt"],
     orderStatus: ["In progress", "New", "Finished"],
     ticketCounts: ["1", "2", "3"],
     reloadIntervals: ["Every 1 minute", "Every 5 minutes", "Every 10 minutes"],
+    historyDurationIntervals: ["24 hours", "48 hours"],
+    orderHistoryClearTimeHours: [],
+    orderHistoryClearTimeMinutes: [],
     settingData: {},
     isPrintChecked: "",
     selectedTimeInterval: "",
@@ -330,11 +502,17 @@ export default {
     selectedOrderStatus: "",
     selectedTicketCount: "",
     selectedReloadInterval: "",
+    selectedHistoryDurationInterval: "",
     isResetPopup: false,
-    isSavedSuccess: false
+    isClearAllQueuesPopup: false,
+    isSavedSuccess: false,
+    selectedOrderHistoryClearTime: "10:00",
+    selectedOrderHistoryHours: "10 hrs",
+    selectedOrderHistoryMinutes: "00 min"
   }),
 
   mounted() {
+    this.loadHistoryClearTimeData();
     this.loadSettingData();
   },
 
@@ -359,29 +537,47 @@ export default {
       }
 
       this.selectedTimeInterval =
-        this.settingData.selectedTimeInterval || "15 minutes";
+        this.settingData.selectedTimeInterval || "5 minutes";
       this.selectedTicketFontSize =
         this.settingData.selectedTicketFontSize || "8 pt";
-      this.selectedOrderStatus = this.settingData.selectedOrderStatus || "In progress";
+      this.selectedOrderStatus =
+        this.settingData.selectedOrderStatus || "In progress";
       this.selectedTicketCount = this.settingData.selectedTicketCount || "1";
       this.selectedReloadInterval =
         this.settingData.selectedReloadInterval || "Every 1 minute";
+      this.selectedHistoryDurationInterval =
+        this.settingData.selectedHistoryDurationInterval || "24 hours";
+      this.selectedOrderHistoryClearTime =
+        this.settingData.selectedOrderHistoryClearTime || "10:00";
+      this.selectedOrderHistoryHours =
+        this.settingData.selectedOrderHistoryHours || "10 hrs";
+      this.selectedOrderHistoryMinutes =
+        this.settingData.selectedOrderHistoryMinutes || "00 min";
     },
-    saveSettings() {
+    async saveSettings() {
       this.isPrintChecked
         ? (this.settingData.isPrintChecked = 1)
         : (this.settingData.isPrintChecked = 0);
-
+      this.selectedOrderHistoryClearTime =
+        this.selectedOrderHistoryHours.split(" ")[0] +
+        ":" +
+        this.selectedOrderHistoryMinutes.split(" ")[0];
       this.settingData = {
         isPrintChecked: this.isPrintChecked,
         selectedTimeInterval: this.selectedTimeInterval,
         selectedTicketFontSize: this.selectedTicketFontSize,
         selectedOrderStatus: this.selectedOrderStatus,
         selectedTicketCount: this.selectedTicketCount,
-        selectedReloadInterval: this.selectedReloadInterval
+        selectedReloadInterval: this.selectedReloadInterval,
+        selectedHistoryDurationInterval: this.selectedHistoryDurationInterval,
+        selectedOrderHistoryClearTime: this.selectedOrderHistoryClearTime,
+        selectedOrderHistoryHours: this.selectedOrderHistoryHours,
+        selectedOrderHistoryMinutes: this.selectedOrderHistoryMinutes
       };
 
       this.$idb.set("settingData", this.settingData);
+      await this.$store.dispatch("orders/getInitialOrders", true);
+
       this.isSavedSuccess = true;
     },
 
@@ -404,16 +600,46 @@ export default {
     setReloadIntervalDrop(value) {
       this.selectedReloadInterval = value;
     },
+    setHistoryDurationIntervalDrop(value) {
+      this.selectedHistoryDurationInterval = value;
+    },
+    setSelectedOrderHistoryHoursDrop(value) {
+      this.selectedOrderHistoryHours = value;
+    },
+    setSelectedOrderHistoryMinutesDrop(value) {
+      this.selectedOrderHistoryMinutes = value;
+    },
     resetSettingData() {
       this.isPrintChecked = true;
-      this.selectedTimeInterval = "15 minutes";
+      this.selectedTimeInterval = "5 minutes";
       this.selectedTicketFontSize = "8 pt";
       this.selectedOrderStatus = "In progress";
       this.selectedTicketCount = "1";
       this.selectedReloadInterval = "Every 1 minute";
+      this.selectedHistoryDurationInterval = "24 hours";
+      this.selectedOrderHistoryClearTime = "10:00";
+      this.selectedOrderHistoryHours = "10 hrs";
+      this.selectedOrderHistoryMinutes = "00 min";
       this.isResetPopup = false;
 
       this.saveSettings();
+    },
+    clearAllQueues() {
+      this.$store.commit("orders/clearAllQueues");
+      this.$store.commit("orders/setIsAllQueuesClear", true);
+      this.isClearAllQueuesPopup = false;
+    },
+    loadHistoryClearTimeData() {
+      for (let i = 0; i < 24; i++) {
+        i >= 0 && i <= 9
+          ? this.orderHistoryClearTimeHours.push("0" + i + " hrs")
+          : this.orderHistoryClearTimeHours.push(i + " hrs");
+      }
+      for (let i = 0; i < 60; i++) {
+        i >= 0 && i <= 9
+          ? this.orderHistoryClearTimeMinutes.push("0" + i + " min")
+          : this.orderHistoryClearTimeMinutes.push(i + " min");
+      }
     }
   },
   computed: {}
@@ -471,6 +697,16 @@ export default {
   color: #509ad9;
   text-align: center;
   top: 6px;
+}
+.a {
+  position: relative;
+  /* height: 68px; */
+}
+.a::-webkit-calendar-picker-indicator {
+  background-color: white;
+  /* width: 64px;
+    height: 64px; */
+  /* background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEr0lEQVR4nO2af2hVZRjHP88550I/zNrCiLaUpBYkJYYWNmtFUU3UchPJzGGJs1oRhRDDJkWaYLAERdugZG70hwyj1BY0Y6VWWCEUEqbVH1v900hI/8ndc57+uLvRLtvded9zzr2i5wOXcc7e9/k+93mf57nnPedASkpKSsqli5TbgZkv6fTsCFsR6oDrLc2cVej3Alp/2yUnTSaWNQA3Pae3InwNVMRiUPjLdZh9ersMhZ3ixSJsiSdsUaUC6HOUtb6DI0o3UCfQdWqXrA5j5+YXtZosnSj1BLQDy8P64Ni5Hg+uz4NeAIzQ/PO78vsvO2XQ8XnWC8ANeDSsndPbZegyYZ0XgBfwiIkPViUwa50uJuAVhHnAlTY2QqAnOsVogWY1qwKc6JTQ38u4BO5Yq2/h0wqAms42wnhx3MBcxCgAd67RxRrQCpwXaFOl5/j78oe5bHHmrFGr0LoWs4wC4ObSHhE2HntPtprLhXTKMrNs5pkGYC4CrkM3wN2rdaEoHQjV5tJFsEhlKEEJuDAFhaOjaZ9ROhSqE+4FoSlFCYzBCXIr/2V3+K4bhvtWWfaApDOgsMZsa9VUJ8l5kTLAJuI2OknOMwuAFj+OC1u7ifeAtATSEih+nGfDYT2KcE9Is0c2L5B7w9htXK6Po6xSUFW6P+yVj8LMK0YiGVDph/7yAAsm0wFY3qgt6rPjf6caly3Tlt5e2TmZP8Uw2m15OrbOCo/zVI6YfSbTWdmgta7yTv68B695imYCtq1s0NrJ/Cn6nUwGhy2Ba7NmToyjcxa46skGnRFkGRFlrwuZ/P979snmp5bqNcB6YO8TS3Se45Fxcv78baKVTAlEDYDPAYQVLvyAAAFTgQHg/vyYoTO0zria9cANrvATfm77rHDARCuRDKjMcoRxansCDheeuMKn5R+XCsjdFVL4zHdZ4fkM58cMDEj2mSX/OTB19G9f4NASUhcwvQ4Iih/nuW3p2K5uyq6Dcgaof7pep0mGzO6Pc5uv5kVjI57XH/G5LuOhnftluNDWZFyQV4J5dvfJn2H0OwvGmZBIAF5YaLab2/FJuN1kEguQSAlMdD4qYfWNbJoMDrsC2z6N9/6Aqb4JF+ReoJT6iWRA60N2d3QK2dI/NpPKngFpDwi5Am9+frH2gBJfB5RCP22CRoNLdEuslPppBhg5cKn3gHFScAio3jE/nt/9SVFAGJzIHxuiPRpTmkXpAG6M7kooBsWheSJ/bIhUAs9/I33A9Ohu2FH2n8Fy0jVfq7Lj3FA1JVIPKCd6nqY4XnGLVALloGu2VrkeTSivx2HPqgQ+mKN1orwKzAWmxeGIEX58puwyQBmIzwVjhoHvRXlbhf6oxmy3w+cF2hyPnseOx/+WWFj23R69Jq0yQISNS35M7i2xsJRtO+z57IkuHZ04AmD2cDTgnBeAE5T/Nfv9NVo1+m6w0bPAQowC4CrfugoiNEURjYPLHZrc3NPg76LYMWuCPu0qPAC8cahG8YU9D58sbRM8VKNVAk0Eo9cBSnsUe8ap/MUtugnYEEU0RjbVnZK2KAasavmrmbpIhZeBu4ApURyw4BxwDKW99lc5WGLtlJSUlJSLin8BxSm4QhC/BVoAAAAASUVORK5CYII="); */
 }
 </style>
 <style>

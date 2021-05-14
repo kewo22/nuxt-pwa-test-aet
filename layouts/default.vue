@@ -161,10 +161,11 @@ export default {
         {
           title: "Orders",
           icon: "mdi-format-list-bulleted-square",
-          route: "/orders",
+          route: "/orders"
         },
         { title: "Filters", icon: "mdi-filter", route: "/order" },
         { title: "Settings", icon: "mdi-cog", route: "/setting" },
+        { title: "Snooze", icon: "mdi-clock", route: "/snooze" }
       ],
       channels: [],
       orders: [],
@@ -181,10 +182,15 @@ export default {
       mini: true,
       BothOL: false,
       pickupOL: true,
-      deliveryOL: true,
+      deliveryOL: true
     };
   },
   async mounted() {
+    // let userData = (await this.$idb.get("user")) || {};
+    // if (Object.keys(userData).length == 0) {
+    //   this.$router.push("/login");
+    // }
+    await this.$store.dispatch("getUsersForIndexedDb");
     this.getMarketplacesList();
     this.filterOrderType();
     this.filterChannels();
@@ -194,12 +200,12 @@ export default {
     ...mapActions(["authorizeClientApp"]),
     getMarketplacesList() {
       this.$axios.get("marketplaces/0").then(
-        (response) => {
+        response => {
           if (response.status == 200) {
             this.channels = response.data.marketplaces;
           }
         },
-        (error) => {
+        error => {
           console.log("error", error);
         }
       );
@@ -216,11 +222,11 @@ export default {
         if (filterType !== undefined) {
           if (type !== "Both") {
             if (type === "Delivery") {
-              orderTypeData = orders.filter((order) => {
+              orderTypeData = orders.filter(order => {
                 return order.fulfilment_type === type;
               });
             } else {
-              orderTypeData = orders.filter((order) => {
+              orderTypeData = orders.filter(order => {
                 return (
                   order.fulfilment_type === "walk-in" ||
                   order.fulfilment_type === "collection"
@@ -233,7 +239,7 @@ export default {
             let arr = channel.split(",");
             for (let index = 0; index < arr.length; index++) {
               let element = arr[index];
-              orderTypeData.filter((order) => {
+              orderTypeData.filter(order => {
                 if (order.fulfilment_source === element) {
                   channelDataArray.push(order);
                   return channelDataArray;
@@ -250,7 +256,7 @@ export default {
         console.log(error);
       }
     },
-    showTab: function (tab) {
+    showTab: function(tab) {
       if (tab === "Filters") {
         if (this.isFilter === false) {
           this.isFilter = true;
@@ -259,7 +265,7 @@ export default {
         }
       }
     },
-    filterOrderType: function (type) {
+    filterOrderType: function(type) {
       if (type === undefined) {
         if (localStorage.getItem("filterOrderType")) {
           type = localStorage.getItem("filterOrderType");
@@ -288,7 +294,7 @@ export default {
         this.getOrders("OrderType");
       }
     },
-    filterChannels: function (channel) {
+    filterChannels: function(channel) {
       if (channel === undefined) {
         if (localStorage.getItem("filterChannels")) {
           channel = localStorage.getItem("filterChannels");
@@ -313,14 +319,14 @@ export default {
         this.getOrders("channels");
       }
     },
-    filterDateLatest: function (date) {
+    filterDateLatest: function(date) {
       window.alert(date);
     },
     onLogoutClick() {
       this.$store.dispatch("setUser", {});
-      this.$router.push('/login')
-    },
-  },
+      this.$router.push("/login");
+    }
+  }
 };
 </script>
 
