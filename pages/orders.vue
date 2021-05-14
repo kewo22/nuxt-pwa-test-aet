@@ -125,12 +125,12 @@ export default {
       if (mutation.type === "orders/setSelectedOrders") {
         this.selectedOrder = this.$store.getters["orders/getNewStateOrders"][0];
       }
-      if(mutation.type === "orders/sortFinishedOrders") {
+      if(this.currentTab == 2 && mutation.type === "orders/sortFinishedOrders") {
         this.selectedOrder = this.$store.getters["orders/getFinishedOrders"][0];
       }
     });
     this.$store.subscribeAction((action) => {
-      if (["orders/filterFinishedOrders"].includes(action.type)) {
+      if (this.currentTab == 2 && ["orders/filterFinishedOrders"].includes(action.type)) {
         this.selectedOrder = this.$store.getters["orders/getFinishedOrders"][0];
         console.log("this.selectedOrder",this.selectedOrder);
       }
