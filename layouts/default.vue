@@ -153,6 +153,7 @@
 
 <script>
 import { mapMutations, mapActions, mapState } from "vuex";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -195,6 +196,30 @@ export default {
     this.filterOrderType();
     this.filterChannels();
     await this.$store.dispatch("authorizeClientApp");
+
+    if (!localStorage.getItem("expirationTimeForToday")) {
+      localStorage.setItem(
+        "expirationTimeForToday",
+        moment("23:59", "hm").format()
+      );
+      await this.cleanFinishQueue();
+    } else {
+      //compare with today date
+      let expirationTimeForToday = moment(
+        localStorage.getItem("expirationTimeForToday")
+      );
+      let diffInSecondsForExpirationTime = expirationTimeForToday.diff(
+        moment(),
+        "seconds"
+      );
+      if (diffInSecondsForExpirationTime < 0) {
+        localStorage.removeItem("expirationTimeForToday");
+        await this.cleanFinishQueue();
+        console.log(
+          "executed only once time per day to delete local storage key"
+        );
+      }
+    }
   },
   methods: {
     ...mapActions(["authorizeClientApp"]),
@@ -325,6 +350,36 @@ export default {
     onLogoutClick() {
       this.$store.dispatch("setUser", {});
       this.$router.push("/login");
+    },
+    async cleanFinishQueue() {
+      let settingData = (await this.$idb.get("settingData")) || [];
+      let selectedOrderHistoryClearTime =
+        settingData.selectedOrderHistoryClearTime || "10:00";
+      let myStringParts = selectedOrderHistoryClearTime.split(":");
+      let hourDelta = myStringParts[0];
+      let minuteDelta = myStringParts[1];
+      let todayClearingTime = moment(hourDelta + minuteDelta, "hm");
+      let diffInSeconds = todayClearingTime.diff(moment(), "seconds");
+      let diffInMilliSeconds = diffInSeconds * 1000;
+
+      console.log("diffInMilliSeconds", diffInMilliSeconds);
+
+      if (diffInMilliSeconds >= 0) {
+        setTimeout(async () => {
+          console.log("It's clearing time at the beginning!");
+
+          await this.$store.dispatch("orders/getInitialOrders", {
+            isFromSetting: false,
+            isRemovedFinishOrders: true
+          });
+        }, diffInMilliSeconds);
+      } else {
+        await this.$store.dispatch("orders/getInitialOrders", {
+          isFromSetting: false,
+          isRemovedFinishOrders: true
+        });
+      }
+      console.log("executed first installation of the app");
     }
   }
 };

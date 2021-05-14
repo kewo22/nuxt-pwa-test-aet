@@ -479,6 +479,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   data: () => ({
     timeIntervals: [
@@ -562,6 +563,25 @@ export default {
         this.selectedOrderHistoryHours.split(" ")[0] +
         ":" +
         this.selectedOrderHistoryMinutes.split(" ")[0];
+      let isRemovedFinishOrders = false;
+      let isFromSetting;
+      //add more conditions to improve performance
+      //compare with current time
+      let todayClearingTime = moment(
+        this.selectedOrderHistoryHours + this.selectedOrderHistoryMinutes,
+        "hm"
+      );
+
+      let diffInSeconds = todayClearingTime.diff(moment(), "seconds");
+
+      if (diffInSeconds >= 0) {
+        this.selectedOrderHistoryClearTime !=
+        this.settingData.selectedOrderHistoryClearTime
+          ? (isRemovedFinishOrders = true)
+          : (isRemovedFinishOrders = false);
+      }
+
+      /** Todo: isFromSetting also need to make as dynamic if reload value is changed only work on like clear time in above */
       this.settingData = {
         isPrintChecked: this.isPrintChecked,
         selectedTimeInterval: this.selectedTimeInterval,
@@ -576,7 +596,11 @@ export default {
       };
 
       this.$idb.set("settingData", this.settingData);
-      await this.$store.dispatch("orders/getInitialOrders", true);
+
+      await this.$store.dispatch("orders/getInitialOrders", {
+        isFromSetting: true,
+        isRemovedFinishOrders: isRemovedFinishOrders
+      });
 
       this.isSavedSuccess = true;
     },

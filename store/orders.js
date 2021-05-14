@@ -273,7 +273,10 @@ export const getters = {
 };
 let peiodicAPICallStart;
 export const actions = {
-  async getInitialOrders({ state, dispatch }, isFromSetting = false) {
+  async getInitialOrders(
+    { state, dispatch },
+    flagObject = { isFromSetting: false, isRemovedFinishOrders: false }
+  ) {
     let lastSyncTime =
       this.getLastSyncTime || (await this.$idb.get("lastSyncTime"));
     let isAllQueuesClear = state.isAllQueuesClear;
@@ -284,13 +287,19 @@ export const actions = {
       : (selectedReloadInterval = 1);
     selectedReloadInterval = parseInt(selectedReloadInterval) * 60000;
 
+    console.log("isRemovedFinishOrders", flagObject.isRemovedFinishOrders);
+    console.log("isFromSetting", flagObject.isFromSetting);
+
     if (lastSyncTime && isAllQueuesClear == false) {
-      if (isFromSetting) {
+      if (flagObject.isFromSetting) {
         if (peiodicAPICallStart) {
           clearInterval(peiodicAPICallStart);
         }
       } else {
-        await dispatch("getOrdersNew", true);
+        await dispatch("getOrdersNew",  flagObject = {
+          isFromAutoCallingApi: true,
+          isRemovedFinishOrders: flagObject.isRemovedFinishOrders
+        });
       }
       peiodicAPICallStart = setInterval(
         peiodicAPICallStartFunction,
@@ -298,19 +307,25 @@ export const actions = {
       );
 
       async function peiodicAPICallStartFunction() {
-        await dispatch("getOrdersNew", true);
+        await dispatch("getOrdersNew", flagObject = {
+          isFromAutoCallingApi: true,
+          isRemovedFinishOrders: flagObject.isRemovedFinishOrders
+        });
       }
       // setInterval(async () => {
       //   await dispatch("getOrdersNew", true);
       // }, selectedReloadInterval);
     } else {
       if (isAllQueuesClear == false) {
-        if (isFromSetting) {
+        if (flagObject.isFromSetting) {
           if (peiodicAPICallStart) {
             clearInterval(peiodicAPICallStart);
           }
         } else {
-          await dispatch("getOrdersNew", false);
+          await dispatch("getOrdersNew", flagObject = {
+            isFromAutoCallingApi: false,
+            isRemovedFinishOrders: flagObject.isRemovedFinishOrders
+          });
         }
         peiodicAPICallStart = setInterval(
           peiodicAPICallStartFunction,
@@ -318,7 +333,10 @@ export const actions = {
         );
 
         async function peiodicAPICallStartFunction() {
-          await dispatch("getOrdersNew", true);
+          await dispatch("getOrdersNew", flagObject = {
+            isFromAutoCallingApi: true,
+            isRemovedFinishOrders: flagObject.isRemovedFinishOrders
+          });
         }
         // setInterval(async () => {
         //   await dispatch("getOrdersNew", true);
@@ -328,7 +346,10 @@ export const actions = {
   },
   async getOrdersNew(
     { commit, state, dispatch, rootState },
-    isFromAutoCallingApi
+    flagObject = {
+      isFromAutoCallingApi: false,
+      isRemovedFinishOrders: false
+    }
   ) {
     let settingData = (await this.$idb.get("settingData")) || [];
     let leadTime = settingData.selectedTimeInterval || "5";
@@ -340,12 +361,13 @@ export const actions = {
     // commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
 
     let ordersFromIndexedDb = await this.$idb.get("allorders");
-    if (ordersFromIndexedDb) {
+    if (flagObject.isRemovedFinishOrders && ordersFromIndexedDb) {
       ordersFromIndexedDb = await dispatch("removeFinishedOrdersForClearing", {
         ordersFromIndexedDb: ordersFromIndexedDb,
         selectedHistoryDurationInterval: selectedHistoryDurationInterval,
         selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
       });
+      flagObject.isRemovedFinishOrders = false;
     }
 
     commit("setOrdersFromIndexedDb", ordersFromIndexedDb);
@@ -360,7 +382,7 @@ export const actions = {
     let clientId = userProfile[0].orderpro_npb_client_id;
     let siteId = userProfile[0].orderpro_npb_site_id;
     let orders;
-    if (isFromAutoCallingApi) {
+    if (flagObject.isFromAutoCallingApi) {
       let lastSyncTime = await this.$idb.get("lastSyncTime");
       orders = await this.$axios.$get(
         `http://localhost:3004/client/${clientId}/orders/site/${siteId}/recent/${lastSyncTime}`
