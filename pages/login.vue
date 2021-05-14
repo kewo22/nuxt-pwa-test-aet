@@ -15,9 +15,9 @@
         <v-row>
           <v-text-field
             v-model="password"
-            :type="'password'"
             name="Password"
             label="Password"
+            :type="'password'"
             :rules="[rules.passwordRequired]"
             class="login-input"
           ></v-text-field>
@@ -71,46 +71,46 @@ export default {
   },
   methods: {
     async login() {
-      const x = `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`;
-      await this.$axios
-        .post(
-          `https://api-l10-idp-staging-neu.azurewebsites.net/connect/token`,
-          x,
-          {
-            headers: {
-              Authorization: "Basic c3RhZ2luZ19yZWNvbmNpbGlhdGlvbl93ZWI6",
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          }
-        )
-        .then(async (res) => {
-          const decoded = jwt_decode(res.data.access_token);
-          this.userId = decoded.sub;
-          this.loginFail = false;
+      if (this.$refs.loginForm.validate()) {
+        const x = `username=${this.username}&password=${this.password}&grant_type=${TokenAuthentication.GrantType}`;
+        await this.$axios
+          .post(
+            `https://api-l10-idp-staging-neu.azurewebsites.net/connect/token`,
+            x,
+            {
+              headers: {
+                Authorization: "Basic c3RhZ2luZ19yZWNvbmNpbGlhdGlvbl93ZWI6",
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+            }
+          )
+          .then(async (res) => {
+            const decoded = jwt_decode(res.data.access_token);
+            this.userId = decoded.sub;
+            this.loginFail = false;
 
-          await this.$axios
-            .get(
-              `https://api-l10-idp-staging-neu.azurewebsites.net/api/users/${this.userId}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${this.$store.state.token}`,
-                },
-              }
-            )
-            .then((res) => {
-              console.log(res);
-              this.$store.dispatch("setUser", res.data);
-              this.$router.push("/orders");
-            })
-            .catch((err) => {
-              console.log(err.error_description);
-            });
-        })
-        .catch((err) => {
-          this.loginFail = true;
-          console.log("from err --------- ", err.error_description);
-        })
-        .finally(async () => {});
+            await this.$axios
+              .get(
+                `https://api-l10-idp-staging-neu.azurewebsites.net/api/users/${this.userId}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${this.$store.state.token}`,
+                  },
+                }
+              )
+              .then((res) => {
+                this.$store.dispatch("setUser", res.data);
+                this.$router.push("/orders");
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            this.loginFail = true;
+          })
+          .finally(async () => {});
+      }
     },
     test() {
       // console.log(this.$store.state.user);
