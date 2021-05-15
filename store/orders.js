@@ -296,10 +296,13 @@ export const actions = {
           clearInterval(peiodicAPICallStart);
         }
       } else {
-        await dispatch("getOrdersNew",  flagObject = {
-          isFromAutoCallingApi: true,
-          isRemovedFinishOrders: flagObject.isRemovedFinishOrders
-        });
+        await dispatch(
+          "getOrdersNew",
+          (flagObject = {
+            isFromAutoCallingApi: true,
+            isRemovedFinishOrders: flagObject.isRemovedFinishOrders
+          })
+        );
       }
       peiodicAPICallStart = setInterval(
         peiodicAPICallStartFunction,
@@ -307,10 +310,13 @@ export const actions = {
       );
 
       async function peiodicAPICallStartFunction() {
-        await dispatch("getOrdersNew", flagObject = {
-          isFromAutoCallingApi: true,
-          isRemovedFinishOrders: flagObject.isRemovedFinishOrders
-        });
+        await dispatch(
+          "getOrdersNew",
+          (flagObject = {
+            isFromAutoCallingApi: true,
+            isRemovedFinishOrders: flagObject.isRemovedFinishOrders
+          })
+        );
       }
       // setInterval(async () => {
       //   await dispatch("getOrdersNew", true);
@@ -322,10 +328,13 @@ export const actions = {
             clearInterval(peiodicAPICallStart);
           }
         } else {
-          await dispatch("getOrdersNew", flagObject = {
-            isFromAutoCallingApi: false,
-            isRemovedFinishOrders: flagObject.isRemovedFinishOrders
-          });
+          await dispatch(
+            "getOrdersNew",
+            (flagObject = {
+              isFromAutoCallingApi: false,
+              isRemovedFinishOrders: flagObject.isRemovedFinishOrders
+            })
+          );
         }
         peiodicAPICallStart = setInterval(
           peiodicAPICallStartFunction,
@@ -333,10 +342,13 @@ export const actions = {
         );
 
         async function peiodicAPICallStartFunction() {
-          await dispatch("getOrdersNew", flagObject = {
-            isFromAutoCallingApi: true,
-            isRemovedFinishOrders: flagObject.isRemovedFinishOrders
-          });
+          await dispatch(
+            "getOrdersNew",
+            (flagObject = {
+              isFromAutoCallingApi: true,
+              isRemovedFinishOrders: flagObject.isRemovedFinishOrders
+            })
+          );
         }
         // setInterval(async () => {
         //   await dispatch("getOrdersNew", true);
@@ -362,11 +374,23 @@ export const actions = {
 
     let ordersFromIndexedDb = await this.$idb.get("allorders");
     if (flagObject.isRemovedFinishOrders && ordersFromIndexedDb) {
-      ordersFromIndexedDb = await dispatch("removeFinishedOrdersForClearing", {
-        ordersFromIndexedDb: ordersFromIndexedDb,
-        selectedHistoryDurationInterval: selectedHistoryDurationInterval,
-        selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
-      });
+      let myStringParts = selectedOrderHistoryClearTime.split(":");
+      let hourDelta = myStringParts[0];
+      let minuteDelta = myStringParts[1];
+      let todayClearingTime = moment(hourDelta + minuteDelta, "hm");
+      let diffInSeconds = todayClearingTime.diff(moment(), "seconds");
+      let diffInMilliSeconds = diffInSeconds * 1000;
+      if (diffInMilliSeconds >= 0) {
+        setTimeout(async () => {
+          console.log("It's clearing once the time meets!");
+
+          await dispatch("removeFinishedOrdersForClearing", {
+            ordersFromIndexedDb: ordersFromIndexedDb,
+            selectedHistoryDurationInterval: selectedHistoryDurationInterval,
+            selectedOrderHistoryClearTime: selectedOrderHistoryClearTime
+          });
+        }, diffInMilliSeconds);
+      }
       flagObject.isRemovedFinishOrders = false;
     }
 
