@@ -205,20 +205,20 @@ export default {
       await this.cleanFinishQueue();
     } else {
       //compare with today date
-      let expirationTimeForToday = moment(
-        localStorage.getItem("expirationTimeForToday")
-      );
-      let diffInSecondsForExpirationTime = expirationTimeForToday.diff(
-        moment(),
-        "seconds"
-      );
-      if (diffInSecondsForExpirationTime < 0) {
+      // let expirationTimeForToday = moment(
+      //   localStorage.getItem("expirationTimeForToday")
+      // );
+      // let diffInSecondsForExpirationTime = expirationTimeForToday.diff(
+      //   moment(),
+      //   "seconds"
+      // );
+      // if (diffInSecondsForExpirationTime < 0) {
         localStorage.removeItem("expirationTimeForToday");
         await this.cleanFinishQueue();
-        console.log(
-          "executed only once time per day to delete local storage key"
-        );
-      }
+        // console.log(
+        //   "executed only once time per day to delete local storage key"
+        // );
+      // }
     }
   },
   methods: {
@@ -373,13 +373,14 @@ export default {
             isRemovedFinishOrders: true
           });
         }, diffInMilliSeconds);
-      } else {
-        await this.$store.dispatch("orders/getInitialOrders", {
-          isFromSetting: false,
-          isRemovedFinishOrders: true
-        });
-      }
-      console.log("executed first installation of the app");
+      } 
+      // else {
+      //   await this.$store.dispatch("orders/getInitialOrders", {
+      //     isFromSetting: false,
+      //     isRemovedFinishOrders: true
+      //   });
+      // }
+      console.log("executed if user refresh the app or soon open the app");
     }
   }
 };
