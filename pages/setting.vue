@@ -341,6 +341,36 @@
                                     justify="center"
                                     class="fontweight"
                                   >
+                                    Reset to default settings
+                                  </v-col>
+                                </v-row>
+                              </div>
+                            </v-flex>
+                            <v-flex xs12 sm12 md6>
+                              <v-row no-gutters>
+                                <v-col
+                                  align="right"
+                                  style="color:red;text-decoration: underline; font-weight: 500"
+                                >
+                                  <a
+                                    style="color:red;text-decoration: underline;"
+                                    @click="isResetPopup = true"
+                                  >
+                                    Reset Now
+                                  </a>
+                                </v-col>
+                              </v-row>
+                            </v-flex>
+                          </v-layout>
+                          <!-- <v-layout mt-10>
+                            <v-flex xs12 sm12 md6>
+                              <div>
+                                <v-row align="center" justify="center">
+                                  <v-col
+                                    align="left"
+                                    justify="center"
+                                    class="fontweight"
+                                  >
                                     <a
                                       style="color:#F09D00;text-decoration: underline;"
                                       @click="isResetPopup = true"
@@ -351,7 +381,7 @@
                                 </v-row>
                               </div>
                             </v-flex>
-                          </v-layout>
+                          </v-layout> -->
                           <v-card-actions mt-2 class="justify-center">
                             <v-btn
                               @click="saveSettings"
