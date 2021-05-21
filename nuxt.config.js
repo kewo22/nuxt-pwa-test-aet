@@ -36,6 +36,7 @@ export default {
     '~/plugins/currencyFormatter.client.js',
     '~/plugins/idb.client.js',
     '~/plugins/utils.client.js',
+    '~/plugins/print.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

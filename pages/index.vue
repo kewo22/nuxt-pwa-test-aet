@@ -1,9 +1,19 @@
 <template>
-  
+  <div>
+    <button @click="printt()">click</button>
+  </div>
 </template>
 
 <script>
-export default {};
+import Button from "~/components/common/Button.vue";
+export default {
+  components: { Button },
+  methods:{
+    printt(){
+      this.$printt();
+    }
+  }
+};
 </script>
 
 <style>
